@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants/constants.dart';
 import '../../../features/profile/model/profile.dart';
-import '../../../main.dart';
 import '../../../utils/utils.dart';
 import '../../premium/model/premium_info.dart';
 
@@ -29,35 +28,6 @@ class ProfileRepository {
 
     final fakeProfile = Profile.fromJson(jsonDecode(profileStr));
     return fakeProfile;
-    // END TODO
-
-    final userId = supabase.auth.currentUser?.id;
-    Profile profile = Profile();
-    CustomerInfo? customerInfo;
-
-    if (userId == null) {
-      // Guest user
-      customerInfo = await Purchases.getCustomerInfo();
-    } else {
-      // Verified user
-      final data = await supabase
-          .from(Constants.supabaseProfileTable)
-          .select()
-          .eq('id', userId)
-          .single();
-      profile = Profile.fromJson(data);
-
-      final logInResult = await Purchases.logIn(userId);
-      customerInfo = logInResult.customerInfo;
-    }
-
-    final premiumInfo = _extractPremiumInfo(customerInfo.entitlements.active);
-    await setIsPremiumUser(premiumInfo.isPremium);
-
-    return profile.copyWith(
-      expiryDatePremium: premiumInfo.expiryDate,
-      isLifetimePremium: premiumInfo.isLifetime,
-    );
   }
 
   PremiumInfo _extractPremiumInfo(Map<String, EntitlementInfo> entitlements) {
@@ -86,30 +56,6 @@ class ProfileRepository {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(Constants.profileKey, jsonEncode(profile.toJson()));
     return;
-
-    final userId = profile.id;
-    if (userId == null) return;
-    try {
-      await supabase
-          .from(Constants.supabaseProfileTable)
-          .update({
-            if (profile.email != null) 'email': profile.email,
-            if (profile.name != null) 'name': profile.name,
-            if (profile.job != null) 'job': profile.job,
-            if (profile.avatar != null) 'avatar': profile.avatar,
-            if (profile.diamond != null) 'diamond': profile.diamond,
-            if (profile.expiryDatePremium != null)
-              'expiry_date_premium':
-                  profile.expiryDatePremium?.toIso8601String(),
-            if (profile.isLifetimePremium != null)
-              'is_lifetime_premium': profile.isLifetimePremium,
-            'updated_at': DateTime.now().toIso8601String(),
-          })
-          .eq('id', userId)
-          .select();
-    } catch (e) {
-      rethrow;
-    }
   }
 
   Future<bool> wasShowOnboarding() async {

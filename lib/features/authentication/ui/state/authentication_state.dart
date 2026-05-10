@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../model/auth_response.dart';
 
 part 'authentication_state.freezed.dart';
 
@@ -23,8 +23,5 @@ AuthResponse? _authResponseFromJson(Map<String, dynamic>? json) {
 
 Map<String, dynamic>? _authResponseToJson(AuthResponse? instance) {
   if (instance == null) return null;
-  return {
-    'user': instance.user?.toJson(),
-    'session': instance.session?.toJson(),
-  };
+  return instance.toJson();
 }

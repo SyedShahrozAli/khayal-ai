@@ -3,8 +3,7 @@ class Constants {
 
   static const String tag = 'FMR';
 
-  static const String supabaseLoginCallback = 'com.areser.flutter_mvvm_riverpod://login-callback/';
-  static const String supabaseProfileTable = 'profile';
+
   static const String googleEmailScope = 'email';
   static const String googleUserInfoScope = 'https://www.googleapis.com/auth/userinfo.profile';
   static const String defaultName = 'Guest';

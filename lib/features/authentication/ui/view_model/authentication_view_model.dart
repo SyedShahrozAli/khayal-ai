@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../model/auth_response.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../../features/profile/ui/view_model/profile_view_model.dart';
