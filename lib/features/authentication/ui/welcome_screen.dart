@@ -1,21 +1,18 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
 import '../../../extensions/build_context_extension.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../../../main.dart';
 import '../../../routing/routes.dart';
 import '../../../theme/app_theme.dart';
 import '../../../utils/global_loading.dart';
 import '../../profile/ui/view_model/profile_view_model.dart';
+import '../../../features/common/ui/widgets/primary_button.dart';
 import 'view_model/authentication_view_model.dart';
 import 'widgets/continue_as_guest.dart';
 import 'widgets/sign_in_agreement.dart';
@@ -29,33 +26,14 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 }
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
-  late final StreamSubscription<AuthState> _authSubscription;
-
   @override
   void initState() {
     super.initState();
-    _authSubscription =
-        supabase.auth.onAuthStateChange.listen(_onAuthStateChange);
   }
 
   @override
   void dispose() {
-    _authSubscription.cancel();
     super.dispose();
-  }
-
-  void _onAuthStateChange(AuthState data) async {
-    final AuthChangeEvent event = data.event;
-    final Session? session = data.session;
-    debugPrint(
-        '${Constants.tag} [WelcomeScreen._onAuthStateChange] Auth change: $event, session: $session');
-
-    if (event == AuthChangeEvent.signedIn && session != null) {
-      await ref
-          .read(authenticationViewModelProvider.notifier)
-          .updateProfile(session.user);
-      _goToNextScreen();
-    }
   }
 
   void _logInAsGuest() async {
@@ -141,6 +119,14 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                   alignment: Alignment.center,
                   semanticsLabel: 'Welcome',
                 ),
+              ),
+              const SizedBox(height: 16),
+              PrimaryButton(
+                text: 'Continue with Email',
+                icon: const Icon(Icons.email_outlined, color: Colors.white, size: 20),
+                onPressed: () {
+                  if (mounted) context.push(Routes.login);
+                },
               ),
               const SizedBox(height: 16),
               const SocialSignIn(),

@@ -47,5 +47,18 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to let you select and update your profile avatar</string>
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.324748181774-88ugvemcp9v1sm1snbqnu2l8509hk7u2</string>
+			</array>
+		</dict>
+	</array>
+	<!-- End of the Google Sign-in Section -->
 </dict>
 </plist>

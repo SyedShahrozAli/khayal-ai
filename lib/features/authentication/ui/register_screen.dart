@@ -1,24 +1,19 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
 import '../../../extensions/build_context_extension.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../../../main.dart';
 import '../../../routing/routes.dart';
 import '../../../theme/app_theme.dart';
 import '../../../utils/global_loading.dart';
 import '../../../utils/validator.dart';
 import '../../common/ui/widgets/common_text_form_field.dart';
 import '../../common/ui/widgets/primary_button.dart';
-import '../../profile/ui/view_model/profile_view_model.dart';
 import 'view_model/authentication_view_model.dart';
 import 'widgets/horizontal_divider.dart';
 import 'widgets/sign_in_agreement.dart';
@@ -33,7 +28,6 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   late final TextEditingController _emailController;
-  late final StreamSubscription<AuthState> _authSubscription;
   bool _isEmailValid = false;
 
   @override
@@ -41,31 +35,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.initState();
     _emailController = TextEditingController();
     _emailController.addListener(_validateEmail);
-
-    _authSubscription =
-        supabase.auth.onAuthStateChange.listen(_onAuthStateChange);
   }
 
   @override
   void dispose() {
     _emailController.removeListener(_validateEmail);
     _emailController.dispose();
-    _authSubscription.cancel();
     super.dispose();
-  }
-
-  void _onAuthStateChange(AuthState data) async {
-    final AuthChangeEvent event = data.event;
-    final Session? session = data.session;
-    debugPrint(
-        '${Constants.tag} [RegisterScreen._onAuthStateChange] Auth change: $event, session: $session');
-
-    if (event == AuthChangeEvent.signedIn && session != null) {
-      ref
-          .read(authenticationViewModelProvider.notifier)
-          .updateProfile(session.user);
-      if (mounted) context.go(Routes.main);
-    }
   }
 
   void _validateEmail() {

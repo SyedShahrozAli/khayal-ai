@@ -1,5 +1,9 @@
 plugins {
     id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    // END: FlutterFire Configuration
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
@@ -30,7 +34,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.henry.flutter_mvvm_riverpod"
+    namespace = "com.henry.khayal_ai"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -41,7 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.henry.flutter_mvvm_riverpod"
+        applicationId = "com.henry.khayal_ai"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = 28
@@ -74,4 +78,14 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies {
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:34.13.0"))
+
+    // Add the dependency for the Firebase Authentication library
+    implementation("com.google.firebase:firebase-auth")
+
+    // Required for Google Sign-In to work correctly with the new Credential Manager
+    implementation("com.google.android.gms:play-services-auth:21.5.1")
 }

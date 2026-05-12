@@ -90,21 +90,10 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
       return;
     }
 
-    // TODO: fake data, remove this when connect to real auth
-    final isExistAccount = await _repository.isExistAccount();
-    if (!isExistAccount) {
-      _repository.setIsExistAccount(true);
-    }
-    if (authResponse.user != null) {
-      updateProfile(authResponse.user!);
-    }
-    _repository.setIsLogin(true);
-    // END TODO
-
     state = AsyncData(
       AuthenticationState(
         authResponse: authResponse,
-        isRegisterSuccessfully: !isExistAccount,
+      //  isRegisterSuccessfully: !isExistAccount,
         isSignInSuccessfully: true,
       ),
     );

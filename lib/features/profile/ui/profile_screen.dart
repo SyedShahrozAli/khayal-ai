@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../constants/constants.dart';
 import '../../../extensions/build_context_extension.dart';
@@ -60,7 +59,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 16),
+            margin: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: context.secondaryWidgetColor,
               borderRadius: BorderRadius.circular(16),
@@ -68,7 +67,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             child: Column(
               children: [
                 Transform.translate(
-                  offset: Offset(0, -48),
+                  offset: const Offset(0, -48),
                   child: Column(
                     children: [
                       Avatar(url: profile?.avatar),
@@ -92,12 +91,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                 ),
                 Transform.translate(
-                  offset: Offset(0, -32),
+                  offset: const Offset(0, -32),
                   child: profile.isPremium
                       ? PremiumInfoButton(
                           expiryDate: profile?.expiryDatePremium,
                         )
-                      : UpgradePremiumButton(),
+                      : const UpgradePremiumButton(),
                 ),
               ],
             ),
@@ -220,14 +219,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   void _checkIsLogin() async {
     _isLogin =
         await ref.read(authenticationViewModelProvider.notifier).isLogin();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _getPackageInfo() {
     PackageInfo.fromPlatform().then((info) {
-      setState(() {
-        _version = info.version;
-      });
+      if (mounted) {
+        setState(() {
+          _version = info.version;
+        });
+      }
     }).catchError((error) {
       debugPrint(
           '${Constants.tag} [_ProfileScreenState._getPackageInfo] Error: $error');
@@ -247,10 +250,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           try {
             Global.showLoading(context);
             await ref.read(profileViewModelProvider.notifier).signOut();
-          } on AuthException catch (error) {
-            if (context.mounted) {
-              context.showErrorSnackBar(error.message);
-            }
           } catch (error) {
             if (context.mounted) {
               context
@@ -280,10 +279,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           try {
             Global.showLoading(context);
             await ref.read(profileViewModelProvider.notifier).signOut();
-          } on AuthException catch (error) {
-            if (context.mounted) {
-              context.showErrorSnackBar(error.message);
-            }
           } catch (error) {
             if (context.mounted) {
               context

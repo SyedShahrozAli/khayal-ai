@@ -1,14 +1,10 @@
-import 'dart:convert';
-
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '/constants/constants.dart';
-import '/environment/env.dart';
-import '/generated/locale_keys.g.dart';
 import '../model/auth_response.dart';
 
 part 'authentication_repository.g.dart';
@@ -21,9 +17,49 @@ AuthenticationRepository authenticationRepository(Ref ref) {
 class AuthenticationRepository {
   const AuthenticationRepository();
 
+  User _mapFirebaseUser(firebase_auth.User? firebaseUser) {
+    if (firebaseUser == null) {
+      throw Exception('User is null');
+    }
+    return User(
+      id: firebaseUser.uid,
+      email: firebaseUser.email,
+      userMetadata: {
+        'full_name': firebaseUser.displayName,
+        'avatar_url': firebaseUser.photoURL,
+      },
+    );
+  }
+
+  Future<void> handleDynamicLink(String pendingLink) async {
+    if (firebase_auth.FirebaseAuth.instance.isSignInWithEmailLink(pendingLink)) {
+      final prefs = await SharedPreferences.getInstance();
+      // Retrieve the email you saved in SharedPreferences earlier
+      final email = prefs.getString('magic_link_email') ?? ''; 
+      if (email.isNotEmpty) {
+        await firebase_auth.FirebaseAuth.instance.signInWithEmailLink(email: email, emailLink: pendingLink);
+      } else {
+        throw Exception("Email not found for magic link sign in. Please try again.");
+      }
+    }
+  }
+
   Future<void> signInWithMagicLink(String email) async {
-    // TODO: fake data
-    return;
+    final acs = firebase_auth.ActionCodeSettings(
+      // 1. The 'url' is the web fallback.
+      // It must be whitelisted in "Authorized Domains" in Firebase Auth settings.
+      url: 'https://khayal-ai0.firebaseapp.com/login',
+      handleCodeInApp: true,
+      androidPackageName: 'com.henry.khayal_ai',
+      androidInstallApp: true,
+      androidMinimumVersion: '1',
+      iOSBundleId: 'com.henry.flutterMvvmRiverpod',
+    );
+
+    await firebase_auth.FirebaseAuth.instance.sendSignInLinkToEmail(
+      email: email,
+      actionCodeSettings: acs,
+    );
   }
 
   Future<AuthResponse> verifyOtp({
@@ -31,66 +67,72 @@ class AuthenticationRepository {
     required String token,
     required bool isRegister,
   }) async {
-    // TODO: fake data
+    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithEmailLink(
+      email: email,
+      emailLink: token,
+    );
+
     return AuthResponse(
-      user: User(
-        id: '',
-        email: email,
-        userMetadata: {},
-      ),
+      user: _mapFirebaseUser(userCredential.user),
     );
   }
 
   Future<AuthResponse> signInWithGoogle() async {
-    // TODO: fake data
-    return AuthResponse(
-      user: User(
-        id: '',
-        email: 'henry@google.com',
-        userMetadata: {},
-      ),
+    final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+    await googleSignIn.initialize(
+      serverClientId: '324748181774-9vdtipu33cdm77hikn6i2c0ekbjaaokt.apps.googleusercontent.com',
+
     );
+    try {
+      await googleSignIn.initialize();
+    } catch (_) {}
+    
+    final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
+    
+    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+    final clientAuth = await googleUser.authorizationClient.authorizationForScopes([
+      'email',
+      'profile',
+    ]);
+    
+    final firebase_auth.OAuthCredential credential = firebase_auth.GoogleAuthProvider.credential(
+      accessToken: clientAuth?.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    
+    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
+    return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
   Future<AuthResponse> signInWithApple() async {
-    // TODO: fake data
-    return AuthResponse(
-      user: User(
-        id: '',
-        email: 'henry@apple.com',
-        userMetadata: {},
-      ),
+    final AuthorizationCredentialAppleID appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
     );
+    
+    final firebase_auth.OAuthProvider oAuthProvider = firebase_auth.OAuthProvider('apple.com');
+    final firebase_auth.OAuthCredential credential = oAuthProvider.credential(
+      idToken: appleCredential.identityToken,
+      accessToken: appleCredential.authorizationCode,
+    );
+    
+    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
+    return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
   Future<void> signOut() async {
-    // TODO: fake data
-    setIsLogin(false);
-    return;
-  }
+    await firebase_auth.FirebaseAuth.instance.signOut();
+    try {
+      await GoogleSignIn.instance.signOut();
+    } catch (_) {}
+   }
 
   Future<bool> isLogin() async {
-    // TODO: fake data, remove this when integrating real auth
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(Constants.isLoginKey) ?? false;
+    return firebase_auth.FirebaseAuth.instance.currentUser != null;
   }
 
-  // TODO: remove this when integrating real auth
-  Future<void> setIsLogin(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(Constants.isLoginKey, value);
-  }
-
-  Future<bool> isExistAccount() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(Constants.isExistAccountKey) ?? false;
-  }
-
-  Future<void> setIsExistAccount(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(Constants.isExistAccountKey, value);
-  }
-  // END TODO
 
   Future<bool> isGuestMode() async {
     final prefs = await SharedPreferences.getInstance();
@@ -102,3 +144,4 @@ class AuthenticationRepository {
     await prefs.setBool(Constants.isGuestModeKey, true);
   }
 }
+

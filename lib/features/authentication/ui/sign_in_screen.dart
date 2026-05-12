@@ -84,12 +84,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ref
                           .read(authenticationViewModelProvider.notifier)
                           .signInWithMagicLink(_emailController.text);
-                      context.push(
-                        Routes.otp,
-                        extra: {
-                          'email': _emailController.text,
-                          'isRegister': false,
-                        },
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Magic link sent! Please check your email to sign in.'),
+                          duration: Duration(seconds: 5),
+                        ),
                       );
                     },
                   ),

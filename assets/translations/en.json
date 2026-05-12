@@ -36,8 +36,11 @@
   "tryAgainAfter": "You can send another login link after {} seconds.",
   "resendOtp": "Resend OTP",
 
-  "menuHero": "Hero",
-  "menuSetting": "Setting",
+  "menuHome": "Home",
+  "menuSettings": "Settings",
+  "menuJournal": "Journal",
+  "menuChat": "Chat",
+  "menuCommunity": "Community",
 
   "goodMorning": "Good Morning",
   "goodAfternoon": "Good Afternoon",

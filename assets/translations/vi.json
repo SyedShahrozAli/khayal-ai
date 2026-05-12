@@ -36,8 +36,11 @@
   "tryAgainAfter": "Bạn có thể gửi một link đăng nhập khác sau {} giây.",
   "resendOtp": "Gửi lại OTP",
 
-  "menuHero": "Hero",
-  "menuSetting": "Cài đặt",
+  "menuHome": "Trang chủ",
+  "menuSettings": "Cài đặt",
+  "menuJournal": "Nhật ký",
+  "menuChat": "Trò chuyện",
+  "menuCommunity": "Cộng đồng",
 
   "goodMorning": "Chào buổi sáng",
   "goodAfternoon": "Chào buổi chiều",

@@ -7,7 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'firebase_options.dart';
 
 import 'constants/constants.dart';
 import 'environment/env.dart';
@@ -34,17 +37,21 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Firebase
-  // await Firebase.initializeApp(
-  //     // options: DefaultFirebaseOptions.currentPlatform,
-  //     );
-  // await FirebaseAnalytics.instance.logAppOpen();
-  // FlutterError.onError = (errorDetails) {
-  //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  // };
-  // PlatformDispatcher.instance.onError = (error, stack) {
-  //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-  //   return true;
-  // };
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseAnalytics.instance.logAppOpen();
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  } catch (e) {
+    debugPrint('Firebase initialization failed: $e');
+  }
 
 
 
@@ -76,6 +83,7 @@ void main() async {
     ),
   );
 }
+
 
 
 class MainApp extends ConsumerWidget {

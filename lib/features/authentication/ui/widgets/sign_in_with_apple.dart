@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '/constants/assets.dart';
 import '/extensions/build_context_extension.dart';
-import '/features/authentication/ui/view_model/authentication_view_model.dart';
 import '/features/common/ui/widgets/secondary_button.dart';
 
 class SignInWithApple extends ConsumerWidget {
@@ -13,22 +12,26 @@ class SignInWithApple extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SecondaryButton(
-      icon: SizedBox(
-        width: 20,
-        height: 20,
-        child: SvgPicture.asset(
-          Assets.appleLogo,
-          fit: BoxFit.contain,
-          colorFilter: ColorFilter.mode(
-            context.secondaryTextColor,
-            BlendMode.srcIn,
+    return Tooltip(
+      message: 'Apple Sign-In is temporarily disabled.',
+      child: SecondaryButton(
+        icon: SizedBox(
+          width: 20,
+          height: 20,
+          child: SvgPicture.asset(
+            Assets.appleLogo,
+            fit: BoxFit.contain,
+            colorFilter: ColorFilter.mode(
+              context.secondaryTextColor.withOpacity(0.5),
+              BlendMode.srcIn,
+            ),
           ),
         ),
+        text: 'apple'.tr(),
+        // onPressed: () =>
+        //     ref.read(authenticationViewModelProvider.notifier).signInWithApple(),
+        onPressed: (){}, // Disabled for now as it requires Xcode config
       ),
-      text: 'apple'.tr(),
-      onPressed: () =>
-          ref.read(authenticationViewModelProvider.notifier).signInWithApple(),
     );
   }
 }

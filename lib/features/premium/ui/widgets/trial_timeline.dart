@@ -65,8 +65,8 @@ class TrialItem extends StatelessWidget {
                 color: AppColors.mono100.withAlpha(220),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                trial.icon,
+              child: HugeIcon(
+                icon: trial.icon,
                 color: AppColors.mono0,
                 size: 24,
               ),
