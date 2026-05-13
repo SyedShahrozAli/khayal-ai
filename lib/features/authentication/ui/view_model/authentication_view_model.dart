@@ -54,6 +54,16 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
     await AsyncValue.guard(() => _repository.sendEmailVerification());
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() => _repository.sendPasswordResetEmail(email));
+    if (result is AsyncError) {
+      state = AsyncError(result.error.toString(), StackTrace.current);
+    } else {
+      state = const AsyncData(AuthenticationState());
+    }
+  }
+
   Future<void> verifyOtp({
     required String email,
     required String token,

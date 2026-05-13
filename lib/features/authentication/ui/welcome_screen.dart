@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+
+
 
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
@@ -99,7 +102,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  LocaleKeys.welcome.tr(),
+                  "Welcome to Khayal AI",
                   style: AppTheme.title32,
                 ),
               ),
@@ -108,16 +111,14 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  LocaleKeys.welcomeDescription.tr(),
+                  "Get started on improvement journey with Khayal AI",
                   style: AppTheme.body16,
                 ),
               ),
               Expanded(
-                child: SvgPicture.asset(
-                  Assets.welcome,
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.center,
-                  semanticsLabel: 'Welcome',
+                child: Lottie.asset(
+                  'assets/animations/welcome.json',
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 16),

@@ -101,7 +101,31 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     validator: notEmptyPasswordValidator,
                     isPassword: true,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () async {
+                        if (!_isEmailValid) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please enter a valid email address first.')),
+                          );
+                          return;
+                        }
+                        await ref.read(authenticationViewModelProvider.notifier).sendPasswordResetEmail(_emailController.text);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Password reset email sent! Check your inbox.')),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Forgot Password?',
+                        style: AppTheme.body14.copyWith(color: AppTheme.primaryColor),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   PrimaryButton(
                     isEnable: _isEmailValid && _isPasswordValid,
                     text: LocaleKeys.continueText.tr(),

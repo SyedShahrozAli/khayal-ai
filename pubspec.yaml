@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cached_network_image: ^3.4.1
   collection: ^1.19.0
   connectivity_plus: ^7.0.0

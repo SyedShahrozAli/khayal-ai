@@ -86,6 +86,10 @@ class AuthenticationRepository {
     await firebase_auth.FirebaseAuth.instance.currentUser?.sendEmailVerification();
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    await firebase_auth.FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   Future<AuthResponse> verifyOtp({
     required String email,
     required String token,

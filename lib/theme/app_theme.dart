@@ -8,6 +8,7 @@ class AppTheme {
     fontSize: 32,
     fontWeight: FontWeight.w700,
   );
+  static final primaryColor = Color(0xFF8053FF);
 
   static final title24 = GoogleFonts.nunito(
     fontSize: 24,
