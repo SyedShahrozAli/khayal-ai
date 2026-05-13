@@ -17,12 +17,15 @@ class Constants {
   static const String premiumMonthly = '\$rc_monthly';
   static const String premiumYearly = '\$rc_annual';
   static const String premiumLifeTime = '\$rc_lifetime';
+  
 
   // Route
   static const String isGoToMain = 'isGoToMain';
 
   // SharedPreferences key
   static const String themeModeKey = 'theme_mode_key';
+  static const String moodKey = 'mood_key';
+  static const String moodDateKey = 'mood_date_key';
   static const String profileKey = 'profile_key';
   static const String isLoginKey = 'is_login_key';
   static const String isExistAccountKey = 'is_exist_account_key';
