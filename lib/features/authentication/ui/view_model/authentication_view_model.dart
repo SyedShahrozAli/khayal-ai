@@ -34,6 +34,26 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
     state = const AsyncData(AuthenticationState());
   }
 
+  Future<void> signUpWithEmailPassword(String email, String password) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() => _repository.signUpWithEmailPassword(email, password));
+    if (result is AsyncError) {
+      state = AsyncError(result.error.toString(), StackTrace.current);
+      return;
+    }
+    state = const AsyncData(AuthenticationState(isRegisterSuccessfully: true));
+  }
+
+  Future<void> signInWithEmailPassword(String email, String password) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() => _repository.signInWithEmailPassword(email, password));
+    handleResult(result);
+  }
+
+  Future<void> sendEmailVerification() async {
+    await AsyncValue.guard(() => _repository.sendEmailVerification());
+  }
+
   Future<void> verifyOtp({
     required String email,
     required String token,

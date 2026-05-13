@@ -6,6 +6,7 @@ class Routes {
   static const register = '/register';
   static const login = '/login';
   static const otp = '/otp';
+  static const emailVerificationPending = '/email-verification-pending';
   static const onboarding = '/onboarding';
   static const main = '/main';
   static const accountInformation = '/accountInformation';

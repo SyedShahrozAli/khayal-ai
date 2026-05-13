@@ -25,30 +25,48 @@ class SignInScreen extends ConsumerStatefulWidget {
 
 class _SignInScreenState extends ConsumerState<SignInScreen> {
   late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
   bool _isEmailValid = false;
+  bool _isPasswordValid = false;
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
-    _emailController.addListener(_validateEmail);
+    _passwordController = TextEditingController();
+    _emailController.addListener(_validateInputs);
+    _passwordController.addListener(_validateInputs);
   }
 
   @override
   void dispose() {
-    _emailController.removeListener(_validateEmail);
+    _emailController.removeListener(_validateInputs);
+    _passwordController.removeListener(_validateInputs);
     _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
-  void _validateEmail() {
+  void _validateInputs() {
     setState(() {
       _isEmailValid = isValidEmail(_emailController.text);
+      _isPasswordValid = _passwordController.text.length >= 6;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authenticationViewModelProvider, (previous, next) {
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error.toString())),
+        );
+      }
+      if (next is AsyncData && next.value?.isSignInSuccessfully == true) {
+        context.pushReplacement(Routes.main);
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -76,21 +94,44 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     controller: _emailController,
                     validator: notEmptyEmailValidator,
                   ),
+                  const SizedBox(height: 16),
+                  CommonTextFormField(
+                    label: 'Password',
+                    controller: _passwordController,
+                    validator: notEmptyPasswordValidator,
+                    isPassword: true,
+                  ),
                   const SizedBox(height: 32),
                   PrimaryButton(
-                    isEnable: _isEmailValid,
+                    isEnable: _isEmailValid && _isPasswordValid,
                     text: LocaleKeys.continueText.tr(),
                     onPressed: () {
                       ref
                           .read(authenticationViewModelProvider.notifier)
-                          .signInWithMagicLink(_emailController.text);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Magic link sent! Please check your email to sign in.'),
-                          duration: Duration(seconds: 5),
-                        ),
-                      );
+                          .signInWithEmailPassword(
+                            _emailController.text,
+                            _passwordController.text,
+                          );
                     },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: AppTheme.body14,
+                      ),
+                      const SizedBox(width: 4),
+                      TextButton(
+                        onPressed: () {
+                          context.push(Routes.register);
+                        },
+                        child: Text(
+                          LocaleKeys.register.tr(),
+                          style: AppTheme.title14,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
                   const HorizontalDivider(),

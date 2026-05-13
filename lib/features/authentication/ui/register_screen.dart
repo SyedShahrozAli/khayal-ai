@@ -28,25 +28,40 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+
   bool _isEmailValid = false;
+  bool _isPasswordValid = false;
+  bool _isConfirmPasswordValid = false;
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
-    _emailController.addListener(_validateEmail);
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    _emailController.addListener(_validateInputs);
+    _passwordController.addListener(_validateInputs);
+    _confirmPasswordController.addListener(_validateInputs);
   }
 
   @override
   void dispose() {
-    _emailController.removeListener(_validateEmail);
+    _emailController.removeListener(_validateInputs);
+    _passwordController.removeListener(_validateInputs);
+    _confirmPasswordController.removeListener(_validateInputs);
     _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  void _validateEmail() {
+  void _validateInputs() {
     setState(() {
       _isEmailValid = isValidEmail(_emailController.text);
+      _isPasswordValid = _passwordController.text.length >= 6;
+      _isConfirmPasswordValid = _passwordController.text == _confirmPasswordController.text;
     });
   }
 
@@ -66,10 +81,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       }
 
       if (next is AsyncData) {
-        debugPrint(
-            '${Constants.tag} [RegisterScreen.build] isRegisterSuccessfully = ${next.value?.isRegisterSuccessfully}, isSignInSuccessfully = ${next.value?.isSignInSuccessfully}');
         if (next.value?.isRegisterSuccessfully == true) {
-          context.pushReplacement(Routes.onboarding);
+          context.pushReplacement(Routes.emailVerificationPending);
         } else if (next.value?.isSignInSuccessfully == true) {
           context.pushReplacement(Routes.main);
         }
@@ -101,21 +114,31 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 controller: _emailController,
                 validator: notEmptyEmailValidator,
               ),
+              const SizedBox(height: 16),
+              CommonTextFormField(
+                label: 'Password',
+                controller: _passwordController,
+                validator: notEmptyPasswordValidator,
+                isPassword: true,
+              ),
+              const SizedBox(height: 16),
+              CommonTextFormField(
+                label: 'Confirm Password',
+                controller: _confirmPasswordController,
+                validator: (val) => confirmPasswordValidator(_passwordController.text, val),
+                isPassword: true,
+              ),
               const SizedBox(height: 32),
               PrimaryButton(
-                isEnable: _isEmailValid,
+                isEnable: _isEmailValid && _isPasswordValid && _isConfirmPasswordValid,
                 text: LocaleKeys.continueText.tr(),
                 onPressed: () {
                   ref
                       .read(authenticationViewModelProvider.notifier)
-                      .signInWithMagicLink(_emailController.text);
-                  context.push(
-                    Routes.otp,
-                    extra: {
-                      'email': _emailController.text,
-                      'isRegister': true,
-                    },
-                  );
+                      .signUpWithEmailPassword(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
                 },
               ),
               Row(

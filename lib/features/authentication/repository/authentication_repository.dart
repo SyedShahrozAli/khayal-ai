@@ -62,6 +62,30 @@ class AuthenticationRepository {
     );
   }
 
+  Future<AuthResponse> signUpWithEmailPassword(String email, String password) async {
+    final userCredential = await firebase_auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    await userCredential.user?.sendEmailVerification();
+    return AuthResponse(user: _mapFirebaseUser(userCredential.user));
+  }
+
+  Future<AuthResponse> signInWithEmailPassword(String email, String password) async {
+    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    if (userCredential.user != null && !userCredential.user!.emailVerified) {
+      throw Exception('Please verify your email before signing in.');
+    }
+    return AuthResponse(user: _mapFirebaseUser(userCredential.user));
+  }
+
+  Future<void> sendEmailVerification() async {
+    await firebase_auth.FirebaseAuth.instance.currentUser?.sendEmailVerification();
+  }
+
   Future<AuthResponse> verifyOtp({
     required String email,
     required String token,
@@ -71,10 +95,7 @@ class AuthenticationRepository {
       email: email,
       emailLink: token,
     );
-
-    return AuthResponse(
-      user: _mapFirebaseUser(userCredential.user),
-    );
+    return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
   Future<AuthResponse> signInWithGoogle() async {

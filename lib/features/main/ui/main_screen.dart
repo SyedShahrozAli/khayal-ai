@@ -7,19 +7,16 @@ import '../../../extensions/build_context_extension.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../common/ui/widgets/material_ink_well.dart';
-import '../../hero_list/ui/hero_list_screen.dart';
-import '../../hero_list/ui/view_model/hero_count_provider.dart';
-import '../../hero_list/ui/view_model/hero_list_view_model.dart';
+import '../../journal/ui/journal_screen.dart';
 import '../../profile/ui/profile_screen.dart';
 import '../model/main_tab.dart';
 
 const List<Widget> _screens = [
   Scaffold(body: Center(child: Text('Home'))),
-  Scaffold(body: Center(child: Text('Journal'))),
+  JournalScreen(),
   Scaffold(body: Center(child: Text('Chat'))),
   Scaffold(body: Center(child: Text('Community'))),
   ProfileScreen(),
-
 ];
 
 class MainScreen extends ConsumerStatefulWidget {
