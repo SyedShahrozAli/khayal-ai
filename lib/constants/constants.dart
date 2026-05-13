@@ -30,4 +30,6 @@ class Constants {
   static const String wasShowOnboardingKey = 'was_show_onboarding_key';
   static const String isPremiumUserKey = 'is_premium_user_key';
   static const String lastDayShowPremiumKey = 'last_day_show_premium_key';
+  static const String moodKey = 'mood_key';
+  static const String moodDateKey = 'mood_date_key';
 }

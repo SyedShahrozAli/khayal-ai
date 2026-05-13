@@ -7,34 +7,35 @@ import '../../../extensions/build_context_extension.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../common/ui/widgets/material_ink_well.dart';
-import '../../hero_list/ui/hero_list_screen.dart';
-import '../../hero_list/ui/view_model/hero_count_provider.dart';
-import '../../hero_list/ui/view_model/hero_list_view_model.dart';
 import '../../profile/ui/profile_screen.dart';
 import '../model/main_tab.dart';
-
-const List<Widget> _screens = [
-  Scaffold(body: Center(child: Text('Home'))),
-  Scaffold(body: Center(child: Text('Journal'))),
-  Scaffold(body: Center(child: Text('Chat'))),
-  Scaffold(body: Center(child: Text('Community'))),
-  ProfileScreen(),
-
-];
+import 'home_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  ConsumerState createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   int _currentTabIndex = 0;
 
+  void _switchTab(int index) {
+    setState(() => _currentTabIndex = index);
+  }
+
+  List<Widget> get _screens => [
+        HomeScreen(onTabChange: _switchTab),
+        const Scaffold(body: Center(child: Text('Journal'))),
+        const Scaffold(body: Center(child: Text('Chat'))),
+        const Scaffold(body: Center(child: Text('Community'))),
+        const ProfileScreen(),
+      ];
+
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       body: Stack(
         children: [
           IndexedStack(
@@ -52,7 +53,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                       color: context.secondaryWidgetColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(15)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,11 +76,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget _buildNavItem(MainTab tab) {
     final isSelected = _currentTabIndex == tab.index;
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _currentTabIndex = tab.index;
-        });
-      },
+      onTap: () => setState(() => _currentTabIndex = tab.index),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
         decoration: BoxDecoration(
@@ -89,7 +87,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           children: [
             HugeIcon(
               icon: tab.iconData,
-              color: isSelected ? AppColors.blueberry100 : (Theme.of(context).iconTheme.color ?? Colors.black),
+              color: isSelected
+                  ? AppColors.blueberry100
+                  : (Theme.of(context).iconTheme.color ?? Colors.black),
             ),
             const SizedBox(height: 4),
             Text(
