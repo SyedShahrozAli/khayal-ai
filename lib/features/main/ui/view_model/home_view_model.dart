@@ -20,9 +20,13 @@ class HomeViewModel extends _$HomeViewModel {
     // Restore today's saved mood (null if not yet selected today)
     final savedMood = await _loadTodayMood();
 
+    // Mood is locked if it was already recorded for today
+    final locked = savedMood != null;
+
     return HomeState(
       userName: profileState.profile?.name,
       selectedMoodIndex: savedMood,
+      moodLocked: locked,
     );
   }
 
@@ -32,25 +36,36 @@ class HomeViewModel extends _$HomeViewModel {
     final prefs = await SharedPreferences.getInstance();
     final savedDate = prefs.getString(Constants.moodDateKey);
     final today = _todayString();
-    if (savedDate != today) return null; // new day → reset
-    final index = prefs.getInt(Constants.moodKey);
-    return index;
+    // A new calendar day → no mood recorded yet
+    if (savedDate != today) return null;
+    return prefs.getInt(Constants.moodKey);
   }
 
+  /// Saves the mood index for today.
+  /// If the mood has already been locked for today this is a no-op —
+  /// the user cannot change their recorded mood within the same day.
   Future<void> saveMood(int index) async {
+    final current = state.value;
+
+    // Guard: already locked for today → ignore
+    if (current?.moodLocked == true) return;
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(Constants.moodKey, index);
     await prefs.setString(Constants.moodDateKey, _todayString());
 
-    // Update in-memory state
-    final current = state.value;
-    if (current != null) {
-      state = AsyncData(current.copyWith(selectedMoodIndex: index));
-    }
+    // Update in-memory state and lock immediately
+    state = AsyncData(
+      (current ?? const HomeState()).copyWith(
+        selectedMoodIndex: index,
+        moodLocked: true,
+      ),
+    );
   }
 
   String _todayString() {
     final now = DateTime.now();
-    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-'
+        '${now.day.toString().padLeft(2, '0')}';
   }
 }

@@ -79,17 +79,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       backgroundColor: const Color(0xFFDFEBF5),
       body: SafeArea(
         child: homeAsync.when(
-          loading: () => _buildBody(context, null, null),
-          error: (_, __) => _buildBody(context, null, null),
-          data: (state) =>
-              _buildBody(context, state.userName, state.selectedMoodIndex),
+          loading: () => _buildBody(context, null, null, false),
+          error: (_, __) => _buildBody(context, null, null, false),
+          data: (state) => _buildBody(
+            context,
+            state.userName,
+            state.selectedMoodIndex,
+            state.moodLocked,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildBody(
-      BuildContext context, String? userName, int? selectedMoodIndex) {
+      BuildContext context,
+      String? userName,
+      int? selectedMoodIndex,
+      bool moodLocked) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 104),
@@ -98,7 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         children: [
           _buildHeader(context, userName),
           const SizedBox(height: 28),
-          _buildMoodSection(context, selectedMoodIndex),
+          _buildMoodSection(context, selectedMoodIndex, moodLocked),
           const SizedBox(height: 24),
           _buildActionCards(context),
           const SizedBox(height: 20),
@@ -151,84 +158,128 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ],
             ),
           ),
-          _buildAvatar(initial),
+          _buildAvatar(initial, onTap: () => widget.onTabChange?.call(4)),
         ],
       ),
     );
   }
 
-  Widget _buildAvatar(String initial) {
-    return Stack(
-      children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: AppColors.blueberry80,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.blueberry100.withOpacity(0.25),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              initial,
-              style: AppTheme.title18.copyWith(color: Colors.white),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 1,
-          right: 1,
-          child: Container(
-            width: 11,
-            height: 11,
+  Widget _buildAvatar(String initial, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
             decoration: BoxDecoration(
-              color: AppColors.rambutan80,
+              color: AppColors.blueberry80,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.blueberry100.withOpacity(0.25),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                initial,
+                style: AppTheme.title18.copyWith(color: Colors.white),
+              ),
             ),
           ),
-        ),
-      ],
+          Positioned(
+            top: 1,
+            right: 1,
+            child: Container(
+              width: 11,
+              height: 11,
+              decoration: BoxDecoration(
+                color: AppColors.rambutan80,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
   //  Mood Selector
   // ─────────────────────────────────────────────────────────────────────────────
-  Widget _buildMoodSection(BuildContext context, int? selectedMoodIndex) {
+  Widget _buildMoodSection(
+      BuildContext context, int? selectedMoodIndex, bool moodLocked) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'How are you feeling today?',
-            style: AppTheme.subtitle16.copyWith(color: AppColors.mono80),
+          // Title row with optional lock badge
+          Row(
+            children: [
+              Text(
+                'How are you feeling today?',
+                style: AppTheme.subtitle16.copyWith(color: AppColors.mono80),
+              ),
+              if (moodLocked) ...
+              [
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: AppColors.watermelon100.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.lock_rounded,
+                          size: 11, color: AppColors.watermelon100),
+                      const SizedBox(width: 3),
+                      Text(
+                        'Saved',
+                        style: AppTheme.label12.copyWith(
+                            color: AppColors.watermelon100),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
           const SizedBox(height: 4),
-          // Confirmation label
+          // Status label
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
-            child: selectedMoodIndex != null
+            child: moodLocked && selectedMoodIndex != null
                 ? Text(
-                    key: ValueKey(selectedMoodIndex),
-                    'You feel ${_moods[selectedMoodIndex].label} today',
+                    key: ValueKey('locked_$selectedMoodIndex'),
+                    '✓ Mood logged – see you tomorrow!',
                     style: AppTheme.body12.copyWith(
-                      color: AppColors.blueberry100,
+                      color: AppColors.watermelon80,
                       fontStyle: FontStyle.italic,
                     ),
                   )
-                : Text(
-                    key: const ValueKey('empty'),
-                    'Tap an emoji to log your mood',
-                    style: AppTheme.body12.copyWith(color: AppColors.mono60),
-                  ),
+                : selectedMoodIndex != null
+                    ? Text(
+                        key: ValueKey(selectedMoodIndex),
+                        'You feel ${_moods[selectedMoodIndex].label} today',
+                        style: AppTheme.body12.copyWith(
+                          color: AppColors.blueberry100,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      )
+                    : Text(
+                        key: const ValueKey('empty'),
+                        'Tap an emoji to log your mood',
+                        style:
+                            AppTheme.body12.copyWith(color: AppColors.mono60),
+                      ),
           ),
           const SizedBox(height: 14),
           Row(
@@ -238,10 +289,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               return _MoodButton(
                 mood: _moods[i],
                 isSelected: isSelected,
-                onTap: () {
-                  // Persist via ViewModel
-                  ref.read(homeViewModelProvider.notifier).saveMood(i);
-                },
+                isLocked: moodLocked,
+                onTap: moodLocked
+                    ? null // no-op when locked
+                    : () => ref
+                        .read(homeViewModelProvider.notifier)
+                        .saveMood(i),
               );
             }),
           ),
@@ -434,15 +487,19 @@ class _MoodItem {
 }
 
 /// Animated, interactive mood emoji button.
+/// When [isLocked] is true the button is non-interactive and non-selected
+/// emojis are dimmed to 0.35 opacity.
 class _MoodButton extends StatefulWidget {
   final _MoodItem mood;
   final bool isSelected;
-  final VoidCallback onTap;
+  final bool isLocked;
+  final VoidCallback? onTap;
 
   const _MoodButton({
     required this.mood,
     required this.isSelected,
-    required this.onTap,
+    required this.isLocked,
+    this.onTap,
   });
 
   @override
@@ -483,37 +540,44 @@ class _MoodButtonState extends State<_MoodButton>
 
   @override
   Widget build(BuildContext context) {
+    // When locked and not the chosen emoji → dim it
+    final dimmed = widget.isLocked && !widget.isSelected;
+
     return GestureDetector(
-      onTap: widget.onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-        width: widget.isSelected ? 60 : 48,
-        height: widget.isSelected ? 60 : 48,
-        decoration: BoxDecoration(
-          color: widget.isSelected
-              ? Colors.white.withOpacity(0.75)
-              : Colors.transparent,
-          shape: BoxShape.circle,
-          border: widget.isSelected
-              ? Border.all(color: Colors.white, width: 2.5)
-              : null,
-          boxShadow: widget.isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.10),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
-        ),
-        child: Center(
-          child: ScaleTransition(
-            scale: _bounceAnim,
-            child: Text(
-              widget.mood.emoji,
-              style: TextStyle(fontSize: widget.isSelected ? 30 : 24),
+      onTap: widget.onTap, // null when locked → tap is silently ignored
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 300),
+        opacity: dimmed ? 0.30 : 1.0,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          width: widget.isSelected ? 60 : 48,
+          height: widget.isSelected ? 60 : 48,
+          decoration: BoxDecoration(
+            color: widget.isSelected
+                ? Colors.white.withOpacity(0.75)
+                : Colors.transparent,
+            shape: BoxShape.circle,
+            border: widget.isSelected
+                ? Border.all(color: Colors.white, width: 2.5)
+                : null,
+            boxShadow: widget.isSelected
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.10),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Center(
+            child: ScaleTransition(
+              scale: _bounceAnim,
+              child: Text(
+                widget.mood.emoji,
+                style: TextStyle(fontSize: widget.isSelected ? 30 : 24),
+              ),
             ),
           ),
         ),

@@ -10,5 +10,9 @@ abstract class HomeState with _$HomeState {
 
     /// Index into the mood emoji list; null means not yet chosen today
     int? selectedMoodIndex,
+
+    /// True once the user has submitted their mood for today.
+    /// Emojis become non-interactive until the next calendar day.
+    @Default(false) bool moodLocked,
   }) = _HomeState;
 }
