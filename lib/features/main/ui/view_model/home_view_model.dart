@@ -23,10 +23,63 @@ class HomeViewModel extends _$HomeViewModel {
     // Mood is locked if it was already recorded for today
     final locked = savedMood != null;
 
+    // Update and get streak info
+    final streakData = await _handleStreakLogic();
+
     return HomeState(
       userName: profileState.profile?.name,
       selectedMoodIndex: savedMood,
       moodLocked: locked,
+      streakCount: streakData.count,
+      weekStatus: streakData.weekStatus,
+    );
+  }
+
+  // ── Streak logic ─────────────────────────────────────────────────────────
+
+  Future<({int count, List<bool> weekStatus})> _handleStreakLogic() async {
+    final prefs = await SharedPreferences.getInstance();
+    final now = DateTime.now();
+    final today = _todayString();
+    final yesterday = _dateString(now.subtract(const Duration(days: 1)));
+    
+    final lastLogin = prefs.getString(Constants.lastLoginDateKey);
+    int currentCount = prefs.getInt(Constants.streakCountKey) ?? 0;
+    
+    // Get or initialize week status
+    List<String> weekStatusStrings = prefs.getStringList(Constants.weekStatusKey) ?? 
+        List.filled(7, 'false');
+    
+    // If it's a new day, we need to process streak
+    if (lastLogin != today) {
+      if (lastLogin == yesterday) {
+        // Consecutive day
+        currentCount++;
+      } else {
+        // Missed a day or more
+        currentCount = 1;
+      }
+      
+      // Check if we need to reset week status (if it's Monday or if we missed a lot of time)
+      // For simplicity, let's reset if the last login was in a different week
+      // Or just clear the week if today is Monday
+      if (now.weekday == DateTime.monday) {
+        weekStatusStrings = List.filled(7, 'false');
+      }
+
+      // Mark today as active in the week status
+      // DateTime.monday is 1, so index is now.weekday - 1
+      weekStatusStrings[now.weekday - 1] = 'true';
+      
+      // Save everything
+      await prefs.setString(Constants.lastLoginDateKey, today);
+      await prefs.setInt(Constants.streakCountKey, currentCount);
+      await prefs.setStringList(Constants.weekStatusKey, weekStatusStrings);
+    }
+
+    return (
+      count: currentCount,
+      weekStatus: weekStatusStrings.map((e) => e == 'true').toList(),
     );
   }
 
@@ -56,16 +109,17 @@ class HomeViewModel extends _$HomeViewModel {
 
     // Update in-memory state and lock immediately
     state = AsyncData(
-      (current ?? const HomeState()).copyWith(
+      (current ?? HomeState()).copyWith(
         selectedMoodIndex: index,
         moodLocked: true,
       ),
     );
   }
 
-  String _todayString() {
-    final now = DateTime.now();
-    return '${now.year}-${now.month.toString().padLeft(2, '0')}-'
-        '${now.day.toString().padLeft(2, '0')}';
+  String _todayString() => _dateString(DateTime.now());
+
+  String _dateString(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
   }
 }

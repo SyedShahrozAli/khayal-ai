@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm_riverpod/features/main/ui/home_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -11,14 +12,6 @@ import '../../journal/ui/journal_screen.dart';
 import '../../profile/ui/profile_screen.dart';
 import '../model/main_tab.dart';
 
-const List<Widget> _screens = [
-  Scaffold(body: Center(child: Text('Home'))),
-  JournalScreen(),
-  Scaffold(body: Center(child: Text('Chat'))),
-  Scaffold(body: Center(child: Text('Community'))),
-  ProfileScreen(),
-];
-
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
@@ -29,14 +22,29 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   int _currentTabIndex = 0;
 
+  void _onTabChange(int index) {
+    setState(() {
+      _currentTabIndex = index;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    final screens = [
+      HomeScreen(onTabChange: _onTabChange),
+      const JournalScreen(),
+      const Scaffold(body: Center(child: Text('Chat'))),
+      const Scaffold(body: Center(child: Text('Community'))),
+      const ProfileScreen(),
+    ];
+
+    return Scaffold(
       body: Stack(
         children: [
           IndexedStack(
             index: _currentTabIndex,
-            children: _screens,
+            children: screens,
           ),
           Positioned(
             left: 1,

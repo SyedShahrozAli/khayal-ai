@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
-
+  static const mon70 = Color(0xFF6B7280);
   static const blueberry10 = Color(0xFFE5F4FF);
   static const blueberry20 = Color(0xFFCCE9FF);
   static const blueberry30 = Color(0xFFB3DFFF);

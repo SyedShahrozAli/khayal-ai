@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constants/constants.dart';
 import '../../../features/profile/model/profile.dart';
 import '../../../utils/utils.dart';
-import '../../premium/model/premium_info.dart';
 
 part 'profile_repository.g.dart';
 
@@ -29,26 +28,7 @@ class ProfileRepository {
     return fakeProfile;
   }
 
-  PremiumInfo _extractPremiumInfo(Map<String, EntitlementInfo> entitlements) {
-    final isPremium = entitlements.containsKey(Constants.premium);
-    if (!isPremium) {
-      return const PremiumInfo(isPremium: false);
-    }
 
-    final premiumEntitlement = entitlements[Constants.premium];
-    final date = premiumEntitlement?.expirationDate;
-    if (date != null) {
-      return PremiumInfo(
-        isPremium: true,
-        expiryDate: DateTime.parse(date),
-      );
-    } else {
-      return const PremiumInfo(
-        isPremium: true,
-        isLifetime: true,
-      );
-    }
-  }
 
   Future<void> update(Profile profile) async {
     // TODO: temporary save profile to local

@@ -152,10 +152,23 @@ class AuthenticationRepository {
     try {
       await GoogleSignIn.instance.signOut();
     } catch (_) {}
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(Constants.isGuestModeKey, false);
    }
+
+  Future<AuthResponse> signInAnonymously() async {
+    final userCredential = await firebase_auth.FirebaseAuth.instance.signInAnonymously();
+    return AuthResponse(user: _mapFirebaseUser(userCredential.user));
+  }
 
   Future<bool> isLogin() async {
     return firebase_auth.FirebaseAuth.instance.currentUser != null;
+  }
+
+  User? getCurrentUser() {
+    final firebaseUser = firebase_auth.FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) return null;
+    return _mapFirebaseUser(firebaseUser);
   }
 
 

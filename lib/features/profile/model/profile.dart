@@ -19,6 +19,7 @@ abstract class Profile with _$Profile {
     @JsonKey(name: 'is_lifetime_premium')
     @Default(null)
     bool? isLifetimePremium,
+    @Default({}) Map<String, dynamic> surveyData,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, Object?> json) => _$ProfileFromJson(json);

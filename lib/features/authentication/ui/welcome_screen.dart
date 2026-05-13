@@ -41,7 +41,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
   void _logInAsGuest() async {
     await ref.read(authenticationViewModelProvider.notifier).setIsGuestMode();
-    _goToNextScreen();
+    await ref.read(authenticationViewModelProvider.notifier).signInAnonymously();
   }
 
   void _goToNextScreen() async {
@@ -54,17 +54,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       return;
     }
 
-    final isShowPremium =
-        await ref.read(profileViewModelProvider.notifier).isShowPremium();
-    if (isShowPremium) {
-      if (mounted) {
-        context.go(
-          Routes.premium,
-          extra: { Constants.isGoToMain: true },
-        );
-      }
-      return;
-    }
+
 
     if (mounted) context.go(Routes.main);
   }
@@ -119,6 +109,8 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 child: Lottie.asset(
                   'assets/animations/welcome.json',
                   fit: BoxFit.contain,
+                  repeat: false,
+               //   animate: true,
                 ),
               ),
               const SizedBox(height: 16),

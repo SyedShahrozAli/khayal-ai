@@ -10,6 +10,7 @@ import '../../../../constants/constants.dart';
 import '../../../../extensions/build_context_extension.dart';
 import '../../../../extensions/profile_extension.dart';
 import '../../../../extensions/string_extension.dart';
+import '../../../authentication/repository/authentication_repository.dart';
 import '../../../authentication/ui/view_model/authentication_view_model.dart';
 import '../../model/profile.dart';
 import '../../repository/profile_repository.dart';
@@ -24,7 +25,18 @@ class ProfileViewModel extends _$ProfileViewModel {
   @override
   FutureOr<ProfileState> build() async {
     _repository = ref.read(profileRepositoryProvider);
-    final profile = await _repository.get();
+    var profile = await _repository.get();
+
+    // Fallback to Firebase email if profile is missing it
+    if (profile?.email == null) {
+      final authUser =
+          ref.read(authenticationRepositoryProvider).getCurrentUser();
+      if (authUser != null) {
+        profile = profile?.copyWith(email: authUser.email) ??
+            Profile(email: authUser.email);
+      }
+    }
+
     return ProfileState(profile: profile);
   }
 
@@ -32,6 +44,7 @@ class ProfileViewModel extends _$ProfileViewModel {
     String? email,
     String? name,
     String? avatar,
+    Map<String, dynamic>? surveyData,
   }) async {
     state = const AsyncValue.loading();
     try {
@@ -42,11 +55,13 @@ class ProfileViewModel extends _$ProfileViewModel {
             email: email ?? currentProfile.email,
             name: name ?? currentProfile.name,
             avatar: newAvatarPath ?? currentProfile.avatar,
+            surveyData: surveyData ?? currentProfile.surveyData,
           ) ??
           Profile(
             email: email,
             name: name,
             avatar: newAvatarPath,
+            surveyData: surveyData ?? {},
           );
       debugPrint(
           '${Constants.tag} [ProfileViewModel.updateProfile] $updatedProfile');

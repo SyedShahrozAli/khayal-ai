@@ -14,5 +14,10 @@ abstract class HomeState with _$HomeState {
     /// True once the user has submitted their mood for today.
     /// Emojis become non-interactive until the next calendar day.
     @Default(false) bool moodLocked,
+
+    @Default(0) int streakCount,
+
+    /// List of 7 booleans representing Mon-Sun status for the current week
+    @Default(const [false, false, false, false, false, false, false]) List<bool> weekStatus,
   }) = _HomeState;
 }

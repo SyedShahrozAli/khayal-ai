@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+
 
 import '../../../constants/assets.dart';
 import '../../../features/authentication/ui/view_model/authentication_view_model.dart';
@@ -76,14 +78,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: SvgPicture.asset(
-                      Assets.login,
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.bottomCenter,
-                      semanticsLabel: 'Sign in',
-                    ),
-                  ),
+                                Expanded(
+                child: Lottie.asset(
+                  'assets/animations/sign-in.json',
+                  fit: BoxFit.contain,
+                ),
+              ),
                   Text(
                     LocaleKeys.signIn.tr(),
                     style: AppTheme.title32,

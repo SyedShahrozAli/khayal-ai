@@ -20,9 +20,7 @@ import '../../common/ui/widgets/common_dialog.dart';
 import '../model/profile.dart';
 import 'view_model/profile_view_model.dart';
 import 'widgets/avatar.dart';
-import 'widgets/premium_info_button.dart';
 import 'widgets/profile_item.dart';
-import 'widgets/upgrade_premium_button.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -74,30 +72,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       const SizedBox(height: 16),
                       Center(
                         child: Text(
-                          profile?.name ?? Constants.defaultName,
+                          profile?.email?.split('@')[0] ?? Constants.defaultName,
                           style: AppTheme.title24,
                         ),
                       ),
-                      if (_isLogin)
-                        Center(
-                          child: Text(
-                            profile?.email ?? '',
-                            style: AppTheme.body14.copyWith(
-                              color: context.secondaryTextColor,
-                            ),
-                          ),
-                        ),
                     ],
                   ),
                 ),
-                Transform.translate(
-                  offset: const Offset(0, -32),
-                  child: profile.isPremium
-                      ? PremiumInfoButton(
-                          expiryDate: profile?.expiryDatePremium,
-                        )
-                      : const UpgradePremiumButton(),
-                ),
+               
               ],
             ),
           ),

@@ -33,4 +33,8 @@ class Constants {
   static const String wasShowOnboardingKey = 'was_show_onboarding_key';
   static const String isPremiumUserKey = 'is_premium_user_key';
   static const String lastDayShowPremiumKey = 'last_day_show_premium_key';
+
+  static const String streakCountKey = 'streak_count_key';
+  static const String lastLoginDateKey = 'last_login_date_key';
+  static const String weekStatusKey = 'week_status_key';
 }

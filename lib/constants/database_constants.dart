@@ -12,7 +12,7 @@ class HeroTable {
   static const String columnLastUpdated = 'lastUpdated';
 
   static const String createTableQuery = '''
-    CREATE TABLE IF NOT EXISTS $tableName (
+    CREATE TABLE IF NOT EXISTS $tableName (                                                                         
       $columnId TEXT PRIMARY KEY,
       $columnName TEXT NOT NULL,
       $columnDescription TEXT NOT NULL,

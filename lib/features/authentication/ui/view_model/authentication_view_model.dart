@@ -92,6 +92,12 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
     handleResult(result);
   }
 
+  Future<void> signInAnonymously() async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(_repository.signInAnonymously);
+    handleResult(result);
+  }
+
   Future<void> signOut() async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(_repository.signOut);
@@ -123,10 +129,14 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
     state = AsyncData(
       AuthenticationState(
         authResponse: authResponse,
-      //  isRegisterSuccessfully: !isExistAccount,
         isSignInSuccessfully: true,
       ),
     );
+
+    // Update profile if user info is available
+    if (authResponse.user != null) {
+      updateProfile(authResponse.user!);
+    }
   }
 
   Future<void> updateProfile(User user) async {
