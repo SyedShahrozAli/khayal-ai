@@ -21,14 +21,28 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _createDB,
+      onUpgrade: _upgradeDB,
     );
   }
 
   Future<void> _createDB(Database db, int version) async {
-    // Heroes table
     await db.execute(HeroTable.createTableQuery);
+    await _createWellbeingTables(db);
+  }
+
+  Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await _createWellbeingTables(db);
+    }
+  }
+
+  Future<void> _createWellbeingTables(Database db) async {
+    await db.execute(MoodTable.createTableQuery);
+    await db.execute(ExerciseSessionTable.createTableQuery);
+    await db.execute(CommunityPostTable.createTableQuery);
+    await db.execute(CommunityCommentTable.createTableQuery);
   }
 
   Future<void> close() async {

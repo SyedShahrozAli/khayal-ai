@@ -7,9 +7,15 @@ import 'package:hugeicons/hugeicons.dart';
 import '../../../extensions/build_context_extension.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
+<<<<<<< HEAD
 import '../../common/ui/widgets/material_ink_well.dart';
+=======
+import '../../community/ui/community_screen.dart';
+>>>>>>> 646c0a0 (new feature added)
 import '../../journal/ui/journal_screen.dart';
 import '../../profile/ui/profile_screen.dart';
+import '../../progress/ui/progress_screen.dart';
+import '../../wellness/ui/wellness_library_screen.dart';
 import '../model/main_tab.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
@@ -28,6 +34,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     });
   }
 
+<<<<<<< HEAD
+=======
+  List<Widget> get _screens => [
+    HomeScreen(onTabChange: _switchTab),
+    const JournalScreen(),
+    const Scaffold(body: Center(child: Text('Chat'))),
+    const WellnessLibraryScreen(),
+    const ProgressScreen(),
+    const CommunityScreen(),
+    const ProfileScreen(),
+  ];
+>>>>>>> 646c0a0 (new feature added)
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +60,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return Scaffold(
       body: Stack(
         children: [
+<<<<<<< HEAD
           IndexedStack(
             index: _currentTabIndex,
             children: screens,
           ),
+=======
+          IndexedStack(index: _currentTabIndex, children: _screens),
+>>>>>>> 646c0a0 (new feature added)
           Positioned(
             left: 1,
             right: 1,
@@ -59,11 +81,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       color: context.secondaryWidgetColor,
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: MainTab.values
-                          .map((tab) => _buildNavItem(tab))
-                          .toList(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: MainTab.values
+                            .map((tab) => _buildNavItem(tab))
+                            .toList(),
+                      ),
                     ),
                   ),
                 ),
@@ -85,6 +109,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         });
       },
       child: Container(
+        width: 76,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
         decoration: BoxDecoration(
           color: isSelected ? context.secondaryBackgroundColor : null,

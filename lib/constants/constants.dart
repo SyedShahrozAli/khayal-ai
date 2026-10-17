@@ -33,8 +33,16 @@ class Constants {
   static const String wasShowOnboardingKey = 'was_show_onboarding_key';
   static const String isPremiumUserKey = 'is_premium_user_key';
   static const String lastDayShowPremiumKey = 'last_day_show_premium_key';
+<<<<<<< HEAD
 
   static const String streakCountKey = 'streak_count_key';
   static const String lastLoginDateKey = 'last_login_date_key';
   static const String weekStatusKey = 'week_status_key';
+=======
+  static const String moodKey = 'mood_key';
+  static const String moodDateKey = 'mood_date_key';
+  static const String wellnessFavouritesKey = 'wellness_favourites_key';
+  static const String wellnessDurationsKey = 'wellness_durations_key';
+  static const String communitySeededKey = 'community_seeded_key';
+>>>>>>> 646c0a0 (new feature added)
 }

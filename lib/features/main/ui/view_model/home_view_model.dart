@@ -3,25 +3,25 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../constants/constants.dart';
+import '../../../activity/repository/activity_repository.dart';
 import '../../../profile/ui/view_model/profile_view_model.dart';
 import 'home_state.dart';
 
 part 'home_view_model.g.dart';
 
+const _moodLabels = ['Very Sad', 'Sad', 'Okay', 'Happy', 'Excited'];
+
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
   @override
   Future<HomeState> build() async {
-    // Load profile from the keep-alive ProfileViewModel
     final profileState = await ref.watch(
       profileViewModelProvider.future,
     );
 
-    // Restore today's saved mood (null if not yet selected today)
     final savedMood = await _loadTodayMood();
-
-    // Mood is locked if it was already recorded for today
     final locked = savedMood != null;
+    final streak = await ref.read(activityRepositoryProvider).getStreakStats();
 
     // Update and get streak info
     final streakData = await _handleStreakLogic();
@@ -30,6 +30,7 @@ class HomeViewModel extends _$HomeViewModel {
       userName: profileState.profile?.name,
       selectedMoodIndex: savedMood,
       moodLocked: locked,
+<<<<<<< HEAD
       streakCount: streakData.count,
       weekStatus: streakData.weekStatus,
     );
@@ -80,46 +81,61 @@ class HomeViewModel extends _$HomeViewModel {
     return (
       count: currentCount,
       weekStatus: weekStatusStrings.map((e) => e == 'true').toList(),
+=======
+      streakCount: streak.current,
+>>>>>>> 646c0a0 (new feature added)
     );
   }
-
-  // ── Mood persistence ─────────────────────────────────────────────────────
 
   Future<int?> _loadTodayMood() async {
     final prefs = await SharedPreferences.getInstance();
     final savedDate = prefs.getString(Constants.moodDateKey);
     final today = _todayString();
-    // A new calendar day → no mood recorded yet
     if (savedDate != today) return null;
     return prefs.getInt(Constants.moodKey);
   }
 
-  /// Saves the mood index for today.
-  /// If the mood has already been locked for today this is a no-op —
-  /// the user cannot change their recorded mood within the same day.
   Future<void> saveMood(int index) async {
     final current = state.value;
-
-    // Guard: already locked for today → ignore
     if (current?.moodLocked == true) return;
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(Constants.moodKey, index);
     await prefs.setString(Constants.moodDateKey, _todayString());
 
-    // Update in-memory state and lock immediately
+    await ref.read(activityRepositoryProvider).upsertMood(
+          moodIndex: index,
+          label: _moodLabels[index],
+        );
+    final streak = await ref.read(activityRepositoryProvider).getStreakStats();
+
     state = AsyncData(
       (current ?? HomeState()).copyWith(
         selectedMoodIndex: index,
         moodLocked: true,
+        streakCount: streak.current,
       ),
     );
   }
 
+<<<<<<< HEAD
   String _todayString() => _dateString(DateTime.now());
 
   String _dateString(DateTime date) {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-'
         '${date.day.toString().padLeft(2, '0')}';
+=======
+  Future<void> refreshStreak() async {
+    final current = state.value;
+    if (current == null) return;
+    final streak = await ref.read(activityRepositoryProvider).getStreakStats();
+    state = AsyncData(current.copyWith(streakCount: streak.current));
+  }
+
+  String _todayString() {
+    final now = DateTime.now();
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-'
+        '${now.day.toString().padLeft(2, '0')}';
+>>>>>>> 646c0a0 (new feature added)
   }
 }

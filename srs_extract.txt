@@ -1,0 +1,1283 @@
+COMSATS University, Islamabad Pakistan
+Khayal AI
+By
+Muhammad Yousaf     CIIT/SP23-BCS-070/ISB
+Syed Shahroz Ali       CIIT/SP23-BCS-093/ISB
+SupervisorMs. Saadia Maqbool
+Bachelor of Science in Computer Science (2023-2027)
+The candidate confirms that the work submitted is their own and appropriate credit has been given where reference has been made to the work of others.
+COMSATS University, Islamabad Pakistan
+Khayal AI
+A project presented to
+COMSATS University, Islamabad
+In partial fulfilment
+of the requirement for the degree of
+Bachelor of Science in Computer Science (2023-2027)
+By
+Muhammad YousafCIIT/SP23-BCS-070/ISB
+Syed Shahroz Ali            CIIT/SP23-BCS-093 /ISB
+Abstract
+Pakistan faces a severe mental health crisis, with an estimated 24 million people requiring mental health services but only 0.19 psychiatrists per 100,000 population and just 0.4% of the health budget allocated to mental health. Stigma and limited access (mostly in big cities) further compound the issue. Khayal AI is conceived to address these gaps by providing a culturally sensitive, bilingual (English/Urdu) mobile and web application for emotional wellbeing support. It will offer guided journaling (text or speech), AI-driven sentiment analysis (including Urdu NLP), a safe AI-chatbot for stress relief, breathing exercises with animations, mini-games and a verified Pakistani therapist booking system. The project objectives include (BO-1) enabling accessible mental health self-care in Urdu/English, (BO-2) applying AI/NLP for emotional insight, (BO-3) offering immediate supportive chat during crises, (BO-4) fostering community peer support and (BO-5) improving access to vetted therapists. The expected impact is increased mental health awareness and support in Pakistan, lowering barriers to care and providing scalable first-line assistance.
+Acknowledgement
+All praise is to Almighty Allah who bestowed upon us a minute portion of His boundless knowledge by virtue of which we were able to accomplish this challenging task.
+We are greatly indebted to our project supervisor Ms. Saadia Maqbool. Without their personal supervision, advice and valuable guidance, completion of this project would have been doubtful. We are grateful to them for their encouragement and continual help during this work.
+And we are also thankful to our parents and family who have been a constant source of encouragement for us and brought us with the values of honesty & hard work.
+Muhammad Yousaf                                                                     Syed Shahroz Ali
+Table of Contents
+Contents
+Abstract2
+Chapter 1: Introduction and Problem Definition1
+1.1Introduction1
+1.2 Problem Statement1
+1.3 Problem Solution/Objectives of the Proposed System1
+1.4 Objectives2
+1.5 Related System Analysis/Literature Review2
+1.6 Vision Statement4
+1.7 Scope4
+1.8 Modules5
+Module 1: User Registration & Authentication5
+Module 2: User Profile & Personalization5
+Module 3: Journaling & Daily Reflection5
+Module 4: Emotional Analysis & Mood Detection5
+Module 5: AI Therapeutic Chatbot5
+Module 6: Safety & Hallucination Prevention Layer6
+Module 7: Holistic Emotional Regulation & Wellness Toolkit6
+Module 8: Therapist Appointment Booking6
+Module 9: Community Support Forum6
+Module 10: Admin Dashboard7
+1.9 System Limitations/Constraints7
+1.10 Data Gathering Approach7
+1.11 Project Contribution8
+1.12 Relevance to Course Modules8
+1.13 Tools and Technologies9
+1.14 Project Stakeholders and Roles10
+1.15 Module based Work Division10
+1.16 WBS Table11
+1.17 Gantt Chart 13
+Chapter 2: Requirement Analysis13
+2.1 User Classes and Characteristics14
+2.1.1User Class14
+2.2 Operating Environment15
+2.3Design and Implementation Constraints15
+2.4Use Case Diagram16
+2.4.1 Seeker Module16
+2.4.2 Admin Control System Module17
+2.4.3 Therapist Management Module17
+2.5Requirement Identifying Technique18
+2.5.1 Mockups18
+2.5.2 Backend Process Requirements22
+2.6Functional Requirements23
+2.6.1 User Authentication and Account Management23
+2.6.2 User Profile and Settings24
+2.6.3 Notification and Reminder Settings26
+2.6.4 Breathing, Mindfulness Exercises and Mini-Games26
+2.6.5 Therapist Booking27
+2.6.6  Stats and Progress Tracking28
+2.6.7 Therapist-Side Features28
+2.6.8 Admin Dashboard30
+2.6.9 Security and Privacy30
+2.6.10  Offline Mode and Data Synchronization (5 requirements)31
+2.6.11 AI Model Functional Requirements31
+2.7 Non-Functional Requirements33
+2.8 External Interface Requirements34
+2.8.1User Interfaces Requirements34
+2.8.2Software interfaces36
+2.8.3Hardware interfaces40
+2.8.4Communications interfaces41
+List of Figures
+Figure i 1.1: Gant Chart13
+Figure ii 2.1: Seeker Module16
+Figure iii 2.2 Admin Control Module17
+Figure iv 2.3 Therapist Managemnet Module17
+Figure v 2.4: Mockup 118
+Figure vi 2.5: Mockup 220
+Figure vii 2.6: Mockup 322
+Figure viii 2.7: Mockup 424
+Chapter 1: Introduction and Problem Definition
+Introduction
+Mental health issues like depression and anxiety are widespread globally, but low- and middle-income countries often lack adequate care. In Pakistan, traditional services are scarce, primarily hospital-based and concentrated in cities, leaving countless people underserved. Cultural stigma and lack of literacy in medical jargon prevent many from seeking help, even when resources exist. Digital health interventions such as chat-based therapy apps have shown promise elsewhere by providing anonymous, 24/7 support that feels non-judgmental. International apps like Woebot and Wysa use AI chatbots and self-care exercises to bridge therapist shortages. However, they cater mostly to English-speaking users and provide only basic support. There is a critical need for a locally relevant solution. Khayal will focus on Pakistani users’ language and cultural context, combining proven techniques (CBT journaling, breathing exercises) with Urdu-language support and community features to fill the local mental health support gap.
+1.2 Problem Statement
+Pakistan’s mental health system is overburdened and under-resourced. Only a tiny fraction of the population can access qualified therapy, and awareness of mental wellbeing is very low. Key problems include:
+Scarcity of Professionals: With ~0.19 psychiatrists per 100,000 people, most sufferers go untreated.
+Access Barriers: Services are urban-centric; rural and remote areas have virtually no mental health clinics.
+Language & Literacy: Many Pakistanis are more comfortable in Urdu, but existing tools and content are predominantly English.
+Stigma & Trust: Deep-rooted stigma means people avoid seeking help, fearing judgment. Digital anonymity can mitigate this, but no major platform has effectively localized mental health support.
+Lack of Support Tools: Routine emotional self-care tools (journals, exercises, peer support) are not widely available or tailored to Pakistani culture.
+Thus, Pakistan needs a solution that lowers these barriers through technology, enabling people to self manage stress and emotions and connect to help when needed, in a secure and culturally appropriate way.
+1.3 Problem Solution/Objectives of the Proposed System
+There is a critical need for a platform that addresses the scarcity of mental health resources in Pakistan. Khayal AI is a system that would permit users to anonymously access mental health services, defined as routine journaling, AI-driven chat support and structured care paths for conditions such as depression and anxiety, via a bilingual web and mobile interface.
+Such a system would lower the barrier to entry for users fearing stigma, and it would provide an accessible, affordable digital companion for emotional well-being. The system would assess user inputs to identify potential mental health indications. Using AI for emotional analysis and content moderation would ensure safe community interactions and improve the accuracy of user evaluation. The ability to integrate a therapist booking system would bridge the gap between digital self-help and professional medical guidance, ensuring users are guided effectively based on their needs. In instances of critical severity where AI support is insufficient, the system would explicitly direct the user to consult a professional therapist.
+1.4 Objectives
+BO-1: Implement a dual-language journaling feature (English/Urdu, text/speech) with guided prompts, to help users express and reflect on feelings.BO-2: Develop an AI/NLP engine to analyze journal entries and chat interactions, detecting emotions and risk (such as high stress or crisis), with special support for Urdu language input.BO-3: Build a secure, scripted conversational chatbot that provides immediate coping strategies and emotional support during anxiety or stress, operating 24/7.BO-4: Include breathing exercises and simple mini-games (with calming animations) as distraction and relaxation tools to help manage momentary distress.BO-5: Implement a therapist booking module connecting users to verified mental health professionals (ensuring credibility), allowing online appointment scheduling.BO-6: Create a moderated community forum for peer support, where users can anonymously share experiences in Urdu or English.
+1.5 Related System Analysis/Literature Review
+We reviewed several existing mental health apps to understand their strengths and gaps:
+Woebot: An early AI chatbot for mental health, Woebot used a CBT-based dialogue to guide users through mood tracking and coping exercise. About 1.5 million people used it, benefiting from its structured CBT conversation style. However, Woebot relied on pre-scripted responses and did not support Urdu; it has recently shut down due to regulatory and technological constraints. Khayal builds on this idea by offering chatbot support, but with a focus on Urdu language processing and cultural adaptation.
+Wysa: This app serves as an “AI companion” offering text conversations and self-care modules. Wysa incorporates evidence-based techniques (CBT, breathing, mindfulness) and lets users journal thoughts, check mood, and join online discussions. Studies show users find it comforting and emotionally responsive, appreciating the non-judgmental space. However, some reviews note limitations in its AI understanding and a lack of personalization. Khayal will similarly offer CBT-informed journaling and chatbot guidance but will tailor the content for Pakistani culture and improve on Wysa by adding Urdu support and community networking.
+Therapixie (concept): (Kovalenko et al., 2023) A mental health app prototype called Therapixie combines journaling with meditation and achievement tracking. It provides users with feedback on their entries and progress, increasing engagement. This concept underscores Khayal’s approach of blending reflective journaling with guided activities. Unlike Therapixie’s abstract design, Khayal is an actual system project that will implement such features and gather real user data.
+Humraaz (Pakistan): Launched in 2023 by the government, Humraaz is a mobile/web app that connects citizens to psychologists/psychiatrists. It includes guided counselling sessions, daily mood monitoring, a chatbot for self-assessment, 24/7 access to professionals, and support groups. This is Pakistan’s first major mental health app. Khayal complements Humraaz by adding features not currently found there: emotionally intelligent journaling, Urdu-language NLP analysis, breathing exercises/games and a peer community. Khayal focuses more on ongoing self-care tools, whereas Humraaz emphasizes expert connections. In sum, Khayal fills the local gaps by providing an integrated platform with advanced AI moderation and support tailored to Pakistani users.
+Table 1   Related System Analysis with proposed project solution
+Application Name
+Weakness
+Proposed Project Solution
+Woebot
+• Relied on pre-scripted (rule-based) responses rather than dynamic AI.
+• Did not support the Urdu language.
+• Recently shut down due to regulatory and technological constraints.
+• Urdu Language Processing: Khayal moves beyond pre-scripted responses by utilizing NLP specifically for Urdu/English.
+• Cultural Adaptation: The system is designed specifically for the local context to ensure sustainability
+Wysa
+• Limitations in the AI’s understanding of complex emotions.
+• Users noted a lack of deep personalization.
+• Generalized content not specific to South Asian cultural nuances.
+• Cultural Tailoring: Khayal customizes the CBT-informed content for Pakistani culture.
+• Enhanced Features: Adds native Urdu support and a more robust community networking feature to improve engagement.
+Therapixie (Concept)
+Currently exists only as an abstract design or prototype (Kovalenko et al., 2023).
+• Not a fully functional deployed system.
+• Lacks real-world user data and interaction
+• Implementation: Khayal transitions from concept to a fully realized web/mobile system.
+• Data Usage: Will capture real user data to refine the "blended" approach of reflective journaling and guided activities.
+Humraaz (Pakistan)
+• Focuses primarily on connecting users to experts rather than daily self-care tools.
+• Lacks "emotionally intelligent" journaling and deep NLP analysis.
+• Missing engagement features like breathing exercises, games, or a peer community.
+• Self-Care Focus: Khayal complements Humraaz by prioritizing ongoing self-help tools.
+• Feature Set: Introduces Urdu-language NLP emotional analysis for journals, gamification (exercises), and AI-moderated peer support groups.
+1.6 Vision Statement
+For individuals seeking accessible mental health support and self-care, Khayal AI is a comprehensive digital companion that provides guided journaling, AI-powered emotional analysis, and conversational support, along with relaxation exercises and community resources. Unlike existing international solutions that often lack dynamic support or strictly focus on clinical booking, our product offers a culturally adaptive environment and a safe interaction space. This empowers users to manage stress and connect with help anonymously, ensuring support is both accessible and effective.
+1.7 Scope
+The Khayal AI project focuses on delivering a highly accessible and intuitive mental well-being platform. The scope includes a user-friendly AI Chatbot and Journaling system capable of processing bilingual input (English and Urdu) to maximize user inclusion, though a full interface translation is excluded.
+Central to the scope is a safe, moderated AI chatbot designed to foster engagement while strictly filtering inappropriate content. The community module will be moderated to handle stigma and inappropriate content.  The system facilitates accessibility to professional care by linking users to a curated network of verified therapists. The application is scoped for standard web and mobile environments to ensure broad reach.
+This app is not a substitute for professional psychiatric care; it is intended for mild-to-moderate stress and anxiety relief. We will not attempt to diagnose illnesses or provide emergency medical intervention. The app will run on standard smartphones and web browsers, assuming users have an internet connection.
+Technically, the project focuses on optimizing AI responsiveness for emotional analysis and ensuring a stigma-free community environment. It explicitly excludes diagnostic capabilities, emergency medical intervention and support for regional languages beyond the core offering, positioning the platform as a tool for mild-to-moderate emotional support rather than clinical treatment.
+1.8 Modules
+Module 1: User Registration & Authentication
+FE-1: Register via email/phone with OTP verification.FE-2: Secure login using token-based authentication.FE-3: Password reset and account recovery.FE-4: User profile with language preference (Urdu/English).FE-5: Session management.
+Module 2: User Profile & Personalization
+FE-1: Manage personal info and preferences.FE-2: Configure journaling reminders and notification settings.FE-3: Set preferred coping tools and playlists.FE-4: Customize AI tone.FE-5: Save favorite activities.
+Module 3: Journaling & Daily Reflection
+FE-1: Urdu/English text journaling.FE-2: Voice journaling (STT).FE-3: Prompt-based journaling.FE-4: View, edit, delete past journals.FE-5: Offline draft support.
+Module 4: Emotional Analysis & Mood Detection
+FE-1: Sentiment analysis for Urdu/English.
+FE-2: Measuring body metrics through smart tools, i.e., smart watches and smart ringsFE-3: Emotion classification.FE-4: Risk keyword detection.FE-5: Mood history graphs.FE-6: High-risk triggers & alerts.
+Module 5: AI Therapeutic Chatbot
+FE-1: Real-time bilingual conversation.FE-2: Personalized responses based on mood.FE-3: Automatic safe redirection for risky topics.FE-4: Usage-limit-based break prompts.FE-5: Escalation suggestions for therapy.
+Module 6: Safety & Hallucination Prevention Layer
+FE-1: Detect unsafe medical/diagnostic queries.FE-2: Redirect users to grounding tools instead of refusing.FE-3: Invisible conversation limits.FE-4: Crisis flow integration.FE-5: Pattern logging for repeated distress.
+Module 7: Holistic Emotional Regulation & Wellness Toolkit
+FE-1: Guided Breathing Exercises.
+FE-2: Progress tracking.
+FE-3: Distraction & Grounding Tools, Relaxation games.
+FE-4: Activity & Habit Recommendations
+FE-5: Weekly habit summary.
+Module 8: Therapist Appointment Booking
+FE-1: List therapists with profiles.
+FE-2: Book online/in-person sessions.FE-3: calendar-based availability view.FE-4: Appointment management (edit/cancel).FE-5: Notifications & reminders.FE-6: Share emotional summary with therapist (optional).
+Module 9: Community Support Forum
+FE-1: Create posts anonymously.FE-2: Comment, react and engage.FE-3: Category-based support spaces.FE-4: AI moderation for harmful content.FE-5: Reporting system.
+FE-5: Content moderation and safety monitoring
+Module 10: Admin Dashboard
+FE-1: Manage user accounts.FE-2: Approve/reject therapist profiles.FE-3: Manage community reports & flagged content.FE-4: Suspend abusive users.FE-5: System-wide announcements and configuration.
+FE-6: Analytics & Reporting, user engagement insights.
+1.9 System Limitations/Constraints
+Urdu NLP Challenges: Limited existing lexicons and dialect variance mean sentiment analysis may be less accurate in Urdu than English. Data collection and model training for Urdu emotion analysis is non-trivial.
+Therapist Availability: The number of qualified mental health professionals in Pakistan is low, so the booking module may have few options. Users may experience booking delays or limited slot availability. Onboarding foreign therapists will be considered.
+Digital Divide: Khayal assumes smartphone or internet access. Rural users without internet or digital literacy are effectively out of scope.
+Stigma and Privacy: Despite anonymity, users may hesitate to fully engage or reveal personal issues. Some user intents (e.g., self-harm) may not be perfectly detected, despite our best AI models.
+Data Privacy & Security: Storing sensitive user data (journals, moods) demands strict encryption and safeguards; any breach would be critical. Implementing industry-standard security is complex but necessary.
+Regulatory Constraints: The app is not a licensed medical device; we must clearly disclaim that we are not providing clinical diagnosis or therapy. Content must remain low risk (hence, scripted chatbot and admin oversight).
+1.10 Data Gathering Approach
+Focus Groups: Conduct group interviews with Pakistani university students and community members to identify common stressors, language preferences (Urdu vs English) and desired features.
+Therapist Interviews: Meet with local psychologists/psychiatrists to understand therapeutic best practices, culturally appropriate journaling prompts and ethical considerations for a digital support tool.
+Surveys: Distribute questionnaires (in both languages) to gather data on what users expect from a mental health app and any usability needs.
+Urdu Dataset Building: Compile a corpus of Urdu text (from news comments, literature, social media) and annotate it for emotions or sentiments. This includes collecting Urdu speech samples to test speech-to-text accuracy.
+1.11 Project Contribution
+Khayal offers several innovations and contributions:Urdu-Capable Emotional AI: Developing an Urdu-capable sentiment/emotion analysis system fills a technical gap, as few tools handle Urdu text or speech for mental health.Integrated Mental Health Toolkit: Combining journaling, an AI chatbot, exercises, and a peer community in one bilingual app is unique in Pakistan. This holistic approach goes beyond single-function solutions.Utilizing Smart Tools: Reading body metrics such as blood pressure, heart rate, sleep schedule, and sleep quality using a smart watch or smart ring.Culturally Adapted Content: By incorporating Urdu prompts, local idioms and culturally sensitive advice, Khayal makes mental health tools approachable for Pakistanis, contributing to destigmatization.Safe Chatbot with Risk Monitoring: A scripted, admin-overseen chatbot is a safer design than fully open AI bots; plus, our risk classification and moderation pipeline is tailored to detect warning signs in both languages.Technical Research: The project will produce an annotated Urdu emotional dataset and open-source NLP components, benefiting future research in Urdu AI and low-resource languages.Healthcare Impact: By lowering the access barrier to emotional support, Khayal contributes to public health by potentially reducing untreated stress/anxiety in young people and encouraging them to seek professional help when needed.
+1.12 Relevance to Course Modules
+Software Engineering: Follows life-cycle phases (requirements, design, testing), uses Agile project management and results in documentation (scope, SRS, etc.), directly applying SE principles.
+Web & Mobile Development: Builds on mobile app frameworks (Android/iOS or cross-platform) learned in courses, integrating APIs and responsive design.
+Artificial Intelligence & NLP: Uses machine learning techniques for sentiment analysis and natural language understanding, reflecting course content on AI algorithms and text processing.
+Database Systems: Implements secure databases for user data, scheduling and chat logs, applying relational/NoSQL design.
+Data Structures & Algorithms: Efficiently manages data (e.g. calendar scheduling, forum threads), applies algorithms in text analysis and search features.
+Networking/Security: Ensures secure data transmission and user authentication, reflecting concepts from networking and security coursework.
+1.13 Tools and Technologies
+Table 2: Tools and Technologies for Proposed Project
+Tools
+And
+Technologies
+SDKs/APIs
+Tools
+Version
+Rationale
+Android Studio / IntelliJ IDEA
+2023+
+Primary IDE for Flutter development
+Visual Studio Code
+1.85+
+Lightweight editor for Flutter & backend development
+Postman
+10+
+API testing and debugging
+Firebase Console
+Latest
+Authentication, database, push notifications
+Git + GitHub
+Latest
+Version control & team collaboration
+Figma
+Latest
+UI/UX design and prototyping
+Docker (for AI services)
+24+
+Containerizing AI/NLP microservices
+Google Cloud Console
+Latest
+Speech-to-text, AI deployment options
+Technology
+Version
+Rationale
+Flutter (Dart SDK)
+Flutter 3.19+ / Dart 3+
+Cross-platform mobile app development
+Node.js (Backend API)
+Node 18+ / FastAPI (0.110+)
+Backend services, chatbot logic, NLP routing
+Firebase Authentication
+Latest
+Secure user login/OTP authentication
+Firebase Firestore
+Latest
+Cloud database for journals, mood, chats
+Firebase Storage
+Latest
+File storage for therapist documents/user uploads
+RESTful APIs
+—
+Communication between Flutter app & backend
+Python (AI/NLP Services)
+Python 3.10+
+Running sentiment/emotion models
+HuggingFace Transformers
+4.40+
+Urdu-English NLP model hosting & inference
+XLM-RoBERTa / BERT Models
+Latest
+Emotion detection for Urdu+English journals
+OpenAI GPT-4o-mini API
+2024-2025 Release
+Safe therapeutic chatbot responses (scripted with safeguards)
+Firebase Cloud Messaging
+Latest
+Push notifications, reminders
+Next.js + Tailwind CSS (Therapist Portal)
+Next.js 14+
+Therapist management dashboard
+Technology
+Version
+Rationale
+Google Speech-to-Text API
+v1
+Urdu/English voice journaling
+Just Audio (Flutter)
+Latest
+Nature sounds & playlists
+Flutter Speech-to-Text Plugin
+Latest
+Offline/online voice journaling
+Provider / Riverpod
+Latest
+State management
+Dio (Flutter HTTP Client)
+Latest
+Calling backend APIs
+Chart.js / Flutter Charts
+Latest
+Mood history visualizations
+1.14 Project Stakeholders and Roles
+Table 3 Project Stakeholders for Proposed Project
+Stakeholder
+Role & Responsibilities
+App Users (Primary Users)
+Individuals across Pakistan seeking mental health support use journaling, chatbot, breathing tools and community features.
+Benefit from accessible, private emotional wellness assistance.
+Psychologists / Therapists
+Provide professional consultations through the platform.- Maintain updated profiles and availability.
+Access user emotional summaries (with permission).- Offer follow-up sessions and expert guidance.
+Students / Developers
+Muhammad Yousaf
+Syed Shahroz Ali
+Design, build and deploy the Khayal AI application. Implement all modules, AI features and mobile app functionalities. Coordinate with the supervisor for requirement validation.
+Project Supervisor
+Ms. Saadia Maqbool
+Provides technical and academic guidance. Ensures the project follows university quality standards. Reviews milestones and progress.
+COMSATS FYP Committee
+Evaluates the project proposal, design, implementation and documentation. Ensures compliance with academic and ethical requirements. Provides final approval and grading.
+Family & Society (End Beneficiaries)
+Benefit indirectly as users experience improved emotional wellbeing. Contribute to broader societal mental health awareness.
+1.15 Module based Work Division
+Table 4 Team Member Work Division for Proposed Project
+Student Name
+Registration Number
+Assigned Modules / Features
+Syed Shahroz Ali
+SP23-BCS-093
+• UI/UX Design (Wireframes, User Flow, Final UI Screens)
+• Flutter Mobile App Development (All app screens & navigation)
+• Journaling Module – Frontend UI
+• Mood Tracking & Visualization UI
+• Community Forum – Frontend UI
+• Games & Distraction Module (Breathing animation, mini-games UI)
+• Emergency Safeguard UI (Red flags, hotline interface)
+• Therapist   Booking UI
+• Integrating Backend APIs into the Mobile App
+• Frontend Testing & Bug Fixing
+• Documentation & Viva Preparation
+Muhammad Yousaf
+SP23-BCS-070
+• Backend Architecture (APIs, Database, Authentication)
+• User Authentication Module
+• User Profile & Goal Management (Backend)
+• Journaling Module – Backend Logic & Database
+• AI Mood Analysis (NLP Model Urdu + English)
+• Emotion Classification Model, Crisis Detection
+• AI Safety & Hallucination Control Module
+• Therapist Portal (Web Dashboard)
+• Chat + Booking Backend Logic
+• Community Forum – Backend Logic & Moderation Tools
+• Admin Dashboard (User Management, Therapist Verification)
+• Urdu NLP Dataset & Integration Pipeline
+• Backend Testing & Optimization
+• Deployment of Backend Services (Cloud / Firebase)
+• Documentation Support
+1.16 WBS Table
+Table 5 WBS Table
+ID
+Task
+Duration
+Resources
+1
+Project Initiation & Planning
+15 d
+Yousaf; Shahroz
+2
+Requirement Gathering & Meetings
+7 d
+Yousaf; Shahroz
+3
+Literature Review
+5 d
+Yousaf
+4
+Scope, Risks & Final Approval
+3 d
+Shahroz; Supervisor
+5
+UI/UX Design
+15 d
+Yousaf; Shahroz
+6
+App Wireframes
+6 d
+Yousaf
+7
+Therapist Portal Wireframes
+4 d
+Shahroz
+8
+Final UI/UX Prototype
+5 d
+Yousaf
+9
+Backend Development
+35 d
+Shahroz
+10
+Database & Auth APIs
+12 d
+Shahroz
+11
+Journaling & Chatbot APIs
+13 d
+Shahroz
+12
+Therapist + Community APIs
+10 d
+Shahroz
+13
+AI/NLP Development
+30 d
+Yousaf
+14
+Dataset Preparation
+8 d
+Yousaf
+15
+Emotion Model + Crisis Engine
+14 d
+Yousaf
+16
+Safety Layer + Deployment
+8 d
+Yousaf
+17
+Flutter Mobile App
+60 d
+Yousaf; Shahroz
+18
+Core Modules (Auth, Profile, Journaling)
+20 d
+Yousaf
+19
+AI Chatbot + Insights
+15 d
+Shahroz
+20
+Exercises, Games, Notifications
+15 d
+Yousaf
+21
+Therapist Booking + Forum
+10 d
+Shahroz
+22
+Therapist Portal
+15 d
+Shahroz
+23
+Registration + Verification
+6 d
+Shahroz
+24
+Schedule + Reports
+9 d
+Shahroz
+25
+Admin Dashboard
+10 d
+Shahroz
+26
+User & Therapist Management
+5 d
+Shahroz
+27
+Forum Moderation + Analytics
+5 d
+Shahroz
+28
+Integration & Testing
+20 d
+Yousaf; Shahroz
+29
+App + API Integration
+10 d
+Shahroz
+30
+Testing & Bug Fixing
+10 d
+Yousaf
+31
+Deployment
+7 d
+Yousaf; Shahroz
+32
+Backend + AI Deployment
+4 d
+Shahroz
+33
+App Final Build
+3 d
+Shahroz
+34
+Documentation & Viva
+10 d
+Yousaf
+35
+Final Report + SRS
+7 d
+Yousaf
+36
+Viva & Presentation Prep
+3 d
+Yousaf
+1.17 Gantt Chart
+Figure i 1.1: Gant ChartFigure i 1.1: Gant ChartChapter 2: Requirement Analysis
+Figure i 1.1: Gant Chart
+Figure i 1.1: Gant Chart
+The purpose of this section is to provide a breakdown of the requirements for Khayal AI. We will identify the Functional, Non-Functional and User Interface requirements, along with technical limits, to ensure that the development process remains goal oriented and structured.
+This analysis is the foundation for the system's architecture and design phases. It converts the high-level project idea of addressing Pakistan’s mental health crisis into a set of easy-to-understand specifications that will guide the implementation of the mobile application and backend services.
+2.1 User Classes and Characteristics
+This section identifies the different groups of people who will interact with the Khayal AI platform. By defining classes such as Seekers (App Users), Care Providers (Therapists) and Admins, we can better understand the specific needs, technical skills of those who interact with the app. Understanding these characteristics ensures the app is accessible to everyone, from mental health help seekers to healthcare professionals.
+User Class
+Description
+Mental health care seeker (Primary User)
+Individuals seeking mental health support and emotional well-being. They will use the mobile app for journaling, mood tracking and interacting with the AI chatbot for stress relief. There is a high potential user base given the estimated 24 million people in Pakistan requiring mental health services. They are expected to use the app daily for self-care, with some transitioning to the therapist booking module for professional help.
+Therapist
+Verified Pakistani mental health professionals (psychologists and psychiatrists) who provide expert consultations. They will use a web-based portal to maintain profiles, manage appointment calendars and review optional emotional summaries shared by users to prepare for sessions. This class is expected to be smaller initially due to the local scarcity of professionals (0.19 per 100,000 people).
+System Administrator
+Technical staff or developers responsible for the operational integrity of the platform. Their job is to manage user accounts, verify and approve therapist credentials and oversee community moderation. They also monitor AI performance, specifically sentiment analysis accuracy.
+Community Member
+A subset of mental health help seekers who interact within the moderated peer support forums. These users post anonymously to share experiences and coping tips in a stigma free environment. Their interactions are subject to AI-driven moderation to filter harmful content and triggers.
+2.2 Operating Environment
+The operating environment describes the technical setup required for the software to run smoothly. This includes the mobile platforms (Android and iOS) for the primary user and web browsers for the Therapist and Admin portals. It also covers the cloud infrastructure, such as Firebase, where our data is stored and our AI models are hosted to ensure 24/7 availability.
+OE-1: Mobile Platforms: The Khayal AI mobile application shall operate on smartphones running Android 11.0 or higher and iOS 15.0 or higher to support modern Flutter 3.19+ features.
+OE-2: Web Browsers: The Therapist Portal and Admin Dashboard shall be compatible with the latest stable versions of Google Chrome, Mozilla Firefox, Microsoft Edge, and Apple Safari.
+OE-3: Geographical Location: Primary users are located across Pakistan, requiring the system to handle local network conditions and provide bilingual support (Urdu/English).
+OE-5: Database and Storage: User journals, mood history, and chat logs shall be stored in Firebase Firestore and Firebase Storage, ensuring synchronization and secure data persistence.
+OE-6: Hardware Integration: The system shall interact with smartwatches and smart rings to read body metrics (heart rate, sleep quality) for enhanced emotional analysis.
+Design and Implementation Constraints
+Constraints are the limitations that the development team must follow during the building process. For Khayal AI, these include using the Flutter framework for cross-platform mobile development and ensuring all AI responses follow strict safety protocols to prevent medical hallucinations. These boundaries help keep the project realistic, secure and focused on providing non-diagnostic support.
+CON-1: The mobile application must be developed using the Flutter (Dart SDK 3+) framework. To ensure a single codebase can be deployed to both Android and iOS while maintaining high performance for animations like breathing exercises.
+CON-2: All backend services and APIs must be built using Node.js (v18+) or FastAPI (0.110+). These environments are required to handle real-time chatbot logic and efficient routing for NLP.
+CON-3: The system shall utilize Firebase Firestore as the primary database engine. Firestore is
+required for real-time synchronization of chat logs and mood history, as well as handling secure user authentication via OTP.
+CON-4: NLP models for emotion detection must be based on XLM-RoBERTa or BERT architecture. These models are necessary to provide the required bilingual support for Urdu-English sentiment analysis, which is a core part of the project.
+CON-5: The application must use the Google Speech-to-Text API for voice journaling. This specific API is chosen because it offers the most reliable support for Urdu voice-to-text conversion.
+CON-6: The Therapist Portal and Admin Dashboard must be developed using Next.js 14+ and Tailwind CSS. This ensures a responsive, fast-loading web interface for professionals to manage their schedules and for admins to moderate the community.
+CON-8: The chatbot must utilise a scripted conversational flow with OpenAI GPT-4o-mini (for now, can be changed depending on suitability) as the underlying processing engine. Using a scripted approach with a restricted LLM is a safety constraint to prevent AI hallucinations and ensure the bot remains non-diagnostic.
+Use Case Diagram
+The Use Case Diagram provides a visual map of how users interact with the system's various features. It shows the relationships between the actors (like the Seeker or the AI Engine) and the specific tasks they perform, such as starting a chat, saving a journal, or booking a therapist. This diagram helps stakeholders quickly grasp the overall functionality and scope of the project.
+2.4.1 Seeker Module
+Figure ii 2.1: Seeker ModuleFigure ii 2.1: Seeker Module
+Figure ii 2.1: Seeker Module
+Figure ii 2.1: Seeker Module
+2.4.2 Admin Control System Module
+Figure iii 2.2 Admin Control Module
+2.4.3 Therapist Management Module
+Figure iv 2.3 Therapist Management Module
+Requirement Identifying Technique
+To identify the requirements for Khayal AI, several structured engineering techniques have been used to translate the high-level vision into technical specifications. These methods ensure that both the visible user interactions and the invisible backend processes are captured. The functional requirements derived from this interface are detailed in Section 2.6 (Functional Requirements) and Section 2.8.1 (User Interface Requirements).
+2.5.1 Mock-ups
+2.5.1.1 Mock-up 1 - Homescreen
+Description:
+The homepage serves as a welcoming entry point and central dashboard, designed to be intuitive and non-clinical. It features a clean, calming interface with personalized daily check-in prompts, quick-access cards for journaling, breathing exercises and the AI chatbot. A visually prominent mood tracker displays the user's recent emotional patterns, while recommended activities adapt based on time of day and detected mood. The navigation is organized to prioritize immediate support tools while making all features from community forums to therapist booking easily accessible within one or two taps, creating a seamless journey from initial distress to finding appropriate support.
+Figure v 2.4: Mockup 1Figure v 2.4: Mockup 1
+Figure v 2.4: Mockup 1
+Figure v 2.4: Mockup 1
+Figure vi 2.5: Mock-up 2Figure vi 2.5: Mock-up 2
+Figure vi 2.5: Mock-up 2
+Figure vi 2.5: Mock-up 2
+2.5.1.2 Mock-up 2 - Chat with Khayal
+Description:
+This interface presents a secure and easy-to-understand chat environment where users can converse anonymously in either English or Urdu. The chatbot features a mood-responsive avatar that changes color based on detected emotions, with conversation threads that intelligently adapt from casual check-ins to evidence-based therapeutic techniques like CBT reframing. Built-in safety protocols automatically detect distress signals and provide local crisis resources, while seamless integration allows the AI to suggest specific breathing exercises or journal prompts mid-conversation. The design balances warmth with professionalism, ensuring users feel heard while maintaining appropriate therapeutic boundaries.
+2.5.1.3 Mock-up 3 - Community
+Description:
+The community page creates a stigma-free environment where users can anonymously share experiences and find peer support. It features categorized discussion threads (Daily Wins, Tough Days, Coping Tips) with AI-moderated content that filters harmful language while encouraging constructive dialogue. Each post displays engagement metrics without revealing identities, and special badges highlight AI-verified supportive comments. The interface includes clear community guidelines, crisis intervention pathways for high-risk posts and private support groups for specific topics like workplace stress, all designed to foster genuine connection while prioritizing member safety through multiple layers of intelligent moderation.
+Figure vii 2.6: Mock-up 3Figure vii 2.6: Mock-up 3
+Figure vii 2.6: Mock-up 3
+Figure vii 2.6: Mock-up 3
+2.5.1.4 Mock-up 4 - Journal
+Description:
+This bilingual journaling module combines simple expression tools with specific emotional intelligence. Users can write or speak entries in English or Urdu, with smart prompts helping overcome initial hesitation. After each entry, AI analysis detects primary emotions and repeating themes, presenting insights through color-coded timelines and pattern recognition charts. The interface utilises historical context by showing related past entries and suggesting targeted coping strategies based on detected patterns. Privacy is a priority through clear encryption indicators, while export options allow anonymous sharing with therapists, creating a comprehensive tool that transforms daily reflection into actionable self-awareness.
+Figure viii 2.7: Mock-up 4Figure viii 2.7: Mock-up 4
+Figure viii 2.7: Mock-up 4
+Figure viii 2.7: Mock-up 4
+2.5.2 Backend Process Requirements
+Backend process requirements refer to the server-side components, technologies and methodologies needed to create functional, scalable, and secure web applications. The backend acts as the engine of a website, dealing with data storage, application logic and server management.
+2.5.2.1 Event–Response Table
+Event Name
+Trigger
+Source
+System State (Before)
+Response
+System State (After)
+Exception Handling
+Sentiment Analysis
+Journal Save event
+Journaling Module
+Entry pending analysis
+1. Execute NLP model 2. Classify emotion 3. Update mood history
+Entry analyzed; Stats updated
+If NLP fails, flag entry for "Retry" and log error.
+Crisis Detection
+Keyword match in input
+Safety Layer
+Active Chat/Journal session
+1. Halt standard AI response 2. Load Emergency UI 3. Log pattern
+Emergency mode active
+Send immediate alert to Admin if repeated.
+Voice Processing
+Voice upload complete
+Audio Module
+Audio file stored
+1. Send to Google STT API 2. Convert to Urdu/English text
+Text journal created
+Notify user if audio quality is too low for STT.
+Therapist Approval
+Admin "Approve" action
+Admin Dashboard
+Profile status = Pending
+1. Verify credentials 2. Update status to "Verified" 3. Notify Therapist
+Profile live for Seekers
+Revert to "Pending" if document link is broken.
+Data Encryption
+Sensitive data write
+Database Module
+Raw data in transit
+1. Apply industry-standard encryption 2. Store in Firestore
+Data secured at rest
+Log critical error if encryption handshake fails.
+2.5.2.2 Functional Requirements Derived from Event–Response Table
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-E1
+Therapist Credential Verification
+The system shall gate therapist profile visibility on the Seeker booking list behind a successful Admin approval of the therapist's submitted credentials.
+Therapist profiles must not appear in any user-facing listing until their account status is explicitly set to Verified by an Admin.
+FR-E2
+Push Notification Delivery
+The system shall deliver push notifications for all trigger events including appointment reminders, community reply alerts, daily check-in prompts, and announcements via FCM (Android) and APNs (iOS).
+Notifications must be delivered regardless of whether the app is in the foreground, background, or closed state.
+FR-E3
+Appointment Reminder Scheduling
+The system shall automatically schedule push notification reminders to both the Seeker and the Therapist at 24 hours and 1 hour before each confirmed appointment.
+Reminders must be sent at the scheduled times with a tolerance of no more than 5 minutes. Reminders for cancelled appointments must be immediately de-scheduled.
+FR-E4
+Streak Event Processing
+The system shall evaluate and update the user's Day Streak count upon each successful login or activity log event within a 24-hour window.
+The streak counter must increment by exactly 1 per calendar day. Multiple logins in a single day must not increment the streak more than once.
+FR-E5
+AI Moderation Scanning
+The system shall route all new community posts and comments through the AI moderation engine as a pre-publication gate before any content is made publicly visible.
+The moderation scan must complete within 3 seconds. Posts that cannot be scanned due to a system error must be held in Pending status not auto-published.
+FR-E6
+Offline Draft Sync
+The system shall detect when network connectivity is restored and automatically upload and process any journal entries saved as local offline drafts.
+Sync must occur within 30 seconds of connectivity restoration. The user must receive an in-app confirmation when a draft is successfully synced.
+FR-E7
+Session Token Refresh
+The system shall automatically and silently refresh the user's JWT access token using the refresh token before it expires, maintaining a seamless session.
+Access tokens must expire after 60 minutes. Refresh tokens must expire after 30 days. If the refresh token is also expired, the user must be redirected to the login screen.
+FR-E8
+Therapist Approval Notification
+The system shall automatically notify a Therapist by push notification and email when their account verification status is updated to Approved or Rejected by an Admin.
+The notification must include the admin’s stated reason in the case of rejection. Notification must be sent within 60 seconds of the admin performing the action.
+FR-E9
+Emotional Summary Generation
+The system shall generate an AI-produced emotional summary report for a Seeker on demand, compiling their mood trends, dominant journal themes, and chat sentiment over a selected period.
+The summary must be generated within 10 seconds of the request. Generation must only be possible if at least 7 days of activity data exists.
+Functional Requirements
+The following requirements were identified through domain analysis, mental health platform best practices and a feature completeness review. They address system capabilities not directly traceable to a specific mock-up or event-response entry
+2.6.1 User Authentication and Account Management
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O1.1
+User Registration
+The system shall allow new users to create an account by providing a unique email address, a display name, and a password meeting minimum strength requirement.
+Each email address may be registered to only one account. Duplicate registrations with the same email must be blocked.
+FR-O1.2
+OTP Email Verification
+The system shall send a 6-digit OTP to the user's registered email address upon completing the registration form, which must be verified before account activation.
+OTP codes must expire within 10 minutes of generation. Users may request a new OTP after a 60-second cooldown period.
+FR-O1.3
+User Role Selection
+The system shall require all new registrants to select a role Seeker or Therapist during the onboarding flow, which determines their feature access and dashboard.
+Role selection is permanent and may not be changed after account creation. To switch roles, a user must create a new account.
+FR-O1.4
+Guided Onboarding Flow
+The system shall present a multi-step guided onboarding walkthrough to all first-time users after registration, introducing the key features of the app.
+Onboarding must be completable in under 3 minutes. It may be skipped but must remain accessible from Settings > Help > App Tour.
+FR-O1.5
+Language Selection at Onboarding
+The system shall present a language selection screen (English or Urdu) as the first step of onboarding, applying the selection immediately to the entire UI.
+The language selection must persist across all future sessions until the user explicitly changes it in Settings.
+FR-O1.6
+User Login
+The system shall authenticate registered users via email and password, issuing a JWT access token upon successful validation.
+Accounts must be temporarily locked for 15 minutes after 5 consecutive failed login attempts. The lockout duration and reason must be communicated to the user.
+FR-O1.7
+Password Reset via Email
+The system shall allow users to initiate a password reset by entering their registered email. The system sends a secure, single-use reset link to that address.
+Reset links must expire 30 minutes after generation. Upon successful reset, all active sessions for that account must be invalidated immediately.
+FR-O1.8
+Account Deletion
+The system shall allow users to permanently delete their account and all associated data from Settings > Account > Delete Account.
+Before proceeding, the system must require the user to re-authenticate (enter password). Deletion must be processed within 72 hours and is irreversible.
+FR-O1.9
+Guest / Trial Mode
+The system shall offer a limited-access guest mode allowing new users to explore the home screen and take a single mood check-in without creating an account.
+Guest session data must not be persisted after the session ends. Guests must be prompted to register to save their data before exiting the app.
+2.6.2 User Profile and Settings
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O2.1
+Update Display Name
+The system shall allow authenticated users to update their display name from the settings > Profile screen.
+Display name changes must take effect immediately across all in-app screens. Names must be between 2 and 50 characters.
+FR-O2.2
+Update Profile Picture
+The system shall allow users to upload or change their profile picture from the Settings > Profile screen.
+Uploaded images must be automatically resized to a maximum of 512 x 512 pixels. Supported formats are JPG and PNG only.
+FR-O2.3
+Change Password In-App
+The system shall allow authenticated users to change their password from Settings > Account > Change Password by entering their current password and a new one.
+The new password must meet the platform's minimum strength requirements (min 8 characters, 1 uppercase, 1 number). The current password must be validated before any change is applied.
+FR-O2.4
+Change App Language
+The system shall allow users to switch the application language between English and Urdu from Settings > Language at any time.
+The language switch must apply immediately and persistently without requiring an app restart. All UI strings, error messages, and prompts must update instantly.
+FR-O2.5
+Set AI Tone Preference
+The system shall allow users to select their preferred AI chatbot tone from at least three options: Friendly, Formal, and Calm.
+The selected AI tone preference must be passed to the chatbot's system prompt for every subsequent session until the user changes it.
+FR-O2.6
+Dark Mode / Light Mode
+The system shall support both Light Mode and Dark Mode display themes, switchable from Settings > Appearance.
+If set to Auto, the app must follow the device's system-level dark/light setting in real time without requiring a manual toggle.
+FR-O2.7
+Manage Linked Therapist
+The system shall allow a Seeker to view the currently linked (booked) therapist and revoke data-sharing access from Settings > My Therapist.
+Revoking access must immediately remove the therapist's read permissions on all shared journal entries and emotional summaries.
+FR-O2.8
+View Account Information
+The system shall display a read-only summary of the user's account information registered email, account creation date, and role in Settings > Account.
+The registered email address must be masked (e.g. a***@gmail.com) for display. Full email must only be shown after re-authentication.
+2.6.3 Notification and Reminder Settings
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O3.1
+Notification Permission Gate
+The system shall check for device notification permissions on first launch and display a contextual prompt explaining the value of notifications before requesting permission.
+If permission is denied, the system must not re-prompt automatically. A manual re-enable path must be provided in Settings > Notifications.
+FR-O3.2
+Toggle Notification Types
+The system shall provide individual on/off toggles for each notification category: Daily Mood Reminder, Journaling Reminder, Appointment Reminders and Community Replies.
+Disabling a notification type must immediately remove all pending scheduled notifications of that type without affecting other categories.
+FR-O3.3
+Set Custom Reminder Times
+The system shall allow users to set a custom daily delivery time for Mood Check-in and Journaling Reminder notifications.
+Time selection must use a native time picker. The set time must be respected in the user's local device time zone. Default time is 8:00 AM.
+FR-O3.4
+In-App Notification Centre
+The system shall maintain an in-app Notification Centre accessible from the home screen bell icon, displaying a chronological list of all recent notifications.
+The Notification Centre must display notifications from the past 30 days. Older notifications must be auto-archived and not shown.
+FR-O3.5
+Deep-Link from Notification
+The system shall deep-link users directly to the relevant in-app screen when they tap a push notification (e.g., tapping an appointment reminder opens the appointment detail screen).
+Deep-links must function correctly whether the app is in the foreground, background, or fully closed state.
+2.6.4 Breathing, Mindfulness Exercises and Mini-Games
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O4.1
+Exercise Library
+The system shall provide a categorised library of at least 5 distinct guided breathing and mindfulness exercise types (e.g. Box Breathing, 4-7-8, Body Scan).
+The exercise library must be accessible from both the Home screen Quick-Access Card and the dedicated Exercises tab.
+FR-O4.2
+Animated Guided Timer
+The system shall display a smooth animated breathing guide for each exercise, cycling through phases (Inhale, Hold, Exhale, Rest) with phase-appropriate visual cues.
+Animations must render at a minimum of 30 frames per second on supported devices. Phase durations must be configurable per exercise type.
+FR-O4.3
+Session Completion Logging
+The system shall log a completed exercise session to the user's activity history, capturing the exercise type, duration and completion timestamp.
+A session is logged as complete only if the user completes at least 80% of the set duration. Partial sessions must be discarded from stats.
+FR-O4.4
+Custom Session Duration
+The system shall allow users to set a custom session duration for breathing exercises, selectable between 1 and 30 minutes in 1-minute increments.
+Custom duration selections must persist as the user's default for that exercise type until manually changed.
+FR-O4.5
+Exercise Favourites
+The system shall allow users to mark specific exercises as Favourites, surfacing them in a dedicated Favourites section at the top of the exercise library.
+Favourited exercises must sync across device reinstalls if the user is authenticated and data sync is enabled.
+FR-O4.6
+Relaxation Mini-Games
+The system shall provide at least 2 interactive relaxation mini-games (e.g., Bubble Pop, Colour Breathing) within the exercise module.
+Each mini-game must be completable within 5 minutes. Completion must be logged to the user's activity history.
+2.6.5 Therapist Booking
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O5.1
+Verified Therapist Directory
+The system shall display a searchable, paginated directory of all therapists whose account status is Verified.
+Any therapist whose verification is revoked must be removed from the directory within 24 hours of the Admin performing the action.
+FR-O5.2
+Filter and Sort Directory
+The system shall allow Seekers to filter the therapist directory by specialty, preferred language (Urdu/English), and availability, and sort by rating or name.
+Filters must apply in real time without a page reload. Multiple filters may be applied simultaneously.
+FR-O5.3
+Therapist Profile Page
+The system shall display a detailed profile page for each therapist including their name, qualifications, specialties, languages spoken, session format, user ratings, and a short bio.
+Therapist profiles must only be accessible after the therapist's credentials have been Admin-verified. Unverified profiles must return a 404.
+FR-O5.4
+Appointment Slot Booking
+The system shall allow a Seeker to select an available appointment slot from a therapist's calendar view and confirm the booking.
+The system must use an atomic database transaction to reserve the slot. Double-booking of the same slot by two concurrent users must be impossible.
+FR-O5.5
+Booking Confirmation
+The system shall send a booking confirmation push notification and in-app message to both the Seeker and the Therapist immediately after a booking is confirmed.
+Confirmation must be sent within 30 seconds of booking. It must include the therapist name, date, time, and a link to view the appointment.
+FR-O5.6
+Appointment Cancellation
+The system shall allow a Seeker to cancel a confirmed appointment from My Appointments.
+Cancellations made more than 24 hours before the appointment must be processed without penalty. Cancellations within 24 hours must display a late-cancellation policy warning.
+FR-O5.7
+Appointment Rescheduling
+The system shall allow a Seeker to reschedule a confirmed appointment by selecting a new available slot from the same therapist's calendar.
+Rescheduling must cancel the original slot and create a new booking atomically. Rescheduling must be available only until 24 hours before the original appointment time.
+FR-O5.8
+Post-Session Review
+The system shall prompt the Seeker to leave a star rating (1–5) and optional written review for a therapist after an appointment is marked as completed.
+Reviews must be anonymous to the Therapist only the rating and text are displayed, no Seeker identity information is attached.
+FR-O5.9
+Appointment History
+The system shall display a complete history of all past and upcoming appointments in My Appointments, including status (Confirmed, Completed, Cancelled).
+Appointment history must be retained for a minimum of 12 months in the user's account.
+2.6.6 Stats and Progress Tracking
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O6.1
+Mood History Chart
+The system shall display an interactive line or bar chart of the user's mood check-in history on the Stats screen, filterable by 7-day, 30-day, and 90-day ranges.
+The chart must render within 3 seconds of the Stats screen loading. Each data point must be tappable to reveal the full mood entry context.
+FR-O6.2
+Journal Frequency Analytics
+The system shall display a bar chart showing the number of journal entries written per day or week over the selected time range.
+The chart must visually distinguish entries by type (Text vs. Voice) using distinct colours.
+FR-O6.3
+Dominant Emotion Breakdown
+The system shall display a pie or donut chart showing the distribution of dominant emotions detected across all journal entries in the selected time range.
+The emotion chart must map to the same 5+ emotion categories used by the sentiment analysis model for consistency.
+FR-O6.4
+Day Streak Counter
+The system shall display the user's current active streak and their all-time highest streak on the Stats screen.
+The stats screen streak count must always match the count displayed on the Home screen. Any discrepancy must be treated as a data integrity bug.
+FR-O6.5
+Exercise Activity Log
+The system shall display a chronological log of all completed breathing and mindfulness exercise sessions, showing type, date, and duration.
+Exercise log entries must be immutable users cannot delete or edit individual log entries.
+FR-O6.6
+Weekly Progress Summary
+The system shall generate and display an automated weekly progress summary card, available every Monday, highlighting mood trend, journaling consistency, and exercises completed the previous week.
+The weekly summary must be generated by an automated backend job running each Monday at 6:00 AM PKT.
+FR-O6.8
+Data Retention Policy Display
+The system shall display a clear statement on the Stats screen indicating how long personal data is retained and providing a one-tap link to the full Privacy Policy.
+This statement must be updated automatically if the data retention policy changes, without requiring an app update.
+2.6.7 Therapist-Side Features
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O7.1
+Therapist Registration
+The system shall provide a separate Therapist registration path that collects professional licence number, specialties, years of experience, and a credential document upload.
+Uploaded credential documents must be stored securely and accessible only to Admin for verification purposes.
+FR-O7.2
+Therapist Profile Setup
+The system shall allow a verified Therapist to complete their public-facing profile including bio, session format (online/in-person), language(s), and session fee.
+Profile fields must be validated before saving. Incomplete mandatory fields must prevent the profile from going live in the directory.
+FR-O7.3
+Schedule Management
+The system shall allow a verified Therapist to set, edit, and block their weekly availability from a calendar view on their dashboard.
+Schedule changes must propagate to the Seeker booking interface within 60 seconds. Slots with confirmed bookings cannot be blocked without first cancelling the booking.
+FR-O7.4
+Appointment Dashboard
+The system shall display a Therapist-side appointment dashboard listing all upcoming and past appointments with Seeker (anonymous) identifiers, dates, and status.
+Seeker real identities must never be exposed on the Therapist dashboard. Only anonymous IDs and first names (if consented) may appear.
+FR-O7.5
+View Shared Patient Data
+The system shall allow a Therapist to view journal entries and emotional summaries explicitly shared by a Seeker, in read-only mode.
+Read access must be scoped strictly to the data the Seeker has shared. Therapists must not be able to browse any other user data.
+FR-O7.6
+Add Private Session Notes
+The system shall allow a Therapist to add private clinical notes to each patient session, visible only to the Therapist.
+Session notes must be stored encrypted and must never be accessible to the Seeker, Admin, or any other party.
+2.6.8 Admin Dashboard
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O8.1
+Therapist Verification Queue
+The system shall display a Pending Verification queue on the Admin Dashboard listing all therapist registrations awaiting credential review.
+Each entry must display the therapist's submitted documents, registration date, and a direct Approve / Reject action. Inaction for more than 7 days must trigger an automated reminder to Admin.
+FR-O8.2
+Community Moderation Queue
+The system shall surface all AI-flagged and user-reported community posts and comments in a dedicated Moderation Queue on the Admin Dashboard.
+Flagged items must remain in Pending state and not be publicly visible until an Admin takes a Clear, Remove, or Escalate action.
+FR-O8.3
+User Management
+The system shall allow Admins to search user accounts by anonymous ID or registration reference and apply actions: Issue Warning, Suspend (with duration), or Permanently Ban.
+Suspensions and bans must take immediate effect, terminating any active sessions for the affected user within 30 seconds.
+FR-O8.4
+Broadcast Announcements
+The system shall allow Admins to compose and send broadcast push notifications and in-app announcements to all users, Seekers only, or Therapists only.
+Announcements must be composable in both English and Urdu. Scheduling for future delivery must be supported with a minimum lead time of 5 minutes.
+FR-O8.5
+Platform Analytics Dashboard
+The system shall provide an Admin analytics dashboard displaying key platform metrics: daily active users, total registrations, mood check-in frequency, and crisis event counts.
+Analytics must refresh at least every 60 minutes. Historical trend charts must be available for 7-day, 30-day, and 90-day windows.
+FR-O8.7
+Crisis Event Alerts
+The system shall send an immediate silent alert to the Admin Dashboard whenever a crisis detection event is triggered for any user.
+If the same user triggers 3 or more crisis events within 24 hours, the alert must be escalated to a Critical priority flag in the Admin Dashboard.
+FR-O8.8
+Content Policy Management
+The system shall allow Admins to manage and update the list of crisis keywords and harmful content patterns used by the AI moderation and crisis detection engines without requiring an app release.
+Keyword list updates must propagate to the AI scanning engine within 5 minutes of being saved by Admin.
+2.6.9 Security and Privacy
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O9.1
+Session Invalidation on Password Change
+The system shall invalidate all active sessions for a user account immediately upon a password change or reset.
+The session invalidation must apply to all devices. The user must be presented with the login screen on all active devices within 60 seconds of the password change.
+2.6.10 Offline Mode and Data Synchronization (5 requirements)
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O10.1
+Offline Mode Indicator
+The system shall detect the absence of internet connectivity and display a persistent Offline Mode banner on all screens to inform the user of the limited functionality.
+The banner must disappear automatically within 5 seconds of connectivity being restored, with a brief Syncing... transition.
+FR-O10.2
+Offline Journal Drafting
+The system shall allow users to create and save journal entries while offline. Entries must be stored in encrypted local device storage as drafts.
+Offline drafts must be encrypted using AES-256 at the device level. They must not be accessible to other apps, users, or system backup services.
+FR-O10.3
+Automatic Draft Sync
+The system shall automatically upload and process all offline journal drafts within 30 seconds of internet connectivity being restored.
+Each draft must be processed through the standard sentiment analysis pipeline after syncing. The user must receive a sync confirmation notification.
+FR-O10.4
+Cache Mood Check-in
+The system shall cache the user's mood check-in data locally so that the Home screen mood snapshot chart is visible even without an internet connection.
+Cached data must not be older than the user's last successful sync. Stale cache data must be clearly labelled as Last synced: [date].
+2.6.11 AI Model Functional Requirements
+FR-ID
+Feature / Module
+Requirement Statement
+Business Rule / Constraint
+FR-O11.1
+Language Detection
+The system shall detect whether user input is English, Urdu, or Romanised Urdu and route it to the appropriate NLP pipeline.
+Detection must complete within 200 ms; confidence <70% defaults to user preference.
+FR-O11.2
+NLP Sentiment Engine
+The system shall classify user input (text or transcribed voice) into specific emotional categories such as Happy, Anxious, Sad or Stressed.
+The model must support code-switching (mixing languages) without failing analysis and maintain an F1-score of at least 0.85.
+FR-O11.3
+Input Processing
+The system shall preprocess user input by cleaning text, handling slang, and normalizing mixed-language input.
+Preprocessing must preserve original meaning.
+FR-O11.4
+Intent Classification
+The system shall classify messages into intents (e.g., Emotional Venting, Crisis, Help-Seeking).
+Minimum F1-score ≥ 0.85 required before deployment.
+FR-O11.5
+Sentiment & Emotion Detection
+The system shall assign sentiment scores and detect primary emotions (e.g. Sadness, Anxiety, Calm).
+Must update per message and be stored for session tracking.
+FR-O.11.6
+Safety Layer (Crisis Detection)
+The system shall classify input as High Risk or Low Risk using a crisis detection model.
+High-risk detection must trigger emergency response immediately.
+FR-O11.7
+Empathetic Response Generation
+The system shall generate culturally appropriate, empathetic responses.
+Must avoid generic phrases and follow non-diagnostic tone.
+FR-O11.8
+CBT Technique Application
+The system shall apply CBT-based techniques when negative patterns are detected.
+Only applied when negative sentiment confidence >80%.
+FR-O11.9
+Intelligent Recommendations
+The system shall suggest coping activities based on emotional state.
+High-arousal → breathing; low-arousal → journaling.
+FR-O11.10
+Persona Management
+The system shall adjust tone (Friendly, Formal, Calm) based on user preference.
+Tone must not affect safety logic or advice.
+FR-O11.1
+Adaptive Complexity
+The system shall adapt language complexity based on user input style.
+Adaptation must be session-based only.
+FR-O11.12
+Response Length Control
+The system shall dynamically adjust response length based on user intent.
+Max 150 words per response.
+FR-O.11.13
+Response Latency
+The system shall begin streaming responses within acceptable time.
+Show loading indicator if delayed.
+FR-O11.14
+Conversation Context Handling
+The system shall maintain session context for multi-turn conversations.
+Minimum last 20 messages retained or summarized.
+FR-O11.15
+Cross-Session Context
+The system shall use a summary of past sessions to personalise responses.
+Context must be generated server-side only.
+FR-O11.16
+Topic Continuity
+The system shall recognise recurring topics across sessions.
+Must use summaries, not raw history.
+FR-O11.17
+Session Initialisation
+The system shall generate a personalised greeting at session start.
+Must vary across sessions.
+FR-O11.18
+Therapist Booking Nudge
+The system shall suggest therapist booking after repeated distress signals.
+Max once per 7-day window.
+FR-O11.19
+Safe Messaging Compliance
+The system shall follow safe messaging guidelines for sensitive topics.
+Must avoid harmful or instructional content.
+FR-O11.20
+Out-of-Scope Handling
+The system shall redirect non-mental-health queries appropriately.
+Must not provide medical/legal advice.
+FR-O11.21
+Avoid Repetitive Responses
+The system shall avoid repeating similar responses within a session.
+Similarity threshold >0.85 triggers regeneration.
+FR-O.11.22
+Fallback Mechanism
+The system shall provide safe fallback responses if AI fails or confidence is low.
+Must retry once before fallback.
+FR-O11.23
+Content Filtering
+The system shall filter harmful or unsafe generated responses before display.
+Blocked responses must be replaced automatically.
+FR-CB23
+End-of-Session Rating
+The system shall collect session-level ratings from users.
+Prompt shown once per session.
+FR-CB25
+Session Summary Generation
+The system shall generate structured summaries at session end.
+Must complete within reasonable time and be stored.
+FR-CB26
+Rate Limiting
+The system shall enforce per-user message limits.
+Crisis detection must still function under limits.
+FR-O11.27
+Safety Layer
+The model shall perform binary classification on every input to detect "High Risk" (Crisis) vs "Low Risk" (Standard) intent.
+High-risk detection must trigger an immediate system override to provide emergency helpline contact information.
+2.7 Non-Functional Requirements
+Non-functional requirements define the quality attributes, operational constraints, and system characteristics the Khayal AI platform must satisfy. They are categorised by quality attribute.
+NFR-ID
+Attribute
+Non-Functional Requirement Statement
+REL-1
+Reliability
+The system shall achieve a Success Rate of 99.9% for all database write operations, ensuring that no journal entries or mood logs are lost during synchronization with Firebase Firestore.
+REL-2
+Reliability
+The system shall implement automated health checks every 60 seconds to detect service degradation and trigger recovery workflows without manual intervention.
+REL-3
+Reliability
+Crisis detection and safety redirection functionality must remain active even during partial service degradation and must never be disabled during any failure state.
+AVL-1
+Availability
+Planned maintenance windows shall be scheduled outside peak usage hours (10:00 PM – 4:00 AM PKT) and users shall be notified at least 24 hours in advance.
+PER-1
+Performance
+The AI Chatbot shall generate and display a supportive response to user input within 3 seconds over a standard 3G/4G/5G mobile data connection.
+PER-2
+Performance
+The Urdu Speech-to-Text (STT) conversion for a voice journal entry of up to 1 minute shall be completed and displayed as text within minimum time.
+PER-3
+Performance
+The home screen and all primary navigation screens shall load completely within 2 seconds on a standard 4G connection.
+PER-4
+Performance
+Mood history charts and statistics dashboards shall render fully within 3 seconds of the user navigating to the Stats screen.
+USE-1
+Usability
+The system shall allow a Seeker to toggle the application interface between English and Urdu with a single interaction (one tap) from any screen within the app.
+USE-2
+Usability
+90% of first-time users shall be able to complete a mood check-in and start an AI chat session in under 3 minutes without requiring external guidance or a manual.
+USE-3
+Usability
+All primary interactive elements (buttons, input fields, navigation items) shall have a minimum touch target size of 44x44 points to ensure accessibility for users with motor impairments.
+USE-4
+Usability
+The system shall provide real-time inline error messages for all user input validation failures rather than displaying errors only upon form submission.
+USE-5
+Usability
+The app's visual design shall utilise a calming, non-clinical colour palette and typography consistent with mental health best practices across all screens.
+SEC-2
+Security
+All data transmitted between the mobile application and backend servers shall be secured using TLS 1.2 or higher encryption protocols.
+SEC-3
+Security
+The system shall implement token-based authentication (JWT) with a maximum access token lifetime of 60 minutes, requiring secure refresh token rotation thereafter.
+SEC-4
+Security
+Therapist-shared journal entries shall be accessible only via a verified, role-authenticated API endpoint, preventing direct database access.
+SEC-5
+Security
+The system shall conduct and pass an OWASP Mobile Top 10 security assessment prior to the first public release.
+PRV-1
+Privacy
+The system shall obtain explicit user consent before collecting, processing, or storing any personal data, in compliance with applicable data protection principles.
+PRV-2
+Privacy
+Anonymous community identifiers (e.g., Anonymous User #A7B2) must not be reverse-mapped to a real user identity by any system process, including Admin tools.
+PRV-3
+Privacy
+The system shall provide users with a fully functional data export and account deletion mechanism, to be processed within 72 hours of the request.
+COM-1
+Compatibility
+The mobile application shall be compatible with Android 10 (API Level 29) and above, and iOS 14 and above.
+COM-2
+Compatibility
+The application shall render and function correctly on screen sizes ranging from 5 to 7.5 inches in diagonal without layout breakage.
+COM-3
+Compatibility
+The application shall function correctly in both portrait and landscape orientations, adapting the UI layout responsively.
+MNT-1
+Maintainability
+The system codebase shall follow a modular architecture pattern (e.g., Clean Architecture or MVVM), enabling individual modules to be updated without impacting unrelated features.
+MNT-2
+Maintainability
+All critical backend services shall have a test coverage of at least 80% via automated unit and integration tests, as measured by a CI/CD pipeline.
+MNT-3
+Maintainability
+The system shall use feature flags to enable or disable new features in production without requiring a full application release.
+ACC-1
+Accessibility
+All images, icons, and non-text interactive elements shall include descriptive accessibility labels compatible with screen readers (TalkBack on Android, VoiceOver on iOS).
+2.8 External Interface Requirements
+This section defines how Khayal AI communicates with its three primary user roles Seekers, Therapists, and Admins as well as all external hardware, software libraries, and communication services. It ensures seamless integration across the Flutter mobile client, the Next.js therapist/admin web portal, and the Node.js / FastAPI backend services defined in the Design and Implementation Constraints of this SRS.
+User Interfaces Requirements
+Khayal AI serves three distinct interface surfaces: (1) a Flutter mobile application for Seekers, (2) a Next.js web portal for Therapists, and (3) a Next.js Admin Dashboard. All surfaces must adhere to the standards below while respecting the bilingual (English / Urdu) nature of the platform as required by OE-3 and LOC-1.
+2.8.1.1 Design Standards and Style Guide
+DSS-1.1: The mobile application (Flutter) shall follow Material Design 3 (MD3) guidelines for   all component layout, spacing, touch behaviour, and motion.
+DSS-1.2: The web portal and Admin Dashboard (Next.js + Tailwind CSS, as per CON-6) shall follow a consistent internal component library derived from Tailwind's design tokens to ensure visual parity with the mobile app.
+DSS-1.3: The colour palette shall use clinically informed calming tones soft teals, muted greens, and off-white neutrals consistent with mental health application best practices (NFR USE-5).
+DSS-1.4: Typography shall use Poppins (mobile) and Inter (web) as primary typefaces. Body text shall be set at 14–16sp (mobile) and 14–16px (web). All text must be stored in localization resource files with no hardcoded strings.
+2.8.1.2 Screen Layout and Resolution Constraints
+SLR-1.1: The mobile UI shall be fully responsive across screen sizes from 5 to 7.5 inches diagonal (COM-2) and must support both portrait and landscape orientations (COM-3).
+SLR-1.2: The web portal shall be responsive from 1024px to 2560px viewport width. Below 1024px, the portal must display a prompt directing therapists to use the mobile-capable version when available.
+SLR-1.3: Minimum touch target size shall be 44 × 44 points on all interactive elements.
+SLR-1.4: RTL layout must be fully applied when the user switches to Urdu including text alignment, icon mirroring, and navigation direction without requiring an app restart
+2.8.1.3 Persistent Navigation and Common Controls
+PNC-1.1: A persistent bottom navigation bar shall appear on all authenticated Seeker screens, providing access to: Home, Chat, Community, Journal, Stats, and Settings. The bar must not be concealed by the soft keyboard or any overlay.
+PNC-1.2: A Crisis Help button displaying verified Pakistani helpline numbers shall be permanently accessible within one tap from every screen in the Seeker interface, as per the Crisis Detection safety constraint (UC-13).
+PNC-1.3: The home screen header shall display an unread notification badge that decrements in real time as notifications are read.
+2.8.1.4 Accessibility Standards
+ACC-1.1: The application shall conform to WCAG 2.1 Level AA accessibility guidelines.
+ACC-1.2: All images, illustrations, and non-text interactive elements shall include descriptive alt-text and accessibility labels readable by TalkBack and VoiceOver (ACC-2).
+ACC-1.3: Colour must never be the sole means of conveying information. Form validation errors, mood states, and status indicators must use both colour and text/icon cues.
+ACC-1.4: All custom components (mood emoji selector, animated breathing guide, avatar) must implement ARIA roles on the web portal and Flutter Semantics widgets on mobile.
+2.8.1.5 Message Display Conventions
+MDC-1.1: Success confirmations shall use a green toast at the bottom of the screen, auto-dismissing after 3 seconds. Example: 'Journal entry saved.
+MDC-1.2: Inline validation errors shall be displayed in red directly below the failing input field in real time not on submission only (USE-4).
+MDC-1.3: The Crisis Override UI shall present a full-screen non-dismissible overlay with a calming gradient, helpline numbers, and a 'Continue to App' button that becomes active after 5 seconds. It must appear within 2 seconds of crisis keyword detection.
+MDC-1.4: Offline sync confirmation shall display an in-app banner notification 'Your draft has been synced' within 30 seconds of connectivity restoration (FR-E11, FR-O10.3).
+Software interfaces
+This section documents all external software components, third-party APIs, and backend services that Khayal AI integrates with. These interfaces correspond to the constraints defined in Section 2.4 and the functional requirements across Sections 2.7 and 2.8.
+2.8.2.1 SI-1: OpenAI GPT-4o-mini AI Chatbot Engine (CON-8)
+SI-1.1: The system shall use the OpenAI Chat Completions API (model: gpt-4o-mini, upgradeable) to process all user chat messages and generate AI therapist responses.
+SI-1.2: Every API call shall include a controlled system-level prompt that enforces the chatbot persona, non-diagnostic boundaries, preferred AI tone (FR-O2.5), and crisis handling instructions.
+SI-1.3: Conversation history limited to the last 20 message pairs shall be passed with each API request to maintain session context while controlling token usage.
+SI-1.4: Responses shall be streamed via Server-Sent Events (SSE) and rendered incrementally in the chat bubble, displaying a typing indicator within 500ms of message submission (PER-1).
+2.8.2.2 SI-2: Firebase Firestore Primary Database (CON-3, OE-5)
+SI-2.1: The system shall use Firebase Firestore as the primary NoSQL database for storing all user accounts, mood check-in logs, journal entries, chat histories, appointment records, and community posts.
+SI-2.2: Firestore real-time listeners shall power live UI updates for: mood history snapshots, notification badges, therapist schedule availability (FR-O7.3), and community reaction counts.
+SI-2.4: Appointment slot booking (UC-20) shall use Firestore transactions to guarantee atomic slot reservation, preventing double-booking by concurrent users (FR-O5.4).
+SI-2.6: The audit log collection shall be append-only with Firestore security rules preventing any deletion or modification of individual log documents (FR-E13).SI-3:  XLM-RoBERTa / BERT NLP Engine Sentiment & Moderation (CON-4)
+SI-2.7: The system shall integrate an XLM-RoBERTa or BERT-based NLP model to perform bilingual (Urdu/English) sentiment analysis on all journal entries and chat messages.
+SI-2.8: The same NLP pipeline shall power the AI pre-publication moderation engine, scanning all community posts and comments for harmful, stigmatising, or abusive language before publication (FR-E10). Scan must complete within 3 seconds
+SI-2.9:  Guided journaling prompts shall be generated by querying the NLP engine's emotion embeddings against the user's recent mood history to produce contextually relevant prompts.
+2.8.2.7 SI-3: Firebase Storage File Storage (OE-5)
+SI-3.1: Firebase Storage shall be used for all user-generated binary content: profile pictures, therapist credential documents, and generated PDF progress reports.
+SI-3.2: Uploaded credential documents (UC-26) shall be stored in a restricted bucket accessible only to the Admin service account and the uploading therapist.
+SI-3.3: Profile images must be automatically resized by server-side to a maximum of 512 × 512 pixels. Supported upload formats are JPG and PNG only (FR-O2.2).
+SI-3.4: Download URLs for all sensitive files (credentials, PDF reports) shall be pre-signed with a maximum expiry of 1 hour.
+2.8.2.3 SI-4: Google Speech-to-Text API Voice Journaling (CON-5)
+SI-4.1: The system shall exclusively use Google Cloud Speech-to-Text API for transcribing voice journal entries and voice chat messages.
+SI-4.2: Audio recordings shall be transmitted to the STT API immediately upon the user tapping Stop. Transcription of a 1-minute recording must be returned and displayed within 8 seconds (PER-2, UC-08).
+SI-4.3:  The STT API call shall specify both 'ur-PK' (Urdu Pakistan) and 'en-PK' (English Pakistan) as language codes, with automatic language detection enabled
+SI-4.5: Original audio files shall be discarded immediately after successful transcription and must never be stored on device or server.
+SI-4.6: Auto-stop shall trigger if the user has been silent for more than 10 consecutive seconds during a recording session.
+2.8.2.4 SI-5: Firebase Authentication User Auth & OTP (CON-3)
+SI-5.1: The system shall use Firebase Authentication to manage all user registration, OTP email/phone verification, JWT issuance, and password reset flows (FR-O1.1 through FR-O1.7).
+SI-5.2: JWT access tokens shall expire after 60 minutes. Refresh tokens shall expire after 30 days. Silent token refresh must occur automatically before expiry (FR-E12, SEC-3).
+SI-5.3: OTP codes generated during registration shall expire within 10 minutes. A new OTP may be requested after a 60-second cooldown (FR-O1.2).
+SI-5.4: Password reset links shall be single-use and expire 30 minutes after generation. On successful reset, all active Firebase sessions for that account must be immediately revoked (FR-O1.7).
+SI-5.5: Biometric authentication (fingerprint / Face ID) shall use the device's local biometric API (Android BiometricPrompt / iOS LocalAuthentication) and bind to the Firebase session token on success (FR-O1.9).
+2.8.2.5 SI-6: Firebase Cloud Messaging (FCM) & Apple Push Notification Service (APNs) (FR-E7)
+SI-6.1: All push notification payloads shall include a deep-link target so that tapping a notification routes the user directly to the relevant in-app screen (FR-O3.6).
+SI-6.2: Notifications must be delivered regardless of app foreground, background, or closed state (FR-E7). For offline devices, FCM/APNs shall queue and retry delivery for up to 24 hours (UC-29).
+SI-6.3: Appointment reminders shall be scheduled server-side and sent at exactly 24 hours and 1 hour before confirmed appointments, within a 5-minute tolerance. Reminders for cancelled appointments must be immediately de-scheduled (FR-E8, FR-O5.8).
+SI-6.4: Crisis event silent Admin alerts (FR-O8.9) shall be transmitted as high-priority data messages (not visible notifications) via FCM to the Admin dashboard client.
+2.8.2.6 SI-7:  Node.js / FastAPI Backend Services (CON-2)
+SI-7.1: All business logic, NLP orchestration, AI API calls, scheduling, and data validation shall be handled by the backend API layer built on Node.js (v18+) or FastAPI (0.110+).
+SI-7.2: The backend shall implement a strict Role-Based Access Control (RBAC) model at the API level. Any request to an endpoint outside the caller's role must return HTTP 403 and be recorded in the audit log (FR-O9.1).
+SI-7.3: The backend shall expose a dedicated crisis keyword management endpoint, accessible only to Admin, that allows updating the crisis keyword list. Changes must propagate to the NLP scanning engine within 5 minutes (FR-O8.10).
+2.8.2.7 AI Response Design
+SI-1.8: The model must utilize XLM-RoBERTa or a similar Transformer architecture to handle cross-lingual embeddings.
+SI-1.9: The AI is strictly prohibited from providing medical dosages or specific psychiatric diagnoses.
+SI-1.10: All AI processing must be completed within 3 seconds to meet performance standards.
+Hardware interfaces
+Khayal AI is a software-only platform. It does not ship or control dedicated hardware. However, it interfaces with the hardware capabilities of user-owned devices as described below.
+2.8.3.1 HI-1: Smartphone Hardware (Mobile Application)
+HI-1.1: The Khayal AI mobile application shall operate on any Android smartphone running Android 10 (API Level 29) or higher and any iOS device running iOS 14 or higher, as specified in OE-1 and COM-1.
+HI-1.2: The application shall interface with the device microphone exclusively for voice journaling (UC-08) and voice chat input Microphone access shall be requested using the platform's standard permission dialog; access shall be granted only with explicit user consent and shall not be retained when a session ends.
+HI-1.3: The application shall interface with the device camera solely for profile picture upload (FR-O2.2), using the platform's native camera intent / UIImagePickerController. No camera stream shall be stored.
+HI-1.4: The application shall use the device's biometric hardware (fingerprint sensor / Face ID) for the optional biometric login feature (FR-O1.9), accessed via Flutter's local_auth plugin. No biometric data shall ever leave the device.
+HI-1.5: The application shall read the device clock and timezone for all timestamp display, mood check-in scheduling, and appointment reminder delivery (FR-O3.3, FR-E8).
+2.8.3.2 HI-2: Smartwatch / Smart Ring Integration (OE-6)
+HI-2.1: The system shall interface with connected smartwatches and smart rings via their companion SDK APIs (e.g., Samsung Health, Garmin Connect, or standard Bluetooth GATT profiles) to read passive biometric metrics: heart rate and sleep quality.
+HI-2.2: Wearable integration shall be entirely optional. The application must function fully without a paired wearable device. The wearable pairing option shall be accessible from Settings.
+HI-2.3: The system shall communicate with wearable devices exclusively over Bluetooth Low Energy (BLE). No wearable data shall be transmitted over the internet without explicit user consent.
+2.8.3.3 HI-3: Server / Cloud Infrastructure
+HI-3.1: The backend services shall be deployed on cloud infrastructure (Firebase-hosted services and containerised Node.js/FastAPI on a cloud provider such as Google Cloud Run or AWS ECS) and shall have no dependency on physical on-premises hardware.
+HI-3.2: The infrastructure shall support the auto-scaling requirements defined in SCA-1 and SCA-2 to accommodate up to 100,000 registered users within 12 months of launch.
+Communications interfaces
+This section defines all network protocols, email delivery, real-time messaging, and data transmission standards used by Khayal AI.
+2.8.4.1 CI-1:  Transport Security HTTPS / TLS
+CI-1.1: All data exchanged between the Flutter mobile client, the Next.js web portal, and the backend API services shall be transmitted exclusively over HTTPS using TLS 1.2 or higher. HTTP connections shall return a 301 redirect to HTTPS (FR-E6, SEC-2).
+CI-1.2: The mobile application shall implement SSL/TLS certificate pinning to prevent man-in-the-middle attacks. Any connection that fails certificate pinning shall be rejected and logged (FR-E6).
+2.8.4.2 CI-2:  Offline Data Synchronisation
+CI-2.1: When network connectivity is unavailable, the Flutter application shall use Firestore's built-in offline persistence to queue write operations (journal saves, mood check-ins) locally (FR-O10.2).
+CI-2.2: Upon connectivity restoration, queued operations shall be automatically flushed to Firestore within 30 seconds. The user shall receive an in-app sync confirmation notification (FR-E11, FR-O10.3).
+CI-2.3: In the event of a sync conflict (a draft modified both offline and online), the system shall present the user with a side-by-side conflict resolution screen. If unresolved within 7 days, the server version shall be retained (FR-O10.4).
+2.8.4.3 CI-3:  Email Delivery Transactional Email Service
+CI-3.1: The system shall use a transactional email service (e.g., SendGrid or Firebase Email Trigger Extension) to deliver all system-generated emails including OTP verification, password reset links, appointment confirmations, and therapist approval/rejection notifications.
+CI-3.2: OTP verification emails shall be delivered within 60 seconds of registration. OTP codes expire after 10 minutes with a 60-second resend cooldown (FR-O1.2).
+CI-3.3: Password reset emails shall contain a single-use link expiring in 30 minutes. The email must be delivered within 60 seconds of the request (FR-O1.7).
+CI-3.4: Therapist approval and rejection emails (FR-E14) shall be sent within 60 seconds of Admin action and must include the stated reason for rejection where applicable.
+2.8.4.5 CI-4:  Push Notifications FCM / APNs
+CI-4.1: The system shall deliver all push notifications via Firebase Cloud Messaging (FCM) for Android and Apple Push Notification Service (APNs) for iOS, as specified in SI-6 and FR-E7.
+CI-4.2:  Push notifications shall be localised in the user's selected language (English or Urdu) before dispatch (LOC-1, UC-29).
+CI-4.3: Users shall be able to configure individual push notification categories on/off from Settings (FR-O3.2). Disabling a category must immediately de-schedule all pending notifications of that type.
+2.8.4.6 CI-6:  Offline Data Synchronisation
+CI-6.1: When network connectivity is unavailable, the Flutter application shall use Firestore's built-in offline persistence to queue write operations (journal saves, mood check-ins) locally (FR-O10.2).
+CI-6.2: Upon connectivity restoration, queued operations shall be automatically flushed to Firestore within 30 seconds. The user shall receive an in-app sync confirmation notification (FR-E11, FR-O10.3).
+CI-6.3: In the event of a sync conflict (a draft modified both offline and online), the system shall present the user with a side-by-side conflict resolution screen. If unresolved within 7 days, the server version shall be retained (FR-O10.4).
+COMSATS University Islamabad Department of Computer Science Final Year Project – Minutes of Meeting Fortnightly Progress Report
+SECTION -1 (to be completed by the STUDENT prior to meeting)
+Title of Project: Khayal AI
+Students’ Names: (Attending Students)
+Syed Shahroz Ali – SP23-BCS-093
+Supervisor Name: Mis Saadia Maqbool
+Muhammad Yousaf – SP23-BCS-070
+Date:02-03-2026
+Date of the previous meeting:
+Work undertaken since last meeting/ Last milestone achieved: Review by the external committee.
+Issues/progress you would like to discuss in this meeting: Integration of hardware to the AI system, including smart watches and smart rings.
+SECTION -2 (to be completed by the SUPERVISOR at the time of meeting)
+Work students should undertake between now and the next meeting (next meeting agenda points): Identify parts of project where hardware can be integrated and make due changes in the scope document
+SECTION -3 (Report Review)
+Supervisor Verification: I confirm that I have reviewed the project report during this meeting.
