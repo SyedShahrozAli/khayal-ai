@@ -18,36 +18,25 @@ class JournalWriteScreen extends ConsumerStatefulWidget {
 
 class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen> {
   late final TextEditingController _titleCtrl;
-  late final TextEditingController _contentCtrl;
-  late final TextEditingController _tagsCtrl;
+  late final TextEditingController _bodyCtrl;
   bool _isSaving = false;
 
   @override
   void initState() {
     super.initState();
     _titleCtrl = TextEditingController(text: widget.existing?.title);
-    _contentCtrl = TextEditingController(text: widget.existing?.content);
-    _tagsCtrl = TextEditingController(
-      text: widget.existing?.tags.join(', ') ?? '',
-    );
+    _bodyCtrl = TextEditingController(text: widget.existing?.body);
   }
 
   @override
   void dispose() {
     _titleCtrl.dispose();
-    _contentCtrl.dispose();
-    _tagsCtrl.dispose();
+    _bodyCtrl.dispose();
     super.dispose();
   }
 
-  List<String> get _parsedTags => _tagsCtrl.text
-      .split(',')
-      .map((t) => t.trim())
-      .where((t) => t.isNotEmpty)
-      .toList();
-
   Future<void> _save() async {
-    if (_contentCtrl.text.trim().isEmpty) {
+    if (_bodyCtrl.text.trim().isEmpty) {
       context.showWarningSnackBar('Please write something before saving.');
       return;
     }
@@ -55,12 +44,11 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen> {
     try {
       await ref
           .read(journalViewModelProvider.notifier)
-          .createEntry(
-            title: _titleCtrl.text.trim().isEmpty
-                ? null
-                : _titleCtrl.text.trim(),
-            content: _contentCtrl.text.trim(),
-            tags: _parsedTags,
+          .saveEntry(
+            id: widget.existing?.id,
+            title: _titleCtrl.text,
+            body: _bodyCtrl.text,
+            prompt: widget.existing?.prompt,
           );
       if (mounted) {
         Navigator.of(context).pop();
@@ -149,7 +137,7 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen> {
                 minHeight: MediaQuery.sizeOf(context).height * 0.4,
               ),
               child: TextField(
-                controller: _contentCtrl,
+                controller: _bodyCtrl,
                 style: AppTheme.body16,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -162,35 +150,6 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen> {
                   border: InputBorder.none,
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Divider(color: context.dividerColor, height: 1),
-            const SizedBox(height: 12),
-
-            // Tags field
-            Row(
-              children: [
-                Icon(
-                  Icons.tag_rounded,
-                  size: 18,
-                  color: context.secondaryTextColor,
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: TextField(
-                    controller: _tagsCtrl,
-                    style: AppTheme.body14,
-                    decoration: InputDecoration(
-                      hintText: 'Tags, comma-separated (e.g. gratitude, work)',
-                      hintStyle: AppTheme.body14.copyWith(
-                        color: context.secondaryTextColor,
-                      ),
-                      border: InputBorder.none,
-                      isDense: true,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),

@@ -3,21 +3,23 @@ class Constants {
 
   static const String tag = 'FMR';
 
-
   static const String googleEmailScope = 'email';
-  static const String googleUserInfoScope = 'https://www.googleapis.com/auth/userinfo.profile';
+  static const String googleUserInfoScope =
+      'https://www.googleapis.com/auth/userinfo.profile';
   static const String defaultName = 'Guest';
   static const String termOfService = 'https://areser.net';
   static const String privacyPolicy = 'https://areser.net';
   static const String aboutUs = 'https://areser.net';
-  static const String appStore = 'https://apps.apple.com/developer/id1760383102';
-  static const String playStore = 'https://play.google.com/store/apps/developer?id=Areser+JSC';
-  static const String reportProblem = 'mailto:areserjsc@gmail.com?subject=Report a Problem';
+  static const String appStore =
+      'https://apps.apple.com/developer/id1760383102';
+  static const String playStore =
+      'https://play.google.com/store/apps/developer?id=Areser+JSC';
+  static const String reportProblem =
+      'mailto:areserjsc@gmail.com?subject=Report a Problem';
   static const String premium = 'premium';
   static const String premiumMonthly = '\$rc_monthly';
   static const String premiumYearly = '\$rc_annual';
   static const String premiumLifeTime = '\$rc_lifetime';
-  
 
   // Route
   static const String isGoToMain = 'isGoToMain';
@@ -33,16 +35,10 @@ class Constants {
   static const String wasShowOnboardingKey = 'was_show_onboarding_key';
   static const String isPremiumUserKey = 'is_premium_user_key';
   static const String lastDayShowPremiumKey = 'last_day_show_premium_key';
-<<<<<<< HEAD
-
   static const String streakCountKey = 'streak_count_key';
   static const String lastLoginDateKey = 'last_login_date_key';
   static const String weekStatusKey = 'week_status_key';
-=======
-  static const String moodKey = 'mood_key';
-  static const String moodDateKey = 'mood_date_key';
   static const String wellnessFavouritesKey = 'wellness_favourites_key';
   static const String wellnessDurationsKey = 'wellness_durations_key';
   static const String communitySeededKey = 'community_seeded_key';
->>>>>>> 646c0a0 (new feature added)
 }

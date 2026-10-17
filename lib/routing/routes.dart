@@ -13,9 +13,6 @@ class Routes {
   static const accountInformation = '/accountInformation';
   static const appearances = '/appearances';
   static const languages = '/languages';
-<<<<<<< HEAD
- }
-=======
   static const premium = '/premium';
   static const journal = '/journal';
   static const journalEdit = '/journal/edit';
@@ -24,4 +21,3 @@ class Routes {
   static const wellnessGame = '/wellness/game';
   static const progress = '/progress';
 }
->>>>>>> 646c0a0 (new feature added)

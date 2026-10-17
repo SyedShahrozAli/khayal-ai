@@ -35,7 +35,9 @@ class _JournalEditorScreenState extends ConsumerState<JournalEditorScreen> {
 
   Future<void> _save() async {
     if (_bodyController.text.trim().isEmpty) return;
-    await ref.read(journalViewModelProvider.notifier).saveEntry(
+    await ref
+        .read(journalViewModelProvider.notifier)
+        .saveEntry(
           id: widget.entry?.id,
           title: _titleController.text,
           body: _bodyController.text,
@@ -44,9 +46,9 @@ class _JournalEditorScreenState extends ConsumerState<JournalEditorScreen> {
     final state = ref.read(journalViewModelProvider);
     if (!mounted) return;
     if (state.hasError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.error.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(state.error.toString())));
       return;
     }
     context.pop();
@@ -85,7 +87,10 @@ class _JournalEditorScreenState extends ConsumerState<JournalEditorScreen> {
         title: Text(isEditing ? 'Edit reflection' : 'New reflection'),
         actions: [
           if (isEditing)
-            IconButton(onPressed: _delete, icon: const Icon(Icons.delete_outline)),
+            IconButton(
+              onPressed: _delete,
+              icon: const Icon(Icons.delete_outline),
+            ),
         ],
       ),
       body: ListView(

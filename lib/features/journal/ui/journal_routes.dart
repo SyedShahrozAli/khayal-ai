@@ -8,9 +8,8 @@ List<RouteBase> journalRoutes() {
   return [
     GoRoute(
       path: '/journal/edit',
-      builder: (context, state) => JournalEditorScreen(
-        entry: state.extra as JournalEntry?,
-      ),
+      builder: (context, state) =>
+          JournalEditorScreen(entry: state.extra as JournalEntry?),
     ),
   ];
 }

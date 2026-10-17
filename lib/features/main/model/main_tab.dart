@@ -12,6 +12,6 @@ enum MainTab {
 
   const MainTab(this.iconData, this.labelKey);
 
-  final dynamic iconData;
+  final Object iconData;
   final String labelKey;
 }

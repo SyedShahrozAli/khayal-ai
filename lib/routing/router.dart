@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../constants/constants.dart';
+import '../features/authentication/ui/email_verification_pending_screen.dart';
 import '../features/authentication/ui/otp_screen.dart';
 import '../features/authentication/ui/register_screen.dart';
 import '../features/authentication/ui/sign_in_screen.dart';
 import '../features/authentication/ui/welcome_screen.dart';
-import '../features/main/ui/main_screen.dart';
-<<<<<<< HEAD
-import '../features/authentication/ui/email_verification_pending_screen.dart';
-=======
 import '../features/journal/model/journal_entry.dart';
 import '../features/journal/ui/journal_editor_screen.dart';
 import '../features/journal/ui/journal_screen.dart';
->>>>>>> 646c0a0 (new feature added)
+import '../features/main/ui/main_screen.dart';
 import '../features/onboarding/ui/onboarding_screen.dart';
 import '../features/onboarding/ui/splash_screen.dart';
 import '../features/onboarding/ui/startup_screen.dart';
+import '../features/premium/ui/premium_screen.dart';
 import '../features/profile/model/profile.dart';
 import '../features/profile/ui/account_info_screen.dart';
 import '../features/profile/ui/appearances_screen.dart';
@@ -53,26 +51,16 @@ class SlideRouteTransition extends CustomTransitionPage<void> {
              parent: animation,
              curve: Curves.easeInOut,
            );
-
-           Offset begin;
-           switch (direction) {
-             case SlideDirection.right:
-               begin = const Offset(-1.0, 0.0);
-               break;
-             case SlideDirection.left:
-               begin = const Offset(1.0, 0.0);
-               break;
-             case SlideDirection.up:
-               begin = const Offset(0.0, 1.0);
-               break;
-             case SlideDirection.down:
-               begin = const Offset(0.0, -1.0);
-               break;
-           }
-           final tween = Tween(begin: begin, end: Offset.zero);
-           final offsetAnimation = tween.animate(curve);
-
-           return SlideTransition(position: offsetAnimation, child: child);
+           final begin = switch (direction) {
+             SlideDirection.right => const Offset(-1, 0),
+             SlideDirection.left => const Offset(1, 0),
+             SlideDirection.up => const Offset(0, 1),
+             SlideDirection.down => const Offset(0, -1),
+           };
+           return SlideTransition(
+             position: Tween(begin: begin, end: Offset.zero).animate(curve),
+             child: child,
+           );
          },
        );
 }
@@ -109,14 +97,11 @@ final GoRouter router = GoRouter(
         );
       },
     ),
-<<<<<<< HEAD
     GoRoute(
       path: Routes.emailVerificationPending,
       pageBuilder: (context, state) =>
           state.slidePage(const EmailVerificationPendingScreen()),
     ),
-=======
->>>>>>> 646c0a0 (new feature added)
     GoRoute(
       path: Routes.onboarding,
       pageBuilder: (context, state) =>
@@ -179,8 +164,6 @@ final GoRouter router = GoRouter(
       path: Routes.languages,
       pageBuilder: (context, state) => state.slidePage(const LanguagesScreen()),
     ),
-<<<<<<< HEAD
-=======
     GoRoute(
       path: Routes.premium,
       pageBuilder: (context, state) {
@@ -191,6 +174,5 @@ final GoRouter router = GoRouter(
         );
       },
     ),
->>>>>>> 646c0a0 (new feature added)
   ],
 );
