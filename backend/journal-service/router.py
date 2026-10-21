@@ -2,11 +2,12 @@
 journal-service routes — Port 8004
 
 Journal entries:
-  GET    /journal/entries              → list (paginated)
-  POST   /journal/entries              → create
+  GET    /journal/entries              → list (paginated, with language/type filter)
+  POST   /journal/entries              → create entry
   GET    /journal/entries/{id}         → get one
-  PATCH  /journal/entries/{id}         → update
-  DELETE /journal/entries/{id}         → delete
+  PATCH  /journal/entries/{id}         → update entry
+  DELETE /journal/entries/{id}         → soft delete
+  POST   /journal/sync                 → batch sync offline drafts (REL-1)
 
 Mood check-ins:
   GET    /journal/mood                 → list (paginated)
@@ -20,10 +21,11 @@ from core.dependencies import get_current_user
 from core.database import get_collection
 from models import (
     JournalEntryCreate, JournalEntryUpdate, JournalEntryResponse,
+    JournalBatchSyncRequest, JournalBatchSyncResponse,
     MoodCheckinCreate, MoodCheckinResponse,
 )
 import crud
-from typing import List
+from typing import List, Optional
 
 router = APIRouter(prefix="/journal", tags=["journal"])
 
@@ -34,11 +36,16 @@ router = APIRouter(prefix="/journal", tags=["journal"])
 async def list_entries(
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
+    entry_type: Optional[str] = None,
+    language: Optional[str] = None,
     user: dict = Depends(get_current_user),
 ):
     collection = get_collection("journal_entries")
     skip = (page - 1) * page_size
-    docs = await crud.list_entries(collection, user["uid"], skip=skip, limit=page_size)
+    docs = await crud.list_entries(
+        collection, user["uid"], skip=skip, limit=page_size,
+        entry_type=entry_type, language=language
+    )
     return [JournalEntryResponse(**d) for d in docs]
 
 
@@ -77,11 +84,32 @@ async def update_entry(
 
 
 @router.delete("/entries/{entry_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_entry(entry_id: str, user: dict = Depends(get_current_user)):
+async def delete_entry(
+    entry_id: str,
+    soft: bool = Query(True, description="Perform soft delete"),
+    user: dict = Depends(get_current_user),
+):
     collection = get_collection("journal_entries")
-    deleted = await crud.delete_entry(collection, user["uid"], entry_id)
+    deleted = await crud.delete_entry(collection, user["uid"], entry_id, soft_delete=soft)
     if not deleted:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Entry not found.")
+
+
+@router.post("/sync", response_model=JournalBatchSyncResponse)
+async def batch_sync(
+    body: JournalBatchSyncRequest,
+    user: dict = Depends(get_current_user),
+):
+    """Batch synchronizes offline journal drafts with MongoDB, ensuring zero data loss (REL-1)."""
+    collection = get_collection("journal_entries")
+    count, synced, failed = await crud.batch_sync_entries(
+        collection, user["uid"], [e.model_dump() for e in body.entries]
+    )
+    return JournalBatchSyncResponse(
+        synced_count=count,
+        synced_ids=synced,
+        failed_ids=failed,
+    )
 
 
 # ── Mood Check-ins ────────────────────────────────────────────────────────────

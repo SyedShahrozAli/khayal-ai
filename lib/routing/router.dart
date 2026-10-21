@@ -8,13 +8,12 @@ import '../features/authentication/ui/register_screen.dart';
 import '../features/authentication/ui/sign_in_screen.dart';
 import '../features/authentication/ui/welcome_screen.dart';
 import '../features/journal/model/journal_entry.dart';
-import '../features/journal/ui/journal_editor_screen.dart';
 import '../features/journal/ui/journal_screen.dart';
+import '../features/journal/ui/journal_write_screen.dart';
 import '../features/main/ui/main_screen.dart';
 import '../features/onboarding/ui/onboarding_screen.dart';
 import '../features/onboarding/ui/splash_screen.dart';
 import '../features/onboarding/ui/startup_screen.dart';
-import '../features/premium/ui/premium_screen.dart';
 import '../features/profile/model/profile.dart';
 import '../features/profile/ui/account_info_screen.dart';
 import '../features/profile/ui/appearances_screen.dart';
@@ -118,7 +117,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: Routes.journalEdit,
       pageBuilder: (context, state) => state.slidePage(
-        JournalEditorScreen(entry: state.extra as JournalEntry?),
+        JournalWriteScreen(existing: state.extra as JournalEntry?),
       ),
     ),
     GoRoute(
@@ -163,16 +162,6 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: Routes.languages,
       pageBuilder: (context, state) => state.slidePage(const LanguagesScreen()),
-    ),
-    GoRoute(
-      path: Routes.premium,
-      pageBuilder: (context, state) {
-        final map = state.extra as Map?;
-        return state.slidePage(
-          PremiumScreen(isGoToMain: map?[Constants.isGoToMain] as bool?),
-          direction: SlideDirection.up,
-        );
-      },
     ),
   ],
 );

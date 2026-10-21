@@ -21,9 +21,12 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
+      onOpen: (db) async {
+        await _createWellbeingTables(db);
+      },
     );
   }
 
@@ -33,16 +36,19 @@ class DatabaseHelper {
   }
 
   Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
+    if (oldVersion < 3) {
       await _createWellbeingTables(db);
     }
   }
 
   Future<void> _createWellbeingTables(Database db) async {
-    await db.execute(MoodTable.createTableQuery);
-    await db.execute(ExerciseSessionTable.createTableQuery);
-    await db.execute(CommunityPostTable.createTableQuery);
-    await db.execute(CommunityCommentTable.createTableQuery);
+    try {
+      await db.execute(MoodTable.createTableQuery);
+      await db.execute(ExerciseSessionTable.createTableQuery);
+      await db.execute(CommunityPostTable.createTableQuery);
+      await db.execute(CommunityCommentTable.createTableQuery);
+      await db.execute(JournalTable.createTableQuery);
+    } catch (_) {}
   }
 
   Future<void> close() async {

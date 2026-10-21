@@ -1,49 +1,38 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: invalid_annotation_target
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class JournalEntry {
-  final String id;
-  final String title;
-  final String body;
-  final String? prompt;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+part 'journal_entry.freezed.dart';
+part 'journal_entry.g.dart';
 
-  const JournalEntry({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.createdAt,
-    required this.updatedAt,
-    this.prompt,
-  });
+@freezed
+abstract class JournalEntry with _$JournalEntry {
+  const JournalEntry._();
 
-  factory JournalEntry.fromDocument(
-    DocumentSnapshot<Map<String, dynamic>> document,
-  ) {
-    final data = document.data() ?? <String, dynamic>{};
-    return JournalEntry(
-      id: document.id,
-      title: data['title'] as String? ?? '',
-      body: data['body'] as String? ?? '',
-      prompt: data['prompt'] as String?,
-      createdAt: _readDate(data['createdAt']),
-      updatedAt: _readDate(data['updatedAt']),
-    );
-  }
+  const factory JournalEntry({
+    required String id,
+    @JsonKey(name: 'user_id') required String userId,
+    @JsonKey(name: 'entry_type') @Default('text') String entryType,
+    @JsonKey(name: 'content_text') required String contentText,
+    String? title,
+    @Default('en') String language,
+    Map<String, dynamic>? sentiment,
+    @JsonKey(name: 'detected_keywords') @Default([]) List<String> detectedKeywords,
+    @Default([]) List<String> tags,
+    @JsonKey(name: 'is_draft') @Default(false) bool isDraft,
+    @JsonKey(name: 'is_deleted') @Default(false) bool isDeleted,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: 'synced_at') DateTime? syncedAt,
+  }) = _JournalEntry;
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      'title': title,
-      'body': body,
-      'prompt': prompt,
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': Timestamp.fromDate(updatedAt),
-    };
-  }
+  String get content => contentText;
 
-  static DateTime _readDate(Object? value) {
-    if (value is Timestamp) return value.toDate();
-    if (value is DateTime) return value;
-    return DateTime.fromMillisecondsSinceEpoch(0);
-  }
+  String? get primaryEmotion =>
+      sentiment != null ? sentiment!['primary_emotion'] as String? : null;
+
+  double? get sentimentConfidence =>
+      sentiment != null ? (sentiment!['confidence'] as num?)?.toDouble() : null;
+
+  factory JournalEntry.fromJson(Map<String, Object?> json) =>
+      _$JournalEntryFromJson(json);
 }

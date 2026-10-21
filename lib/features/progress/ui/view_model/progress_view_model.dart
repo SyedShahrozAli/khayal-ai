@@ -34,6 +34,6 @@ class ProgressViewModel extends AsyncNotifier<ProgressState> {
   Future<void> setRange(int days) async {
     _rangeDays = days;
     state = const AsyncLoading();
-    state = AsyncData(await _load(days));
+    state = await AsyncValue.guard(() => _load(days));
   }
 }

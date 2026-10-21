@@ -111,3 +111,44 @@ class CommunityCommentTable {
     )
   ''';
 }
+
+class JournalTable {
+  JournalTable._();
+
+  static const String tableName = 'local_journals';
+
+  static const String columnId = 'id';
+  static const String columnUserId = 'user_id';
+  static const String columnEntryType = 'entry_type';
+  static const String columnContentText = 'content_text';
+  static const String columnTitle = 'title';
+  static const String columnLanguage = 'language';
+  static const String columnTags = 'tags';
+  static const String columnSentiment = 'sentiment';
+  static const String columnDetectedKeywords = 'detected_keywords';
+  static const String columnIsDraft = 'is_draft';
+  static const String columnIsDeleted = 'is_deleted';
+  static const String columnCreatedAt = 'created_at';
+  static const String columnUpdatedAt = 'updated_at';
+  static const String columnSyncedAt = 'synced_at';
+
+  static const String createTableQuery = '''
+    CREATE TABLE IF NOT EXISTS $tableName (
+      $columnId TEXT PRIMARY KEY,
+      $columnUserId TEXT NOT NULL,
+      $columnEntryType TEXT NOT NULL,
+      $columnContentText TEXT NOT NULL,
+      $columnTitle TEXT,
+      $columnLanguage TEXT NOT NULL,
+      $columnTags TEXT,
+      $columnSentiment TEXT,
+      $columnDetectedKeywords TEXT,
+      $columnIsDraft INTEGER NOT NULL DEFAULT 0,
+      $columnIsDeleted INTEGER NOT NULL DEFAULT 0,
+      $columnCreatedAt TEXT NOT NULL,
+      $columnUpdatedAt TEXT NOT NULL,
+      $columnSyncedAt TEXT
+    )
+  ''';
+}
+
