@@ -27,8 +27,7 @@ class BreathingSessionScreen extends ConsumerStatefulWidget {
       _BreathingSessionScreenState();
 }
 
-class _BreathingSessionScreenState
-    extends ConsumerState<BreathingSessionScreen>
+class _BreathingSessionScreenState extends ConsumerState<BreathingSessionScreen>
     with SingleTickerProviderStateMixin {
   late final BreathingExercise _exercise;
   late final int _totalSeconds;
@@ -88,7 +87,9 @@ class _BreathingSessionScreenState
     final completed = forceComplete || ratio >= 0.8;
     if (!completed) return;
     _logged = true;
-    await ref.read(activityRepositoryProvider).logExerciseSession(
+    await ref
+        .read(activityRepositoryProvider)
+        .logExerciseSession(
           type: 'breathing',
           title: _exercise.title,
           durationSeconds: _elapsed,
@@ -132,10 +133,7 @@ class _BreathingSessionScreenState
                 animation: _pulse,
                 builder: (context, child) {
                   final scale = _finished ? 1.0 : 0.85 + (_pulse.value * 0.25);
-                  return Transform.scale(
-                    scale: scale,
-                    child: child,
-                  );
+                  return Transform.scale(scale: scale, child: child);
                 },
                 child: Container(
                   width: 220,

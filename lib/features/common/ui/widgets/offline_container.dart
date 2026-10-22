@@ -27,8 +27,9 @@ class _OfflineContainerState extends ConsumerState<OfflineContainer> {
   @override
   void initState() {
     super.initState();
-    _subscription =
-        Connectivity().onConnectivityChanged.listen(_updateConnectionStatus);
+    _subscription = Connectivity().onConnectivityChanged.listen(
+      _updateConnectionStatus,
+    );
   }
 
   @override
@@ -44,7 +45,8 @@ class _OfflineContainerState extends ConsumerState<OfflineContainer> {
       _isOffline = result.contains(ConnectivityResult.none);
     });
     debugPrint(
-        '${Constants.tag} [_OfflineContainerState._updateConnectionStatus] $result => ${_isOffline ? 'offline' : 'online'}');
+      '${Constants.tag} [_OfflineContainerState._updateConnectionStatus] $result => ${_isOffline ? 'offline' : 'online'}',
+    );
   }
 
   @override
@@ -78,9 +80,7 @@ class _OfflineContainerState extends ConsumerState<OfflineContainer> {
                     const SizedBox(width: 8),
                     Text(
                       LocaleKeys.offline.tr(),
-                      style: AppTheme.body14.copyWith(
-                        color: AppColors.mono0,
-                      ),
+                      style: AppTheme.body14.copyWith(color: AppColors.mono0),
                     ),
                   ],
                 ),

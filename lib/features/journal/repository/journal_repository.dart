@@ -269,9 +269,7 @@ class JournalRepository {
     if (opts == null) return 0;
 
     try {
-      final payload = {
-        'entries': drafts.map((e) => e.toJson()).toList(),
-      };
+      final payload = {'entries': drafts.map((e) => e.toJson()).toList()};
       final response = await _dio.post(
         '/journal/sync',
         data: payload,

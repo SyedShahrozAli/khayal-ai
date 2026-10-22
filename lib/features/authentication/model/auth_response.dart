@@ -1,6 +1,6 @@
 class AuthResponse {
   final User? user;
-  
+
   AuthResponse({this.user});
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
@@ -10,9 +10,7 @@ class AuthResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'user': user?.toJson(),
-    };
+    return {'user': user?.toJson()};
   }
 }
 
@@ -21,11 +19,7 @@ class User {
   final String? email;
   final Map<String, dynamic>? userMetadata;
 
-  User({
-    required this.id,
-    this.email,
-    this.userMetadata,
-  });
+  User({required this.id, this.email, this.userMetadata});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

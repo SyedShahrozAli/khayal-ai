@@ -28,9 +28,7 @@ class CommonEmptyData extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             LocaleKeys.noData.tr(),
-            style: AppTheme.body14.copyWith(
-              color: context.secondaryTextColor,
-            ),
+            style: AppTheme.body14.copyWith(color: context.secondaryTextColor),
           ),
         ],
       ),

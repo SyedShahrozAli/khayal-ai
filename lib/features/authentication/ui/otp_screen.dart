@@ -18,11 +18,7 @@ class OtpScreen extends ConsumerStatefulWidget {
   final String email;
   final bool isRegister;
 
-  const OtpScreen({
-    super.key,
-    required this.email,
-    required this.isRegister,
-  });
+  const OtpScreen({super.key, required this.email, required this.isRegister});
 
   @override
   ConsumerState createState() => _OtpScreenState();
@@ -82,10 +78,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       semanticsLabel: 'OTP',
                     ),
                   ),
-                  Text(
-                    LocaleKeys.otpEnterTitle.tr(),
-                    style: AppTheme.title20,
-                  ),
+                  Text(LocaleKeys.otpEnterTitle.tr(), style: AppTheme.title20),
                   Text(
                     LocaleKeys.otpEnterDescription.tr(),
                     style: AppTheme.body16,
@@ -121,8 +114,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                             ? () async {
                                 otpController.clear();
                                 await ref
-                                    .read(authenticationViewModelProvider
-                                        .notifier)
+                                    .read(
+                                      authenticationViewModelProvider.notifier,
+                                    )
                                     .signInWithMagicLink(widget.email);
                                 startTimer();
                               }
@@ -160,11 +154,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 ],
               ),
             ),
-            Positioned(
-              top: 16,
-              left: 16,
-              child: CommonBackButton(),
-            ),
+            Positioned(top: 16, left: 16, child: CommonBackButton()),
           ],
         ),
       ),

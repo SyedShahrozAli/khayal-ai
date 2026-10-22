@@ -61,7 +61,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() {
       _isEmailValid = isValidEmail(_emailController.text);
       _isPasswordValid = _passwordController.text.length >= 6;
-      _isConfirmPasswordValid = _passwordController.text == _confirmPasswordController.text;
+      _isConfirmPasswordValid =
+          _passwordController.text == _confirmPasswordController.text;
     });
   }
 
@@ -104,10 +105,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   semanticsLabel: 'Welcome',
                 ),
               ),
-              Text(
-                'register'.tr(),
-                style: AppTheme.title32,
-              ),
+              Text('register'.tr(), style: AppTheme.title32),
               const SizedBox(height: 24),
               CommonTextFormField(
                 label: 'Email',
@@ -125,12 +123,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               CommonTextFormField(
                 label: 'Confirm Password',
                 controller: _confirmPasswordController,
-                validator: (val) => confirmPasswordValidator(_passwordController.text, val),
+                validator: (val) =>
+                    confirmPasswordValidator(_passwordController.text, val),
                 isPassword: true,
               ),
               const SizedBox(height: 32),
               PrimaryButton(
-                isEnable: _isEmailValid && _isPasswordValid && _isConfirmPasswordValid,
+                isEnable:
+                    _isEmailValid &&
+                    _isPasswordValid &&
+                    _isConfirmPasswordValid,
                 text: LocaleKeys.continueText.tr(),
                 onPressed: () {
                   ref

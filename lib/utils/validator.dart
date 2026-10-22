@@ -40,8 +40,9 @@ String? notEmptyEmailValidator(String? value) {
 
 bool isValidEmail(String email) {
   // Define a regex pattern to match email format
-  final regExp =
-      RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]+)+$");
+  final regExp = RegExp(
+    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]+)+$",
+  );
   return regExp.hasMatch(email);
 }
 

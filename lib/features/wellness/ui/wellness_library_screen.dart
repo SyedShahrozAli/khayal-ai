@@ -65,10 +65,14 @@ class _WellnessLibraryScreenState extends ConsumerState<WellnessLibraryScreen> {
                               vertical: 7,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFCE09B).withValues(alpha: 0.45),
+                              color: const Color(
+                                0xFFFCE09B,
+                              ).withValues(alpha: 0.45),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: const Color(0xFFFDBB3B).withValues(alpha: 0.5),
+                                color: const Color(
+                                  0xFFFDBB3B,
+                                ).withValues(alpha: 0.5),
                                 width: 1,
                               ),
                             ),
@@ -258,10 +262,7 @@ class _WellnessLibraryScreenState extends ConsumerState<WellnessLibraryScreen> {
           onTap: () {
             context.push(
               Routes.wellnessSession,
-              extra: {
-                'exerciseId': exerciseId,
-                'minutes': minutes,
-              },
+              extra: {'exerciseId': exerciseId, 'minutes': minutes},
             );
           },
           child: Padding(
@@ -312,11 +313,15 @@ class _WellnessLibraryScreenState extends ConsumerState<WellnessLibraryScreen> {
                           GestureDetector(
                             onTap: () {
                               ref
-                                  .read(wellnessLibraryViewModelProvider.notifier)
+                                  .read(
+                                    wellnessLibraryViewModelProvider.notifier,
+                                  )
                                   .toggleFavourite(exerciseId);
                             },
                             child: Icon(
-                              isFav ? Icons.star_rounded : Icons.star_outline_rounded,
+                              isFav
+                                  ? Icons.star_rounded
+                                  : Icons.star_outline_rounded,
                               color: isFav
                                   ? const Color(0xFFFDBB3B)
                                   : context.secondaryTextColor,
@@ -353,10 +358,7 @@ class _WellnessLibraryScreenState extends ConsumerState<WellnessLibraryScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFFFF6E2),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: const Color(0xFFFFE299),
-          width: 1.2,
-        ),
+        border: Border.all(color: const Color(0xFFFFE299), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFFFDBB3B).withValues(alpha: 0.1),
@@ -460,7 +462,9 @@ class _WellnessLibraryScreenState extends ConsumerState<WellnessLibraryScreen> {
                           '$score',
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                            fontWeight: isSelected
+                                ? FontWeight.w800
+                                : FontWeight.w600,
                             color: isSelected
                                 ? const Color(0xFF2E1C00)
                                 : const Color(0xFF4A3510),
@@ -513,8 +517,11 @@ class _WellnessLibraryScreenState extends ConsumerState<WellnessLibraryScreen> {
             const CircleAvatar(
               radius: 18,
               backgroundColor: Colors.white,
-              child: Icon(Icons.bubble_chart_rounded,
-                  color: Color(0xFF3F82B8), size: 20),
+              child: Icon(
+                Icons.bubble_chart_rounded,
+                color: Color(0xFF3F82B8),
+                size: 20,
+              ),
             ),
             const SizedBox(width: 14),
             Expanded(

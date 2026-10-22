@@ -9,10 +9,7 @@ import '../../../common/ui/widgets/material_ink_well.dart';
 class ContinueAsGuest extends StatelessWidget {
   final VoidCallback onClick;
 
-  const ContinueAsGuest({
-    super.key,
-    required this.onClick,
-  });
+  const ContinueAsGuest({super.key, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +17,10 @@ class ContinueAsGuest extends StatelessWidget {
       radius: 24,
       onTap: onClick,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 16,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Text(
           LocaleKeys.continueAsGuest.tr(),
-          style: AppTheme.title14.copyWith(
-            color: context.secondaryTextColor,
-          ),
+          style: AppTheme.title14.copyWith(color: context.secondaryTextColor),
         ),
       ),
     );

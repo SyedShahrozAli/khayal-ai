@@ -30,7 +30,7 @@ class SignInWithApple extends ConsumerWidget {
         text: 'apple'.tr(),
         // onPressed: () =>
         //     ref.read(authenticationViewModelProvider.notifier).signInWithApple(),
-        onPressed: (){}, // Disabled for now as it requires Xcode config
+        onPressed: () {}, // Disabled for now as it requires Xcode config
       ),
     );
   }

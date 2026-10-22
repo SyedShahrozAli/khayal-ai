@@ -5,8 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
-
-
 import '../../../constants/assets.dart';
 import '../../../constants/constants.dart';
 import '../../../extensions/build_context_extension.dart';
@@ -41,20 +39,21 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
   void _logInAsGuest() async {
     await ref.read(authenticationViewModelProvider.notifier).setIsGuestMode();
-    await ref.read(authenticationViewModelProvider.notifier).signInAnonymously();
+    await ref
+        .read(authenticationViewModelProvider.notifier)
+        .signInAnonymously();
   }
 
   void _goToNextScreen() async {
     Global.hideLoading();
 
-    final wasShowOnboarding =
-        await ref.read(profileViewModelProvider.notifier).wasShowOnboarding();
+    final wasShowOnboarding = await ref
+        .read(profileViewModelProvider.notifier)
+        .wasShowOnboarding();
     if (!wasShowOnboarding) {
       if (mounted) context.go(Routes.onboarding);
       return;
     }
-
-
 
     if (mounted) context.go(Routes.main);
   }
@@ -91,10 +90,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  "Welcome to Khayal AI",
-                  style: AppTheme.title32,
-                ),
+                child: Text("Welcome to Khayal AI", style: AppTheme.title32),
               ),
               const SizedBox(height: 24),
               Container(
@@ -110,13 +106,17 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                   'assets/animations/welcome.json',
                   fit: BoxFit.contain,
                   repeat: false,
-               //   animate: true,
+                  //   animate: true,
                 ),
               ),
               const SizedBox(height: 16),
               PrimaryButton(
                 text: 'Continue with Email',
-                icon: const Icon(Icons.email_outlined, color: Colors.white, size: 20),
+                icon: const Icon(
+                  Icons.email_outlined,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 onPressed: () {
                   if (mounted) context.push(Routes.login);
                 },

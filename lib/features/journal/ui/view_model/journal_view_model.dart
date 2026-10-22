@@ -35,10 +35,7 @@ class JournalViewModel extends _$JournalViewModel {
       );
     } catch (_) {
       final pendingCount = await _repo.getPendingDraftsCount();
-      state = state.copyWith(
-        isSaving: false,
-        pendingDraftsCount: pendingCount,
-      );
+      state = state.copyWith(isSaving: false, pendingDraftsCount: pendingCount);
     }
   }
 

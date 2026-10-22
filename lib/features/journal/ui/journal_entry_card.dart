@@ -67,8 +67,9 @@ class JournalEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = _palette[cardIndex % _palette.length];
-    final dateStr =
-        DateFormat('EEE, MMM d · h:mm a').format(entry.createdAt.toLocal());
+    final dateStr = DateFormat(
+      'EEE, MMM d · h:mm a',
+    ).format(entry.createdAt.toLocal());
     final isVoice = entry.entryType == 'voice';
 
     return InkWell(
@@ -96,8 +97,10 @@ class JournalEntryCard extends StatelessWidget {
               children: [
                 // Entry Type Badge (FE-1 / FE-2)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -135,8 +138,10 @@ class JournalEntryCard extends StatelessWidget {
 
                 // Language Badge
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.85),
                     borderRadius: BorderRadius.circular(8),
@@ -155,8 +160,10 @@ class JournalEntryCard extends StatelessWidget {
                 // Offline Draft Badge (FE-5, REL-1)
                 if (entry.isDraft) ...[
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -164,8 +171,11 @@ class JournalEntryCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.cloud_off_rounded,
-                            size: 12, color: Color(0xFFF7A81B)),
+                        const Icon(
+                          Icons.cloud_off_rounded,
+                          size: 12,
+                          color: Color(0xFFF7A81B),
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Draft',
@@ -190,7 +200,10 @@ class JournalEntryCard extends StatelessWidget {
                     size: 20,
                   ),
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+                  constraints: const BoxConstraints(
+                    minWidth: 44,
+                    minHeight: 44,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -228,7 +241,9 @@ class JournalEntryCard extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             'Delete',
-                            style: AppTheme.body14.copyWith(color: Colors.redAccent),
+                            style: AppTheme.body14.copyWith(
+                              color: Colors.redAccent,
+                            ),
                           ),
                         ],
                       ),
@@ -313,10 +328,10 @@ class JournalEntryCard extends StatelessWidget {
                 spacing: 6,
                 runSpacing: 6,
                 children: entry.tags
-                    .map((tag) => _TagChip(
-                          label: tag,
-                          textColor: style.tagTextColor,
-                        ))
+                    .map(
+                      (tag) =>
+                          _TagChip(label: tag, textColor: style.tagTextColor),
+                    )
                     .toList(),
               ),
             ],
@@ -332,7 +347,9 @@ class JournalEntryCard extends StatelessWidget {
                   if (entry.primaryEmotion != null)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.9),
                         borderRadius: BorderRadius.circular(10),

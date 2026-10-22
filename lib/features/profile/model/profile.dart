@@ -22,5 +22,6 @@ abstract class Profile with _$Profile {
     @Default({}) Map<String, dynamic> surveyData,
   }) = _Profile;
 
-  factory Profile.fromJson(Map<String, Object?> json) => _$ProfileFromJson(json);
+  factory Profile.fromJson(Map<String, Object?> json) =>
+      _$ProfileFromJson(json);
 }

@@ -323,8 +323,9 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
     setState(() => _isSaving = true);
 
     try {
-      final title =
-          _titleCtrl.text.trim().isEmpty ? null : _titleCtrl.text.trim();
+      final title = _titleCtrl.text.trim().isEmpty
+          ? null
+          : _titleCtrl.text.trim();
       final vm = ref.read(journalViewModelProvider.notifier);
 
       if (widget.existing != null) {
@@ -354,8 +355,8 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
           asDraft
               ? (_isUrdu ? 'مسودہ محفوظ کر لیا گیا ✓' : 'Draft saved offline ✓')
               : (_isUrdu
-                  ? 'تحریر محفوظ ہو گئی ✓'
-                  : 'Entry saved successfully ✓'),
+                    ? 'تحریر محفوظ ہو گئی ✓'
+                    : 'Entry saved successfully ✓'),
         );
       }
     } catch (e) {
@@ -488,8 +489,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
               TextButton(
                 onPressed: () => _save(asDraft: true),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFEDE6DA),
                     borderRadius: BorderRadius.circular(16),
@@ -551,8 +554,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                 Container(
                   width: double.infinity,
                   color: const Color(0xFFDE6B48).withValues(alpha: 0.12),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                   child: Row(
                     children: [
                       ScaleTransition(
@@ -581,7 +586,9 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                         onPressed: _toggleListening,
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 4),
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -610,8 +617,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
               // ── Main Content Area ─────────────────────────────────────────
               Expanded(
                 child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -677,7 +686,8 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                                   border: InputBorder.none,
                                   isDense: true,
                                 ),
-                                textCapitalization: TextCapitalization.sentences,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                               ),
                             ),
                             const SizedBox(height: 12),
@@ -775,8 +785,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
 
               // ── 4. Bottom Floating Mic & Word-Count Bar ────────────────────
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: context.isDarkMode
                       ? const Color(0xFF1D2033)
@@ -808,10 +820,11 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: (_isListening
-                                        ? const Color(0xFFDE6B48)
-                                        : const Color(0xFFF7A81B))
-                                    .withValues(alpha: 0.35),
+                                color:
+                                    (_isListening
+                                            ? const Color(0xFFDE6B48)
+                                            : const Color(0xFFF7A81B))
+                                        .withValues(alpha: 0.35),
                                 blurRadius: 10,
                                 offset: const Offset(0, 3),
                               ),
@@ -840,10 +853,12 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                       children: [
                         Text(
                           _isListening
-                              ? (_isUrdu ? 'آواز ریکارڈ ہو رہی ہے...' : 'Recording voice...')
+                              ? (_isUrdu
+                                    ? 'آواز ریکارڈ ہو رہی ہے...'
+                                    : 'Recording voice...')
                               : (_entryType == 'voice'
-                                  ? 'Voice Reflection'
-                                  : 'Text Reflection'),
+                                    ? 'Voice Reflection'
+                                    : 'Text Reflection'),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
@@ -853,7 +868,9 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                           ),
                         ),
                         Text(
-                          _isUrdu ? 'بولنے کے لیے مائیک دبائیں' : 'Tap mic to speak (EN / UR)',
+                          _isUrdu
+                              ? 'بولنے کے لیے مائیک دبائیں'
+                              : 'Tap mic to speak (EN / UR)',
                           style: TextStyle(
                             fontSize: 11,
                             color: context.secondaryTextColor,
@@ -867,7 +884,9 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                     // Word count indicator
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
                         color: context.isDarkMode
                             ? Colors.white.withValues(alpha: 0.08)
@@ -910,8 +929,8 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
           color: isSelected
               ? const Color(0xFFF7A81B)
               : (context.isDarkMode
-                  ? context.secondaryWidgetColor
-                  : const Color(0xFFEDE6DA)),
+                    ? context.secondaryWidgetColor
+                    : const Color(0xFFEDE6DA)),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(
@@ -972,8 +991,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
               return GestureDetector(
                 onTap: () => _applyPrompt(prompt),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: isChosen ? const Color(0xFFF7A81B) : color,
                     borderRadius: BorderRadius.circular(16),
@@ -995,10 +1016,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                         color: isChosen
                             ? const Color(0xFF221400)
                             : (color == const Color(0xFFDE6B48) ||
-                                    color == const Color(0xFF90A959) ||
-                                    color == const Color(0xFFEF798A)
-                                ? Colors.white
-                                : const Color(0xFF221400)),
+                                      color == const Color(0xFF90A959) ||
+                                      color == const Color(0xFFEF798A)
+                                  ? Colors.white
+                                  : const Color(0xFF221400)),
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -1009,10 +1030,10 @@ class _JournalWriteScreenState extends ConsumerState<JournalWriteScreen>
                           color: isChosen
                               ? const Color(0xFF221400)
                               : (color == const Color(0xFFDE6B48) ||
-                                      color == const Color(0xFF90A959) ||
-                                      color == const Color(0xFFEF798A)
-                                  ? Colors.white
-                                  : const Color(0xFF221400)),
+                                        color == const Color(0xFF90A959) ||
+                                        color == const Color(0xFFEF798A)
+                                    ? Colors.white
+                                    : const Color(0xFF221400)),
                         ),
                       ),
                     ],

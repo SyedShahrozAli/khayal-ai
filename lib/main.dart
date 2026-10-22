@@ -53,8 +53,6 @@ void main() async {
     debugPrint('Firebase initialization failed: $e');
   }
 
-
-
   /// Mobile ads
   // MobileAds.instance.initialize();
 
@@ -83,8 +81,6 @@ void main() async {
     ),
   );
 }
-
-
 
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});

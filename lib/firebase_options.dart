@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -52,8 +53,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '324748181774',
     projectId: 'khayal-ai0',
     storageBucket: 'khayal-ai0.firebasestorage.app',
-    androidClientId: '324748181774-859sakiim4ec8bh1p6i3qrdhpb5h1bij.apps.googleusercontent.com',
-    iosClientId: '324748181774-88ugvemcp9v1sm1snbqnu2l8509hk7u2.apps.googleusercontent.com',
+    androidClientId:
+        '324748181774-859sakiim4ec8bh1p6i3qrdhpb5h1bij.apps.googleusercontent.com',
+    iosClientId:
+        '324748181774-88ugvemcp9v1sm1snbqnu2l8509hk7u2.apps.googleusercontent.com',
     iosBundleId: 'com.henry.flutterMvvmRiverpod',
   );
 
@@ -64,5 +67,4 @@ class DefaultFirebaseOptions {
     projectId: 'khayal-ai0',
     storageBucket: 'khayal-ai0.firebasestorage.app',
   );
-
 }

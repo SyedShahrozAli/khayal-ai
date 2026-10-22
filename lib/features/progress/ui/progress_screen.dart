@@ -111,9 +111,7 @@ class ProgressScreen extends ConsumerWidget {
                 loading: () => const SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFFF7A81B),
-                    ),
+                    child: CircularProgressIndicator(color: Color(0xFFF7A81B)),
                   ),
                 ),
                 error: (error, _) => SliverFillRemaining(
@@ -152,9 +150,9 @@ class ProgressScreen extends ConsumerWidget {
                       if (state.sessions.isEmpty)
                         const _EmptyState()
                       else
-                        ...state.sessions.take(10).map(
-                              (session) => _SessionCard(session: session),
-                            ),
+                        ...state.sessions
+                            .take(10)
+                            .map((session) => _SessionCard(session: session)),
                     ]),
                   ),
                 ),
@@ -448,11 +446,7 @@ class _SessionCard extends StatelessWidget {
           CircleAvatar(
             radius: 20,
             backgroundColor: const Color(0xFF90A959),
-            child: const Icon(
-              Icons.air_rounded,
-              color: Colors.white,
-              size: 20,
-            ),
+            child: const Icon(Icons.air_rounded, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -545,7 +539,10 @@ class _EmptyState extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
             ),
-            icon: const Icon(Icons.play_arrow_rounded, color: Color(0xFF221400)),
+            icon: const Icon(
+              Icons.play_arrow_rounded,
+              color: Color(0xFF221400),
+            ),
             label: const Text(
               'Start Breathing',
               style: TextStyle(
@@ -596,10 +593,7 @@ class _ErrorState extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'We were unable to read your activity statistics. Please try refreshing.',
-              style: TextStyle(
-                fontSize: 13,
-                color: context.secondaryTextColor,
-              ),
+              style: TextStyle(fontSize: 13, color: context.secondaryTextColor),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
@@ -612,7 +606,10 @@ class _ErrorState extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
               ),
               icon: const Icon(Icons.refresh_rounded, size: 18),
               label: const Text(

@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
-
 import '../../../constants/assets.dart';
 import '../../../features/authentication/ui/view_model/authentication_view_model.dart';
 import '../../../features/authentication/ui/widgets/horizontal_divider.dart';
@@ -60,9 +59,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   Widget build(BuildContext context) {
     ref.listen(authenticationViewModelProvider, (previous, next) {
       if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.error.toString())),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
       }
       if (next is AsyncData && next.value?.isSignInSuccessfully == true) {
         context.pushReplacement(Routes.main);
@@ -78,16 +77,13 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                                Expanded(
-                child: Lottie.asset(
-                  'assets/animations/sign-in.json',
-                  fit: BoxFit.contain,
-                ),
-              ),
-                  Text(
-                    LocaleKeys.signIn.tr(),
-                    style: AppTheme.title32,
+                  Expanded(
+                    child: Lottie.asset(
+                      'assets/animations/sign-in.json',
+                      fit: BoxFit.contain,
+                    ),
                   ),
+                  Text(LocaleKeys.signIn.tr(), style: AppTheme.title32),
                   const SizedBox(height: 24),
                   CommonTextFormField(
                     label: 'Email',
@@ -108,20 +104,32 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       onPressed: () async {
                         if (!_isEmailValid) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please enter a valid email address first.')),
+                            const SnackBar(
+                              content: Text(
+                                'Please enter a valid email address first.',
+                              ),
+                            ),
                           );
                           return;
                         }
-                        await ref.read(authenticationViewModelProvider.notifier).sendPasswordResetEmail(_emailController.text);
+                        await ref
+                            .read(authenticationViewModelProvider.notifier)
+                            .sendPasswordResetEmail(_emailController.text);
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Password reset email sent! Check your inbox.')),
+                            const SnackBar(
+                              content: Text(
+                                'Password reset email sent! Check your inbox.',
+                              ),
+                            ),
                           );
                         }
                       },
                       child: Text(
                         'Forgot Password?',
-                        style: AppTheme.body14.copyWith(color: AppTheme.primaryColor),
+                        style: AppTheme.body14.copyWith(
+                          color: AppTheme.primaryColor,
+                        ),
                       ),
                     ),
                   ),
@@ -141,10 +149,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Don't have an account?",
-                        style: AppTheme.body14,
-                      ),
+                      Text("Don't have an account?", style: AppTheme.body14),
                       const SizedBox(width: 4),
                       TextButton(
                         onPressed: () {
@@ -165,11 +170,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 ],
               ),
             ),
-            Positioned(
-              top: 16,
-              left: 16,
-              child: CommonBackButton(),
-            ),
+            Positioned(top: 16, left: 16, child: CommonBackButton()),
           ],
         ),
       ),

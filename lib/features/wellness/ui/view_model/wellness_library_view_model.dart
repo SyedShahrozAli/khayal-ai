@@ -5,8 +5,8 @@ import '../state/wellness_library_state.dart';
 
 final wellnessLibraryViewModelProvider =
     AsyncNotifierProvider<WellnessLibraryViewModel, WellnessLibraryState>(
-  WellnessLibraryViewModel.new,
-);
+      WellnessLibraryViewModel.new,
+    );
 
 class WellnessLibraryViewModel extends AsyncNotifier<WellnessLibraryState> {
   @override
@@ -14,10 +14,7 @@ class WellnessLibraryViewModel extends AsyncNotifier<WellnessLibraryState> {
     final repo = ref.read(wellnessPreferencesRepositoryProvider);
     final favourites = await repo.getFavourites();
     final durations = await repo.getDurations();
-    return WellnessLibraryState(
-      favourites: favourites,
-      durations: durations,
-    );
+    return WellnessLibraryState(favourites: favourites, durations: durations);
   }
 
   Future<void> toggleFavourite(String exerciseId) async {

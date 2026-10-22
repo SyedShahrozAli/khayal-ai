@@ -23,8 +23,9 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
 
   Future<void> signInWithMagicLink(String email) async {
     state = const AsyncValue.loading();
-    final result =
-        await AsyncValue.guard(() => _repository.signInWithMagicLink(email));
+    final result = await AsyncValue.guard(
+      () => _repository.signInWithMagicLink(email),
+    );
 
     if (result is AsyncError) {
       state = AsyncError(result.error.toString(), StackTrace.current);
@@ -36,7 +37,9 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
 
   Future<void> signUpWithEmailPassword(String email, String password) async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() => _repository.signUpWithEmailPassword(email, password));
+    final result = await AsyncValue.guard(
+      () => _repository.signUpWithEmailPassword(email, password),
+    );
     if (result is AsyncError) {
       state = AsyncError(result.error.toString(), StackTrace.current);
       return;
@@ -46,7 +49,9 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
 
   Future<void> signInWithEmailPassword(String email, String password) async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() => _repository.signInWithEmailPassword(email, password));
+    final result = await AsyncValue.guard(
+      () => _repository.signInWithEmailPassword(email, password),
+    );
     handleResult(result);
   }
 
@@ -56,7 +61,9 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
 
   Future<void> sendPasswordResetEmail(String email) async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() => _repository.sendPasswordResetEmail(email));
+    final result = await AsyncValue.guard(
+      () => _repository.sendPasswordResetEmail(email),
+    );
     if (result is AsyncError) {
       state = AsyncError(result.error.toString(), StackTrace.current);
     } else {
@@ -112,7 +119,8 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
 
   void handleResult(AsyncValue result) async {
     debugPrint(
-        '${Constants.tag} [AuthenticationViewModel.handleResult] result: $result');
+      '${Constants.tag} [AuthenticationViewModel.handleResult] result: $result',
+    );
     if (result is AsyncError) {
       state = AsyncError(result.error.toString(), StackTrace.current);
       return;
@@ -120,9 +128,13 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
 
     final AuthResponse? authResponse = result.value;
     debugPrint(
-        '${Constants.tag} [AuthenticationViewModel.handleResult] authResponse: ${authResponse?.user?.toJson()}');
+      '${Constants.tag} [AuthenticationViewModel.handleResult] authResponse: ${authResponse?.user?.toJson()}',
+    );
     if (authResponse == null) {
-      state = AsyncError(LocaleKeys.unexpectedErrorOccurred.tr(), StackTrace.current);
+      state = AsyncError(
+        LocaleKeys.unexpectedErrorOccurred.tr(),
+        StackTrace.current,
+      );
       return;
     }
 
@@ -147,11 +159,9 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
       name = metaData['full_name'];
       avatar = metaData['avatar_url'];
     }
-    ref.read(profileViewModelProvider.notifier).updateProfile(
-      email: user.email,
-      name: name,
-      avatar: avatar,
-    );
+    ref
+        .read(profileViewModelProvider.notifier)
+        .updateProfile(email: user.email, name: name, avatar: avatar);
   }
 
   Future<bool> isLogin() async {

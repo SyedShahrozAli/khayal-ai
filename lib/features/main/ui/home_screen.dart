@@ -116,10 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: const Color(0xFFFFE5B4),
-              border: Border.all(
-                color: const Color(0xFFFDBB3B),
-                width: 2,
-              ),
+              border: Border.all(color: const Color(0xFFFDBB3B), width: 2),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xFFFDBB3B).withValues(alpha: 0.25),
@@ -179,8 +176,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 color: isToday
                     ? const Color(0xFFF7A81B)
                     : (context.isDarkMode
-                        ? Colors.white.withValues(alpha: 0.08)
-                        : const Color(0xFFEDE6DA)),
+                          ? Colors.white.withValues(alpha: 0.08)
+                          : const Color(0xFFEDE6DA)),
                 border: isToday
                     ? Border.all(color: const Color(0xFFD68A04), width: 1.5)
                     : Border.all(
@@ -192,7 +189,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 boxShadow: isToday
                     ? [
                         BoxShadow(
-                          color: const Color(0xFFF7A81B).withValues(alpha: 0.45),
+                          color: const Color(
+                            0xFFF7A81B,
+                          ).withValues(alpha: 0.45),
                           blurRadius: 10,
                           offset: const Offset(0, 3),
                         ),
@@ -272,18 +271,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [
-                Color(0xFFF9B828),
-                Color(0xFFF5A310),
-              ],
+              colors: [Color(0xFFF9B828), Color(0xFFF5A310)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(28),
-            border: Border.all(
-              color: const Color(0xFFDF9100),
-              width: 1.2,
-            ),
+            border: Border.all(color: const Color(0xFFDF9100), width: 1.2),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFFF5A310).withValues(alpha: 0.35),
@@ -411,7 +404,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 6),
               Text(
                 'Your honest check-in helps Khayal tailor gentle support.',
-                style: AppTheme.body14.copyWith(color: context.secondaryTextColor),
+                style: AppTheme.body14.copyWith(
+                  color: context.secondaryTextColor,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 28),
@@ -466,8 +461,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         Text(
                           mood.label,
                           style: AppTheme.body12.copyWith(
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                            color: isSelected ? mood.color : context.secondaryTextColor,
+                            fontWeight: isSelected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                            color: isSelected
+                                ? mood.color
+                                : context.secondaryTextColor,
                           ),
                         ),
                       ],
@@ -642,8 +641,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -703,8 +704,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const CircleAvatar(
                         radius: 16,
                         backgroundColor: Colors.white,
-                        child: Icon(Icons.air_rounded,
-                            size: 18, color: Color(0xFF90A959)),
+                        child: Icon(
+                          Icons.air_rounded,
+                          size: 18,
+                          color: Color(0xFF90A959),
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -755,8 +759,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const CircleAvatar(
                         radius: 16,
                         backgroundColor: Colors.white,
-                        child: Icon(Icons.auto_awesome_rounded,
-                            size: 18, color: Color(0xFFEF798A)),
+                        child: Icon(
+                          Icons.auto_awesome_rounded,
+                          size: 18,
+                          color: Color(0xFFEF798A),
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

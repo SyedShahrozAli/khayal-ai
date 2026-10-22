@@ -32,15 +32,11 @@ class ActivityRepository {
   }) async {
     try {
       final db = await _db;
-      await db.insert(
-        MoodTable.tableName,
-        {
-          MoodTable.columnDate: todayString(date),
-          MoodTable.columnMoodIndex: moodIndex,
-          MoodTable.columnLabel: label,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
+      await db.insert(MoodTable.tableName, {
+        MoodTable.columnDate: todayString(date),
+        MoodTable.columnMoodIndex: moodIndex,
+        MoodTable.columnLabel: label,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (_) {}
   }
 
@@ -104,7 +100,8 @@ class ActivityRepository {
               title: row[ExerciseSessionTable.columnTitle] as String,
               durationSeconds:
                   row[ExerciseSessionTable.columnDurationSeconds] as int,
-              completed: (row[ExerciseSessionTable.columnCompleted] as int) == 1,
+              completed:
+                  (row[ExerciseSessionTable.columnCompleted] as int) == 1,
               timestamp: DateTime.fromMillisecondsSinceEpoch(
                 row[ExerciseSessionTable.columnTimestamp] as int,
               ),
@@ -133,7 +130,8 @@ class ActivityRepository {
               title: row[ExerciseSessionTable.columnTitle] as String,
               durationSeconds:
                   row[ExerciseSessionTable.columnDurationSeconds] as int,
-              completed: (row[ExerciseSessionTable.columnCompleted] as int) == 1,
+              completed:
+                  (row[ExerciseSessionTable.columnCompleted] as int) == 1,
               timestamp: DateTime.fromMillisecondsSinceEpoch(
                 row[ExerciseSessionTable.columnTimestamp] as int,
               ),
@@ -185,7 +183,9 @@ class ActivityRepository {
       for (var i = 1; i < sorted.length; i++) {
         final prev = DateTime.tryParse(sorted[i - 1]);
         final current = DateTime.tryParse(sorted[i]);
-        if (prev != null && current != null && current.difference(prev).inDays == 1) {
+        if (prev != null &&
+            current != null &&
+            current.difference(prev).inDays == 1) {
           run++;
           if (run > best) best = run;
         } else {

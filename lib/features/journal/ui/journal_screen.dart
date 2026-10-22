@@ -65,7 +65,10 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
     }
   }
 
-  void _openWriteScreen({bool startWithVoice = false, JournalEntry? existing}) async {
+  void _openWriteScreen({
+    bool startWithVoice = false,
+    JournalEntry? existing,
+  }) async {
     final result = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => JournalWriteScreen(
@@ -124,8 +127,10 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                   ),
                 ),
                 title: Text('Text Journal', style: AppTheme.label14),
-                subtitle: const Text('Write thoughts in Urdu or English',
-                    style: TextStyle(fontSize: 12)),
+                subtitle: const Text(
+                  'Write thoughts in Urdu or English',
+                  style: TextStyle(fontSize: 12),
+                ),
                 onTap: () {
                   Navigator.pop(ctx);
                   _openWriteScreen(startWithVoice: false);
@@ -175,7 +180,8 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
         !_fabAnimationController.isAnimating &&
         _fabAnimationController.status != AnimationStatus.forward) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _fabAnimationController.status == AnimationStatus.dismissed) {
+        if (mounted &&
+            _fabAnimationController.status == AnimationStatus.dismissed) {
           _fabAnimationController.forward();
         }
       });
@@ -201,7 +207,11 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                   : const Color(0xFFF6F2EB),
               elevation: 0,
               flexibleSpace: FlexibleSpaceBar(
-                titlePadding: const EdgeInsets.only(left: 20, bottom: 12, right: 20),
+                titlePadding: const EdgeInsets.only(
+                  left: 20,
+                  bottom: 12,
+                  right: 20,
+                ),
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,8 +251,12 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                 else
                   IconButton(
                     onPressed: () async {
-                      await ref.read(journalViewModelProvider.notifier).refresh();
-                      await ref.read(journalViewModelProvider.notifier).syncDrafts();
+                      await ref
+                          .read(journalViewModelProvider.notifier)
+                          .refresh();
+                      await ref
+                          .read(journalViewModelProvider.notifier)
+                          .syncDrafts();
                       if (context.mounted) {
                         context.showSuccessSnackBar('Journal updated ✨');
                       }
@@ -263,17 +277,16 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFF9B828),
-                          Color(0xFFF5A310),
-                        ],
+                        colors: [Color(0xFFF9B828), Color(0xFFF5A310)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFF5A310).withValues(alpha: 0.35),
+                          color: const Color(
+                            0xFFF5A310,
+                          ).withValues(alpha: 0.35),
                           blurRadius: 14,
                           offset: const Offset(0, 5),
                         ),
@@ -306,7 +319,9 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                               const SizedBox(height: 12),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 14, vertical: 6),
+                                  horizontal: 14,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
@@ -323,8 +338,11 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                                       ),
                                     ),
                                     SizedBox(width: 4),
-                                    Icon(Icons.arrow_forward_rounded,
-                                        size: 14, color: Color(0xFF221400)),
+                                    Icon(
+                                      Icons.arrow_forward_rounded,
+                                      size: 14,
+                                      color: Color(0xFF221400),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -351,7 +369,10 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
             // ── Search & Filter Bar ─────────────────────────────────────────
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Column(
                   children: [
                     // Search Field (borderless, with soft shadow)
@@ -373,7 +394,9 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                       child: TextField(
                         controller: _searchController,
                         onChanged: (val) {
-                          ref.read(journalViewModelProvider.notifier).setSearchQuery(val);
+                          ref
+                              .read(journalViewModelProvider.notifier)
+                              .setSearchQuery(val);
                         },
                         style: AppTheme.body14,
                         decoration: InputDecoration(
@@ -389,15 +412,22 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                           ),
                           suffixIcon: _searchController.text.isNotEmpty
                               ? IconButton(
-                                  icon: const Icon(Icons.clear_rounded, size: 16),
+                                  icon: const Icon(
+                                    Icons.clear_rounded,
+                                    size: 16,
+                                  ),
                                   onPressed: () {
                                     _searchController.clear();
-                                    ref.read(journalViewModelProvider.notifier).setSearchQuery('');
+                                    ref
+                                        .read(journalViewModelProvider.notifier)
+                                        .setSearchQuery('');
                                   },
                                 )
                               : null,
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                          ),
                         ),
                       ),
                     ),
@@ -409,11 +439,23 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                       physics: const BouncingScrollPhysics(),
                       child: Row(
                         children: [
-                          _buildFilterChip('All', 'all', journal.selectedFilter),
+                          _buildFilterChip(
+                            'All',
+                            'all',
+                            journal.selectedFilter,
+                          ),
                           const SizedBox(width: 8),
-                          _buildFilterChip('Text Only', 'text', journal.selectedFilter),
+                          _buildFilterChip(
+                            'Text Only',
+                            'text',
+                            journal.selectedFilter,
+                          ),
                           const SizedBox(width: 8),
-                          _buildFilterChip('Voice Only', 'voice', journal.selectedFilter),
+                          _buildFilterChip(
+                            'Voice Only',
+                            'voice',
+                            journal.selectedFilter,
+                          ),
                           const SizedBox(width: 8),
                           _buildFilterChip(
                             'Offline Drafts${journal.pendingDraftsCount > 0 ? ' (${journal.pendingDraftsCount})' : ''}',
@@ -432,16 +474,25 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
             if (journal.pendingDraftsCount > 0)
               SliverToBoxAdapter(
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFEBDCCB),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.cloud_upload_outlined,
-                          color: Color(0xFF5A442E), size: 22),
+                      const Icon(
+                        Icons.cloud_upload_outlined,
+                        color: Color(0xFF5A442E),
+                        size: 22,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -470,7 +521,9 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                             ? const SizedBox(
                                 width: 14,
                                 height: 14,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text(
                                 'Sync Now',
@@ -493,7 +546,6 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                   child: CircularProgressIndicator(color: Color(0xFFF7A81B)),
                 ),
               )
-
             // ── Empty State ──────────────────────────────────────────────────
             else if (displayedEntries.isEmpty)
               SliverFillRemaining(
@@ -518,7 +570,9 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                           journal.searchQuery.isNotEmpty
                               ? 'No matching reflections'
                               : 'No reflections yet',
-                          style: AppTheme.title20.copyWith(fontWeight: FontWeight.w800),
+                          style: AppTheme.title20.copyWith(
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -541,7 +595,10 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                             backgroundColor: const Color(0xFFF7A81B),
                             foregroundColor: const Color(0xFF221400),
                             elevation: 2,
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 14,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24),
                             ),
@@ -552,13 +609,13 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                   ),
                 ),
               )
-
             // ── Journal List with Staggered Animation ────────────────────────
             else
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
                 sliver: SliverList.builder(
-                  itemCount: displayedEntries.length + (journal.hasMore ? 1 : 0),
+                  itemCount:
+                      displayedEntries.length + (journal.hasMore ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == displayedEntries.length) {
                       return const Padding(
@@ -588,7 +645,8 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                             cardIndex: index,
                             onTap: () => _openWriteScreen(existing: entry),
                             onEdit: () => _openWriteScreen(existing: entry),
-                            onDelete: () => _showDeleteConfirmationDialog(entry.id),
+                            onDelete: () =>
+                                _showDeleteConfirmationDialog(entry.id),
                           ),
                         ),
                       ),
@@ -611,7 +669,11 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
                   backgroundColor: const Color(0xFFF7A81B),
                   foregroundColor: const Color(0xFF221400),
                   elevation: 4,
-                  icon: const Icon(Icons.add_rounded, size: 22, color: Color(0xFF221400)),
+                  icon: const Icon(
+                    Icons.add_rounded,
+                    size: 22,
+                    color: Color(0xFF221400),
+                  ),
                   label: const Text(
                     'New Reflection',
                     style: TextStyle(
@@ -644,8 +706,8 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
           color: isSelected
               ? const Color(0xFFF7A81B)
               : (context.isDarkMode
-                  ? context.secondaryWidgetColor
-                  : const Color(0xFFEDE6DA)),
+                    ? context.secondaryWidgetColor
+                    : const Color(0xFFEDE6DA)),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(
@@ -666,9 +728,7 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text('Delete Reflection?'),
         content: const Text(
           'This entry will be safely removed from your journal.',
@@ -683,9 +743,7 @@ class _JournalScreenState extends ConsumerState<JournalScreen>
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.redAccent,
-            ),
+            style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
             child: const Text('Delete'),
           ),
         ],

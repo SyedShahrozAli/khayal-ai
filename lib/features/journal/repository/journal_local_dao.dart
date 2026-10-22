@@ -19,8 +19,9 @@ class JournalLocalDao {
       JournalTable.columnTitle: entry.title,
       JournalTable.columnLanguage: entry.language,
       JournalTable.columnTags: jsonEncode(entry.tags),
-      JournalTable.columnSentiment:
-          entry.sentiment != null ? jsonEncode(entry.sentiment) : null,
+      JournalTable.columnSentiment: entry.sentiment != null
+          ? jsonEncode(entry.sentiment)
+          : null,
       JournalTable.columnDetectedKeywords: jsonEncode(entry.detectedKeywords),
       JournalTable.columnIsDraft: entry.isDraft ? 1 : 0,
       JournalTable.columnIsDeleted: entry.isDeleted ? 1 : 0,

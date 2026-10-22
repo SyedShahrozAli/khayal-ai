@@ -8,18 +8,15 @@ class CommonCloseButton extends StatelessWidget {
   final Function()? onClose;
   final Color? color;
 
-  const CommonCloseButton({
-    super.key,
-    this.onClose,
-    this.color,
-  });
+  const CommonCloseButton({super.key, this.onClose, this.color});
 
   @override
   Widget build(BuildContext context) {
     return CircleOutlineButton(
       icon: HugeIcons.strokeRoundedCancel01,
       color: color,
-      onPressed: onClose ??
+      onPressed:
+          onClose ??
           () {
             context.pop();
           },

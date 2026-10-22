@@ -5,8 +5,8 @@ import '../state/progress_state.dart';
 
 final progressViewModelProvider =
     AsyncNotifierProvider<ProgressViewModel, ProgressState>(
-  ProgressViewModel.new,
-);
+      ProgressViewModel.new,
+    );
 
 class ProgressViewModel extends AsyncNotifier<ProgressState> {
   int _rangeDays = 7;

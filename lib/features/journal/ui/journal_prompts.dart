@@ -27,8 +27,10 @@ class JournalPrompts {
       category: 'Gratitude',
       titleEn: 'Small Joy',
       titleUr: 'چھوٹی خوشی',
-      templateEn: 'What is one small thing that brought a smile or relief to your day?',
-      templateUr: 'آج کس چھوٹی سی بات نے آپ کے چہرے پر مسکراہٹ یا دل کو سکون دیا؟',
+      templateEn:
+          'What is one small thing that brought a smile or relief to your day?',
+      templateUr:
+          'آج کس چھوٹی سی بات نے آپ کے چہرے پر مسکراہٹ یا دل کو سکون دیا؟',
       tag: 'gratitude',
     ),
     JournalPrompt(
@@ -36,8 +38,10 @@ class JournalPrompts {
       category: 'CBT Reframing',
       titleEn: 'Thought Reframe',
       titleUr: 'خیال کی درستگی',
-      templateEn: 'What negative thought bothered you today? What is a kinder, more balanced way to view it?',
-      templateUr: 'آج کس منفی خیال نے آپ کو پریشان کیا؟ اس کا حقیقت پسندانہ اور ہمدردانہ متبادل کیا ہے؟',
+      templateEn:
+          'What negative thought bothered you today? What is a kinder, more balanced way to view it?',
+      templateUr:
+          'آج کس منفی خیال نے آپ کو پریشان کیا؟ اس کا حقیقت پسندانہ اور ہمدردانہ متبادل کیا ہے؟',
       tag: 'cbt',
     ),
     JournalPrompt(
@@ -45,8 +49,10 @@ class JournalPrompts {
       category: 'Decompression',
       titleEn: 'Heavy Weight',
       titleUr: 'دل کا بوجھ',
-      templateEn: 'What felt overwhelming today? Write down all the things on your mind and let them rest here.',
-      templateUr: 'آج کیا بات بہت بوجھل لگی؟ جو کچھ دل پر ہے بلا جھجھک لکھ کر بوجھ ہلکا کریں۔',
+      templateEn:
+          'What felt overwhelming today? Write down all the things on your mind and let them rest here.',
+      templateUr:
+          'آج کیا بات بہت بوجھل لگی؟ جو کچھ دل پر ہے بلا جھجھک لکھ کر بوجھ ہلکا کریں۔',
       tag: 'release',
     ),
     JournalPrompt(
@@ -54,8 +60,10 @@ class JournalPrompts {
       category: 'Daily Wins',
       titleEn: 'Personal Win',
       titleUr: 'آج کی کامیابی',
-      templateEn: 'What is one challenge, however tiny, that you showed up for and handled today?',
-      templateUr: 'آج کا کوئی ایسا کام یا چیلنج جسے آپ نے نبھایا اور خود پر فخر محسوس ہوا؟',
+      templateEn:
+          'What is one challenge, however tiny, that you showed up for and handled today?',
+      templateUr:
+          'آج کا کوئی ایسا کام یا چیلنج جسے آپ نے نبھایا اور خود پر فخر محسوس ہوا؟',
       tag: 'win',
     ),
     JournalPrompt(
@@ -63,8 +71,10 @@ class JournalPrompts {
       category: 'Mindfulness',
       titleEn: 'Present Moment',
       titleUr: 'حال کا احساس',
-      templateEn: 'Take a slow breath. How does your body feel right now, and what do you need most in this moment?',
-      templateUr: 'ایک گہرا سانس لیں۔ اس وقت آپ کا جسم کیا محسوس کر رہا ہے اور آپ کو کس چیز کی سب سے زیادہ ضرورت ہے؟',
+      templateEn:
+          'Take a slow breath. How does your body feel right now, and what do you need most in this moment?',
+      templateUr:
+          'ایک گہرا سانس لیں۔ اس وقت آپ کا جسم کیا محسوس کر رہا ہے اور آپ کو کس چیز کی سب سے زیادہ ضرورت ہے؟',
       tag: 'calm',
     ),
   ];

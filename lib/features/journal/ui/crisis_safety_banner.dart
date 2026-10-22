@@ -9,11 +9,19 @@ class CrisisScanner {
 
   static final List<RegExp> _triggers = [
     // English triggers
-    RegExp(r'\b(suicide|suicidal|kill myself|end my life|want to die|hang myself|slit my wrist|overdose)\b', caseSensitive: false),
+    RegExp(
+      r'\b(suicide|suicidal|kill myself|end my life|want to die|hang myself|slit my wrist|overdose)\b',
+      caseSensitive: false,
+    ),
     // Roman Urdu triggers
-    RegExp(r'\b(khudkushi|khud kushi|marna chahta|marne laga|jaan dena|khatam karna chahta|jeena nahi chahta)\b', caseSensitive: false),
+    RegExp(
+      r'\b(khudkushi|khud kushi|marna chahta|marne laga|jaan dena|khatam karna chahta|jeena nahi chahta)\b',
+      caseSensitive: false,
+    ),
     // Urdu script triggers
-    RegExp(r'(خودکشی|مرنا چاہتا|مرنے لگا|جان دینا|ختم کرنا چاہتا|جینا نہیں چاہتا|زندگی ختم)'),
+    RegExp(
+      r'(خودکشی|مرنا چاہتا|مرنے لگا|جان دینا|ختم کرنا چاہتا|جینا نہیں چاہتا|زندگی ختم)',
+    ),
   ];
 
   static bool hasCrisisIntent(String text) {

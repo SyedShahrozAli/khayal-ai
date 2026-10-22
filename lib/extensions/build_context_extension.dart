@@ -25,51 +25,47 @@ extension ThemeModeExtension on BuildContext {
   Color get dividerColor => isDarkMode ? AppColors.mono80 : AppColors.mono20;
 
   ThemeData get lightTheme => ThemeData.light().copyWith(
-        scaffoldBackgroundColor: AppColors.mono0,
-        colorScheme: Theme.of(this).colorScheme.copyWith(
-              brightness: Brightness.light,
-              primary: AppColors.blueberry100,
-              error: AppColors.rambutan100,
-            ),
-        textTheme: Theme.of(this).textTheme.apply(
-              bodyColor: AppColors.mono100,
-            ),
-      );
+    scaffoldBackgroundColor: AppColors.mono0,
+    colorScheme: Theme.of(this).colorScheme.copyWith(
+      brightness: Brightness.light,
+      primary: AppColors.blueberry100,
+      error: AppColors.rambutan100,
+    ),
+    textTheme: Theme.of(this).textTheme.apply(bodyColor: AppColors.mono100),
+  );
 
   ThemeData get darkTheme => ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: AppColors.mono100,
-        colorScheme: Theme.of(this).colorScheme.copyWith(
-              brightness: Brightness.dark,
-              primary: AppColors.blueberry100,
-              error: AppColors.rambutan100,
-            ),
-        textTheme: Theme.of(this).textTheme.apply(
-              bodyColor: AppColors.mono20,
-            ),
-      );
+    scaffoldBackgroundColor: AppColors.mono100,
+    colorScheme: Theme.of(this).colorScheme.copyWith(
+      brightness: Brightness.dark,
+      primary: AppColors.blueberry100,
+      error: AppColors.rambutan100,
+    ),
+    textTheme: Theme.of(this).textTheme.apply(bodyColor: AppColors.mono20),
+  );
 
   void showSuccessSnackBar(String text, {SnackBarAction? action}) {
-    ScaffoldMessenger.of(this).showSnackBar(
-      CustomSnackBar.success(text: text, action: action),
-    );
+    ScaffoldMessenger.of(
+      this,
+    ).showSnackBar(CustomSnackBar.success(text: text, action: action));
   }
 
   void showInfoSnackBar(String text, {SnackBarAction? action}) {
-    ScaffoldMessenger.of(this).showSnackBar(
-      CustomSnackBar.info(text: text, action: action),
-    );
+    ScaffoldMessenger.of(
+      this,
+    ).showSnackBar(CustomSnackBar.info(text: text, action: action));
   }
 
   void showWarningSnackBar(String text, {SnackBarAction? action}) {
-    ScaffoldMessenger.of(this).showSnackBar(
-      CustomSnackBar.warning(text: text, action: action),
-    );
+    ScaffoldMessenger.of(
+      this,
+    ).showSnackBar(CustomSnackBar.warning(text: text, action: action));
   }
 
   void showErrorSnackBar(String text, {SnackBarAction? action}) {
-    ScaffoldMessenger.of(this).showSnackBar(
-      CustomSnackBar.error(text: text, action: action),
-    );
+    ScaffoldMessenger.of(
+      this,
+    ).showSnackBar(CustomSnackBar.error(text: text, action: action));
   }
 
   void hideKeyboard() {

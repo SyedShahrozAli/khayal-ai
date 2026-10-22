@@ -26,11 +26,7 @@ class CircleOutlineButton extends ConsumerWidget {
       child: SizedBox(
         width: 36,
         height: 36,
-        child: HugeIcon(
-          icon: icon,
-          color: iconColor,
-          size: 24,
-        ),
+        child: HugeIcon(icon: icon, color: iconColor, size: 24),
       ),
     );
   }

@@ -43,7 +43,9 @@ class EmailVerificationPendingScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                ref.read(authenticationViewModelProvider.notifier).sendEmailVerification();
+                ref
+                    .read(authenticationViewModelProvider.notifier)
+                    .sendEmailVerification();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Verification email resent!')),
                 );

@@ -25,20 +25,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Loading(),
-      ),
-    );
+    return Scaffold(body: Center(child: Loading()));
   }
 
   Future<void> _checkLoginStatus() async {
-    final isLoggedIn =
-        await ref.read(authenticationViewModelProvider.notifier).isLogin();
-    final isGuestMode =
-        await ref.read(authenticationViewModelProvider.notifier).isGuestMode();
+    final isLoggedIn = await ref
+        .read(authenticationViewModelProvider.notifier)
+        .isLogin();
+    final isGuestMode = await ref
+        .read(authenticationViewModelProvider.notifier)
+        .isGuestMode();
     debugPrint(
-        '${Constants.tag} [SplashScreen._checkLoginStatus] isLoggedIn = $isLoggedIn, isGuestMode = $isGuestMode');
+      '${Constants.tag} [SplashScreen._checkLoginStatus] isLoggedIn = $isLoggedIn, isGuestMode = $isGuestMode',
+    );
     await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     if (isLoggedIn || isGuestMode) {

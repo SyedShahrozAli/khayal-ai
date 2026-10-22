@@ -8,10 +8,10 @@ part 'database_provider.g.dart';
 @riverpod
 Future<Database> database(Ref ref) async {
   final db = await DatabaseHelper.instance.database;
-  
+
   ref.onDispose(() async {
     await DatabaseHelper.instance.close();
   });
-  
+
   return db;
 }

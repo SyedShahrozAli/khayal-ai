@@ -60,7 +60,9 @@ class _ColourBreathingGameState extends ConsumerState<ColourBreathingGame>
     setState(() => _finished = true);
     if (_logged) return;
     _logged = true;
-    await ref.read(activityRepositoryProvider).logExerciseSession(
+    await ref
+        .read(activityRepositoryProvider)
+        .logExerciseSession(
           type: 'game',
           title: 'Colour breathing',
           durationSeconds: _elapsed,
@@ -112,8 +114,7 @@ class _ColourBreathingGameState extends ConsumerState<ColourBreathingGame>
                           _finished
                               ? 'Done'
                               : (_isInhale ? 'Inhale' : 'Exhale'),
-                          style:
-                              AppTheme.title24.copyWith(color: Colors.white),
+                          style: AppTheme.title24.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

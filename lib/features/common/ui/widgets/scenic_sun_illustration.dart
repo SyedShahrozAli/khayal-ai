@@ -26,10 +26,7 @@ class ScenicSunIllustration extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: CustomPaint(
           size: Size(width ?? double.infinity, height),
-          painter: _ScenicPainter(
-            showHills: showHills,
-            compactSun: compactSun,
-          ),
+          painter: _ScenicPainter(showHills: showHills, compactSun: compactSun),
         ),
       ),
     );
@@ -40,10 +37,7 @@ class _ScenicPainter extends CustomPainter {
   final bool showHills;
   final bool compactSun;
 
-  _ScenicPainter({
-    required this.showHills,
-    required this.compactSun,
-  });
+  _ScenicPainter({required this.showHills, required this.compactSun});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -53,10 +47,7 @@ class _ScenicPainter extends CustomPainter {
     // 1. Sky Gradient Background
     final skyPaint = Paint()
       ..shader = const LinearGradient(
-        colors: [
-          Color(0xFFFFEA9F),
-          Color(0xFFFFD464),
-        ],
+        colors: [Color(0xFFFFEA9F), Color(0xFFFFD464)],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(Rect.fromLTWH(0, 0, w, h));
@@ -102,7 +93,11 @@ class _ScenicPainter extends CustomPainter {
       path.moveTo(pos.dx - span, pos.dy + 2);
       path.quadraticBezierTo(pos.dx - span * 0.5, pos.dy - 3, pos.dx, pos.dy);
       path.quadraticBezierTo(
-          pos.dx + span * 0.5, pos.dy - 3, pos.dx + span, pos.dy + 2);
+        pos.dx + span * 0.5,
+        pos.dy - 3,
+        pos.dx + span,
+        pos.dy + 2,
+      );
       canvas.drawPath(path, birdPaint);
     }
   }
@@ -141,10 +136,7 @@ class _ScenicPainter extends CustomPainter {
     // Sun Body
     final sunPaint = Paint()
       ..shader = const RadialGradient(
-        colors: [
-          Color(0xFFFFC947),
-          Color(0xFFFFAE19),
-        ],
+        colors: [Color(0xFFFFC947), Color(0xFFFFAE19)],
       ).createShader(Rect.fromCircle(center: center, radius: radius));
     canvas.drawCircle(center, radius, sunPaint);
 
@@ -168,8 +160,14 @@ class _ScenicPainter extends CustomPainter {
       ..color = const Color(0xFF332008)
       ..style = PaintingStyle.fill;
 
-    final leftEye = Offset(center.dx - radius * 0.28, center.dy - radius * 0.05);
-    final rightEye = Offset(center.dx + radius * 0.28, center.dy - radius * 0.05);
+    final leftEye = Offset(
+      center.dx - radius * 0.28,
+      center.dy - radius * 0.05,
+    );
+    final rightEye = Offset(
+      center.dx + radius * 0.28,
+      center.dy - radius * 0.05,
+    );
 
     canvas.drawCircle(leftEye, radius * 0.10, eyePaint);
     canvas.drawCircle(rightEye, radius * 0.10, eyePaint);
@@ -245,7 +243,12 @@ class _ScenicPainter extends CustomPainter {
     _drawTree(canvas, Offset(w * 0.14, h * 0.80), 28, const Color(0xFF37611E));
   }
 
-  void _drawTree(Canvas canvas, Offset bottomCenter, double height, Color color) {
+  void _drawTree(
+    Canvas canvas,
+    Offset bottomCenter,
+    double height,
+    Color color,
+  ) {
     final treePaint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;

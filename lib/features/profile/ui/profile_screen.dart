@@ -42,10 +42,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final profile =
-        ref.watch(profileViewModelProvider.select((it) => it.value?.profile));
-    final dangerousColor =
-        context.isDarkMode ? AppColors.rambutan80 : AppColors.rambutan100;
+    final profile = ref.watch(
+      profileViewModelProvider.select((it) => it.value?.profile),
+    );
+    final dangerousColor = context.isDarkMode
+        ? AppColors.rambutan80
+        : AppColors.rambutan100;
     return Scaffold(
       backgroundColor: context.secondaryBackgroundColor,
       body: ListView(
@@ -72,24 +74,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       const SizedBox(height: 16),
                       Center(
                         child: Text(
-                          profile?.email?.split('@')[0] ?? Constants.defaultName,
+                          profile?.email?.split('@')[0] ??
+                              Constants.defaultName,
                           style: AppTheme.title24,
                         ),
                       ),
                     ],
                   ),
                 ),
-               
               ],
             ),
           ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              LocaleKeys.general.tr(),
-              style: AppTheme.title20,
-            ),
+            child: Text(LocaleKeys.general.tr(), style: AppTheme.title20),
           ),
           const SizedBox(height: 8),
           if (_isLogin)
@@ -123,10 +122,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              LocaleKeys.preferences.tr(),
-              style: AppTheme.title20,
-            ),
+            child: Text(LocaleKeys.preferences.tr(), style: AppTheme.title20),
           ),
           const SizedBox(height: 8),
           ProfileItem(
@@ -149,7 +145,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             icon: HugeIcons.strokeRoundedStar,
             text: LocaleKeys.rateUs.tr(),
             onTap: () => context.tryLaunchUrl(
-                Platform.isIOS ? Constants.appStore : Constants.playStore),
+              Platform.isIOS ? Constants.appStore : Constants.playStore,
+            ),
           ),
           ProfileItem(
             icon: HugeIcons.strokeRoundedSettingError04,
@@ -187,36 +184,35 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 const SizedBox(height: 24),
               ],
             ),
-          Center(
-            child: Text(
-              'Version $_version',
-              style: AppTheme.body12,
-            ),
-          ),
+          Center(child: Text('Version $_version', style: AppTheme.body12)),
         ],
       ),
     );
   }
 
   void _checkIsLogin() async {
-    _isLogin =
-        await ref.read(authenticationViewModelProvider.notifier).isLogin();
+    _isLogin = await ref
+        .read(authenticationViewModelProvider.notifier)
+        .isLogin();
     if (mounted) {
       setState(() {});
     }
   }
 
   void _getPackageInfo() {
-    PackageInfo.fromPlatform().then((info) {
-      if (mounted) {
-        setState(() {
-          _version = info.version;
+    PackageInfo.fromPlatform()
+        .then((info) {
+          if (mounted) {
+            setState(() {
+              _version = info.version;
+            });
+          }
+        })
+        .catchError((error) {
+          debugPrint(
+            '${Constants.tag} [_ProfileScreenState._getPackageInfo] Error: $error',
+          );
         });
-      }
-    }).catchError((error) {
-      debugPrint(
-          '${Constants.tag} [_ProfileScreenState._getPackageInfo] Error: $error');
-    });
   }
 
   void _signOut(BuildContext context) {
@@ -234,8 +230,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             await ref.read(profileViewModelProvider.notifier).signOut();
           } catch (error) {
             if (context.mounted) {
-              context
-                  .showErrorSnackBar(LocaleKeys.unexpectedErrorOccurred.tr());
+              context.showErrorSnackBar(
+                LocaleKeys.unexpectedErrorOccurred.tr(),
+              );
             }
           } finally {
             if (context.mounted) {
@@ -263,8 +260,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             await ref.read(profileViewModelProvider.notifier).signOut();
           } catch (error) {
             if (context.mounted) {
-              context
-                  .showErrorSnackBar(LocaleKeys.unexpectedErrorOccurred.tr());
+              context.showErrorSnackBar(
+                LocaleKeys.unexpectedErrorOccurred.tr(),
+              );
             }
           } finally {
             if (context.mounted) {

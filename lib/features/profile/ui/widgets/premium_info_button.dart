@@ -20,41 +20,30 @@ class PremiumInfoButton extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.cempedak60,
-            AppColors.cempedak100,
-          ],
+          colors: [AppColors.cempedak60, AppColors.cempedak100],
         ),
       ),
       child: expiryDate == null
           ? Text(
               LocaleKeys.premiumLifetime.tr(),
-              style: AppTheme.title14.copyWith(
-                color: AppColors.mono0,
-              ),
+              style: AppTheme.title14.copyWith(color: AppColors.mono0),
             )
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   LocaleKeys.premium.tr(),
-                  style: AppTheme.title14.copyWith(
-                    color: AppColors.mono0,
-                  ),
+                  style: AppTheme.title14.copyWith(color: AppColors.mono0),
                 ),
                 const SizedBox(width: 4),
                 Text(
                   LocaleKeys.until.tr(),
-                  style: AppTheme.body14.copyWith(
-                    color: AppColors.mono0,
-                  ),
+                  style: AppTheme.body14.copyWith(color: AppColors.mono0),
                 ),
                 const SizedBox(width: 4),
                 Text(
                   (expiryDate ?? DateTime.now()).toddMMYYYY(),
-                  style: AppTheme.title14.copyWith(
-                    color: AppColors.mono0,
-                  ),
+                  style: AppTheme.title14.copyWith(color: AppColors.mono0),
                 ),
               ],
             ),

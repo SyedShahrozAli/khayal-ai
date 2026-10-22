@@ -6,11 +6,7 @@ class ShadowBox extends StatelessWidget {
   final Widget child;
   final double radius;
 
-  const ShadowBox({
-    super.key,
-    required this.child,
-    this.radius = 16,
-  });
+  const ShadowBox({super.key, required this.child, this.radius = 16});
 
   @override
   Widget build(BuildContext context) {

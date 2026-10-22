@@ -60,9 +60,7 @@ class UpgradePremiumButton extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
                     context.tr(LocaleKeys.premium),
-                    style: AppTheme.title16.copyWith(
-                      color: AppColors.mono0,
-                    ),
+                    style: AppTheme.title16.copyWith(color: AppColors.mono0),
                   ),
                 ),
             ],

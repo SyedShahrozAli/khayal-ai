@@ -22,7 +22,11 @@ class CrisisResourcesSheet extends StatelessWidget {
   static const _helplines = [
     ('Umang Pakistan', '0311 7786264', 'tel:03117786264'),
     ('Rozan Helpline', '0800 22444', 'tel:080022444'),
-    ('Pakistan Association for Mental Health', '021 111 726 111', 'tel:021111726111'),
+    (
+      'Pakistan Association for Mental Health',
+      '021 111 726 111',
+      'tel:021111726111',
+    ),
   ];
 
   @override

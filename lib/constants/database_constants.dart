@@ -11,7 +11,8 @@ class HeroTable {
   static const String columnPower = 'power';
   static const String columnLastUpdated = 'lastUpdated';
 
-  static const String createTableQuery = '''
+  static const String createTableQuery =
+      '''
     CREATE TABLE IF NOT EXISTS $tableName (                                                                         
       $columnId TEXT PRIMARY KEY,
       $columnName TEXT NOT NULL,
@@ -32,7 +33,8 @@ class MoodTable {
   static const String columnMoodIndex = 'moodIndex';
   static const String columnLabel = 'label';
 
-  static const String createTableQuery = '''
+  static const String createTableQuery =
+      '''
     CREATE TABLE IF NOT EXISTS $tableName (
       $columnDate TEXT PRIMARY KEY,
       $columnMoodIndex INTEGER NOT NULL,
@@ -52,7 +54,8 @@ class ExerciseSessionTable {
   static const String columnCompleted = 'completed';
   static const String columnTimestamp = 'timestamp';
 
-  static const String createTableQuery = '''
+  static const String createTableQuery =
+      '''
     CREATE TABLE IF NOT EXISTS $tableName (
       $columnId TEXT PRIMARY KEY,
       $columnType TEXT NOT NULL,
@@ -77,7 +80,8 @@ class CommunityPostTable {
   static const String columnFlagged = 'flagged';
   static const String columnLikedByUser = 'likedByUser';
 
-  static const String createTableQuery = '''
+  static const String createTableQuery =
+      '''
     CREATE TABLE IF NOT EXISTS $tableName (
       $columnId TEXT PRIMARY KEY,
       $columnCategory TEXT NOT NULL,
@@ -101,7 +105,8 @@ class CommunityCommentTable {
   static const String columnAnonymousName = 'anonymousName';
   static const String columnCreatedAt = 'createdAt';
 
-  static const String createTableQuery = '''
+  static const String createTableQuery =
+      '''
     CREATE TABLE IF NOT EXISTS $tableName (
       $columnId TEXT PRIMARY KEY,
       $columnPostId TEXT NOT NULL,
@@ -132,7 +137,8 @@ class JournalTable {
   static const String columnUpdatedAt = 'updated_at';
   static const String columnSyncedAt = 'synced_at';
 
-  static const String createTableQuery = '''
+  static const String createTableQuery =
+      '''
     CREATE TABLE IF NOT EXISTS $tableName (
       $columnId TEXT PRIMARY KEY,
       $columnUserId TEXT NOT NULL,
@@ -151,4 +157,3 @@ class JournalTable {
     )
   ''';
 }
-

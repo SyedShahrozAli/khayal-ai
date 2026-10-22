@@ -32,14 +32,21 @@ class AuthenticationRepository {
   }
 
   Future<void> handleDynamicLink(String pendingLink) async {
-    if (firebase_auth.FirebaseAuth.instance.isSignInWithEmailLink(pendingLink)) {
+    if (firebase_auth.FirebaseAuth.instance.isSignInWithEmailLink(
+      pendingLink,
+    )) {
       final prefs = await SharedPreferences.getInstance();
       // Retrieve the email you saved in SharedPreferences earlier
-      final email = prefs.getString('magic_link_email') ?? ''; 
+      final email = prefs.getString('magic_link_email') ?? '';
       if (email.isNotEmpty) {
-        await firebase_auth.FirebaseAuth.instance.signInWithEmailLink(email: email, emailLink: pendingLink);
+        await firebase_auth.FirebaseAuth.instance.signInWithEmailLink(
+          email: email,
+          emailLink: pendingLink,
+        );
       } else {
-        throw Exception("Email not found for magic link sign in. Please try again.");
+        throw Exception(
+          "Email not found for magic link sign in. Please try again.",
+        );
       }
     }
   }
@@ -62,20 +69,22 @@ class AuthenticationRepository {
     );
   }
 
-  Future<AuthResponse> signUpWithEmailPassword(String email, String password) async {
-    final userCredential = await firebase_auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<AuthResponse> signUpWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    final userCredential = await firebase_auth.FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
     await userCredential.user?.sendEmailVerification();
     return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
-  Future<AuthResponse> signInWithEmailPassword(String email, String password) async {
-    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<AuthResponse> signInWithEmailPassword(
+    String email,
+    String password,
+  ) async {
+    final userCredential = await firebase_auth.FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
     if (userCredential.user != null && !userCredential.user!.emailVerified) {
       throw Exception('Please verify your email before signing in.');
     }
@@ -83,11 +92,14 @@ class AuthenticationRepository {
   }
 
   Future<void> sendEmailVerification() async {
-    await firebase_auth.FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    await firebase_auth.FirebaseAuth.instance.currentUser
+        ?.sendEmailVerification();
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    await firebase_auth.FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    await firebase_auth.FirebaseAuth.instance.sendPasswordResetEmail(
+      email: email,
+    );
   }
 
   Future<AuthResponse> verifyOtp({
@@ -95,55 +107,56 @@ class AuthenticationRepository {
     required String token,
     required bool isRegister,
   }) async {
-    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithEmailLink(
-      email: email,
-      emailLink: token,
-    );
+    final userCredential = await firebase_auth.FirebaseAuth.instance
+        .signInWithEmailLink(email: email, emailLink: token);
     return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
   Future<AuthResponse> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn.instance;
     await googleSignIn.initialize(
-      serverClientId: '324748181774-9vdtipu33cdm77hikn6i2c0ekbjaaokt.apps.googleusercontent.com',
-
+      serverClientId:
+          '324748181774-9vdtipu33cdm77hikn6i2c0ekbjaaokt.apps.googleusercontent.com',
     );
     try {
       await googleSignIn.initialize();
     } catch (_) {}
-    
+
     final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
-    
+
     final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-    final clientAuth = await googleUser.authorizationClient.authorizationForScopes([
-      'email',
-      'profile',
-    ]);
-    
-    final firebase_auth.OAuthCredential credential = firebase_auth.GoogleAuthProvider.credential(
-      accessToken: clientAuth?.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    
-    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
+    final clientAuth = await googleUser.authorizationClient
+        .authorizationForScopes(['email', 'profile']);
+
+    final firebase_auth.OAuthCredential credential =
+        firebase_auth.GoogleAuthProvider.credential(
+          accessToken: clientAuth?.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+    final userCredential = await firebase_auth.FirebaseAuth.instance
+        .signInWithCredential(credential);
     return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
   Future<AuthResponse> signInWithApple() async {
-    final AuthorizationCredentialAppleID appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
-    
-    final firebase_auth.OAuthProvider oAuthProvider = firebase_auth.OAuthProvider('apple.com');
+    final AuthorizationCredentialAppleID appleCredential =
+        await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+        );
+
+    final firebase_auth.OAuthProvider oAuthProvider =
+        firebase_auth.OAuthProvider('apple.com');
     final firebase_auth.OAuthCredential credential = oAuthProvider.credential(
       idToken: appleCredential.identityToken,
       accessToken: appleCredential.authorizationCode,
     );
-    
-    final userCredential = await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
+
+    final userCredential = await firebase_auth.FirebaseAuth.instance
+        .signInWithCredential(credential);
     return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
@@ -154,10 +167,11 @@ class AuthenticationRepository {
     } catch (_) {}
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(Constants.isGuestModeKey, false);
-   }
+  }
 
   Future<AuthResponse> signInAnonymously() async {
-    final userCredential = await firebase_auth.FirebaseAuth.instance.signInAnonymously();
+    final userCredential = await firebase_auth.FirebaseAuth.instance
+        .signInAnonymously();
     return AuthResponse(user: _mapFirebaseUser(userCredential.user));
   }
 
@@ -171,7 +185,6 @@ class AuthenticationRepository {
     return _mapFirebaseUser(firebaseUser);
   }
 
-
   Future<bool> isGuestMode() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(Constants.isGuestModeKey) ?? false;
@@ -182,4 +195,3 @@ class AuthenticationRepository {
     await prefs.setBool(Constants.isGuestModeKey, true);
   }
 }
-

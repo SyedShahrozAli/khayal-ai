@@ -262,7 +262,8 @@ class _BubblePopGameState extends ConsumerState<BubblePopGame>
     // Spawn 14 radiating explosion particles
     const particleCount = 14;
     for (int i = 0; i < particleCount; i++) {
-      final angle = (i * 2 * math.pi) / particleCount + _random.nextDouble() * 0.35;
+      final angle =
+          (i * 2 * math.pi) / particleCount + _random.nextDouble() * 0.35;
       final speed = 3.0 + _random.nextDouble() * 4.5;
       final vx = math.cos(angle) * speed;
       final vy = math.sin(angle) * speed;
@@ -279,10 +280,7 @@ class _BubblePopGameState extends ConsumerState<BubblePopGame>
 
     // Spawn floating "+1" pop indicator
     _floatingTexts.add(
-      _FloatingText(
-        position: Offset(bubble.x, bubble.y - 10),
-        text: '+1',
-      ),
+      _FloatingText(position: Offset(bubble.x, bubble.y - 10), text: '+1'),
     );
 
     _bubbles.removeWhere((item) => item.id == bubble.id);
@@ -301,7 +299,9 @@ class _BubblePopGameState extends ConsumerState<BubblePopGame>
     if (_logged) return;
     _logged = true;
 
-    await ref.read(activityRepositoryProvider).logExerciseSession(
+    await ref
+        .read(activityRepositoryProvider)
+        .logExerciseSession(
           type: 'game',
           title: 'Bubble pop',
           durationSeconds: _elapsed,
@@ -405,7 +405,9 @@ class _BubblePopGameState extends ConsumerState<BubblePopGame>
                   // Timer & Pop Count Pill
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(24),

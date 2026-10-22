@@ -18,9 +18,7 @@ class SignInAgreement extends StatelessWidget {
         child: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
-            style: AppTheme.body12.copyWith(
-              color: context.secondaryTextColor,
-            ),
+            style: AppTheme.body12.copyWith(color: context.secondaryTextColor),
             children: [
               TextSpan(text: '${LocaleKeys.signInAgreementPrefix.tr()} '),
               TextSpan(

@@ -16,7 +16,9 @@ abstract class JournalEntry with _$JournalEntry {
     String? title,
     @Default('en') String language,
     Map<String, dynamic>? sentiment,
-    @JsonKey(name: 'detected_keywords') @Default([]) List<String> detectedKeywords,
+    @JsonKey(name: 'detected_keywords')
+    @Default([])
+    List<String> detectedKeywords,
     @Default([]) List<String> tags,
     @JsonKey(name: 'is_draft') @Default(false) bool isDraft,
     @JsonKey(name: 'is_deleted') @Default(false) bool isDeleted,

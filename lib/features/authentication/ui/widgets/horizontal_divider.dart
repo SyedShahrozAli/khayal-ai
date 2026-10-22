@@ -11,26 +11,15 @@ class HorizontalDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: context.dividerColor,
-          ),
-        ),
+        Expanded(child: Divider(thickness: 1, color: context.dividerColor)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             'or'.tr(),
-            style: AppTheme.body14
-                .copyWith(color: context.secondaryTextColor),
+            style: AppTheme.body14.copyWith(color: context.secondaryTextColor),
           ),
         ),
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: context.dividerColor,
-          ),
-        ),
+        Expanded(child: Divider(thickness: 1, color: context.dividerColor)),
       ],
     );
   }

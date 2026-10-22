@@ -28,8 +28,6 @@ class ProfileRepository {
     return fakeProfile;
   }
 
-
-
   Future<void> update(Profile profile) async {
     // TODO: temporary save profile to local
     final prefs = await SharedPreferences.getInstance();
@@ -65,6 +63,8 @@ class ProfileRepository {
   Future<void> setIsShowPremium() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-        Constants.lastDayShowPremiumKey, Utils.today().toIso8601String());
+      Constants.lastDayShowPremiumKey,
+      Utils.today().toIso8601String(),
+    );
   }
 }

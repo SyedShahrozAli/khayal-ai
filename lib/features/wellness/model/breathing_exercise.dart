@@ -19,6 +19,5 @@ class BreathingExercise {
     this.defaultMinutes = 3,
   });
 
-  int get cycleSeconds =>
-      phases.fold(0, (sum, phase) => sum + phase.seconds);
+  int get cycleSeconds => phases.fold(0, (sum, phase) => sum + phase.seconds);
 }

@@ -29,10 +29,12 @@ class ProfileViewModel extends _$ProfileViewModel {
 
     // Fallback to Firebase email if profile is missing it
     if (profile?.email == null) {
-      final authUser =
-          ref.read(authenticationRepositoryProvider).getCurrentUser();
+      final authUser = ref
+          .read(authenticationRepositoryProvider)
+          .getCurrentUser();
       if (authUser != null) {
-        profile = profile?.copyWith(email: authUser.email) ??
+        profile =
+            profile?.copyWith(email: authUser.email) ??
             Profile(email: authUser.email);
       }
     }
@@ -51,7 +53,8 @@ class ProfileViewModel extends _$ProfileViewModel {
       final newAvatarPath = await saveImage(avatar);
       final currentProfile = state.value?.profile;
 
-      final updatedProfile = currentProfile?.copyWith(
+      final updatedProfile =
+          currentProfile?.copyWith(
             email: email ?? currentProfile.email,
             name: name ?? currentProfile.name,
             avatar: newAvatarPath ?? currentProfile.avatar,
@@ -64,7 +67,8 @@ class ProfileViewModel extends _$ProfileViewModel {
             surveyData: surveyData ?? {},
           );
       debugPrint(
-          '${Constants.tag} [ProfileViewModel.updateProfile] $updatedProfile');
+        '${Constants.tag} [ProfileViewModel.updateProfile] $updatedProfile',
+      );
 
       await _repository.update(updatedProfile);
       state = AsyncData(ProfileState(profile: updatedProfile));

@@ -7,8 +7,8 @@ import '../../../constants/constants.dart';
 
 final wellnessPreferencesRepositoryProvider =
     Provider<WellnessPreferencesRepository>((ref) {
-  return const WellnessPreferencesRepository();
-});
+      return const WellnessPreferencesRepository();
+    });
 
 class WellnessPreferencesRepository {
   const WellnessPreferencesRepository();
@@ -23,7 +23,7 @@ class WellnessPreferencesRepository {
     final prefs = await SharedPreferences.getInstance();
     final current =
         prefs.getStringList(Constants.wellnessFavouritesKey)?.toSet() ??
-            <String>{};
+        <String>{};
     if (current.contains(exerciseId)) {
       current.remove(exerciseId);
     } else {

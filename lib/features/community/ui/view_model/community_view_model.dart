@@ -5,8 +5,8 @@ import '../../repository/community_repository.dart';
 
 final communityViewModelProvider =
     AsyncNotifierProvider<CommunityViewModel, List<CommunityPost>>(
-  CommunityViewModel.new,
-);
+      CommunityViewModel.new,
+    );
 
 class CommunityViewModel extends AsyncNotifier<List<CommunityPost>> {
   CommunityRepository get _repository => ref.read(communityRepositoryProvider);
@@ -18,10 +18,15 @@ class CommunityViewModel extends AsyncNotifier<List<CommunityPost>> {
   Future<void> setCategory(String? category) async {
     _category = category;
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _repository.getPosts(category: category));
+    state = await AsyncValue.guard(
+      () => _repository.getPosts(category: category),
+    );
   }
 
-  Future<void> createPost({required String body, required String category}) async {
+  Future<void> createPost({
+    required String body,
+    required String category,
+  }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await _repository.createPost(body: body, category: category);
@@ -31,10 +36,33 @@ class CommunityViewModel extends AsyncNotifier<List<CommunityPost>> {
 
   Future<void> toggleLike(CommunityPost post) async {
     await _repository.toggleLike(post);
-    state = await AsyncValue.guard(() => _repository.getPosts(category: _category));
+    state = await AsyncValue.guard(
+      () => _repository.getPosts(category: _category),
+    );
   }
 
   Future<void> reportPost({required String postId, required String reason}) {
     return _repository.reportPost(postId: postId, reason: reason);
+  }
+
+  Future<List<CommunityComment>> getComments(String postId) {
+    return _repository.getComments(postId);
+  }
+
+  Future<void> addComment({
+    required String postId,
+    required String body,
+  }) async {
+    await _repository.addComment(postId: postId, body: body);
+    state = await AsyncValue.guard(
+      () => _repository.getPosts(category: _category),
+    );
+  }
+
+  Future<void> reportComment({
+    required String commentId,
+    required String reason,
+  }) {
+    return _repository.reportComment(commentId: commentId, reason: reason);
   }
 }

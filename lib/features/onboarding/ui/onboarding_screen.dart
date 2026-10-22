@@ -61,9 +61,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     try {
       await ref.read(profileViewModelProvider.notifier).setWasShowOnboarding();
-      await ref.read(profileViewModelProvider.notifier).updateProfile(
-            surveyData: _answers,
-          );
+      await ref
+          .read(profileViewModelProvider.notifier)
+          .updateProfile(surveyData: _answers);
       if (mounted) {
         context.pushReplacement(Routes.main);
       }
@@ -176,7 +176,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   isLastPage ? 'Finish' : 'Continue',
                   style: AppTheme.label16.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: hasAnswer ? Colors.white : context.secondaryTextColor,
+                    color: hasAnswer
+                        ? Colors.white
+                        : context.secondaryTextColor,
                   ),
                 ),
               ),
@@ -257,7 +259,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   } else {
                     selectedOptions.add(option);
                   }
-                  _onAnswer(question.id, selectedOptions.isEmpty ? null : selectedOptions);
+                  _onAnswer(
+                    question.id,
+                    selectedOptions.isEmpty ? null : selectedOptions,
+                  );
                 },
               ),
             );
@@ -265,8 +270,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         );
 
       case QuestionType.scale:
-        final currentVal = (_answers[question.id] as num?)?.toDouble() ?? 
-                           (question.minScale! + (question.maxScale! - question.minScale!) / 2).toDouble();
+        final currentVal =
+            (_answers[question.id] as num?)?.toDouble() ??
+            (question.minScale! + (question.maxScale! - question.minScale!) / 2)
+                .toDouble();
         return Column(
           children: [
             const SizedBox(height: 40),
@@ -316,7 +323,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           style: AppTheme.body16,
           decoration: InputDecoration(
             hintText: question.placeholder,
-            hintStyle: TextStyle(color: context.secondaryTextColor.withOpacity(0.5)),
+            hintStyle: TextStyle(
+              color: context.secondaryTextColor.withOpacity(0.5),
+            ),
             filled: true,
             fillColor: context.secondaryWidgetColor,
             border: OutlineInputBorder(
@@ -355,14 +364,12 @@ class _SelectionCard extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         decoration: BoxDecoration(
-          color: isSelected 
-              ? AppColors.blueberry100.withOpacity(0.1) 
+          color: isSelected
+              ? AppColors.blueberry100.withOpacity(0.1)
               : context.secondaryWidgetColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected 
-                ? AppColors.blueberry100 
-                : Colors.transparent,
+            color: isSelected ? AppColors.blueberry100 : Colors.transparent,
             width: 2,
           ),
         ),
@@ -373,7 +380,9 @@ class _SelectionCard extends StatelessWidget {
                 text,
                 style: AppTheme.body16.copyWith(
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppColors.blueberry100 : context.primaryTextColor,
+                  color: isSelected
+                      ? AppColors.blueberry100
+                      : context.primaryTextColor,
                 ),
               ),
             ),
@@ -385,7 +394,9 @@ class _SelectionCard extends StatelessWidget {
               )
             else
               Icon(
-                isMulti ? Icons.check_box_outline_blank_rounded : Icons.radio_button_off_rounded,
+                isMulti
+                    ? Icons.check_box_outline_blank_rounded
+                    : Icons.radio_button_off_rounded,
                 color: context.secondaryTextColor.withOpacity(0.3),
                 size: 20,
               ),
@@ -403,7 +414,8 @@ class _PersonalizingView extends StatefulWidget {
   State<_PersonalizingView> createState() => _PersonalizingViewState();
 }
 
-class _PersonalizingViewState extends State<_PersonalizingView> with TickerProviderStateMixin {
+class _PersonalizingViewState extends State<_PersonalizingView>
+    with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late AnimationController _dotsController;
   int _dotCount = 0;
@@ -450,7 +462,10 @@ class _PersonalizingViewState extends State<_PersonalizingView> with TickerProvi
             // Pulse Animation
             ScaleTransition(
               scale: Tween<double>(begin: 0.9, end: 1.1).animate(
-                CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+                CurvedAnimation(
+                  parent: _pulseController,
+                  curve: Curves.easeInOut,
+                ),
               ),
               child: Container(
                 width: 120,
