@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
@@ -13,7 +12,7 @@ import '../../../routing/routes.dart';
 import '../../../theme/app_theme.dart';
 import '../../../utils/global_loading.dart';
 import '../../profile/ui/view_model/profile_view_model.dart';
-import '../../../features/common/ui/widgets/primary_button.dart';
+import '../../common/ui/widgets/primary_button.dart';
 import 'view_model/authentication_view_model.dart';
 import 'widgets/continue_as_guest.dart';
 import 'widgets/sign_in_agreement.dart';
@@ -23,7 +22,7 @@ class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  ConsumerState<WelcomeScreen> createState() => _WelcomeScreenState();
+  ConsumerState createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
@@ -38,10 +37,28 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   }
 
   void _logInAsGuest() async {
-    await ref.read(authenticationViewModelProvider.notifier).setIsGuestMode();
-    await ref
-        .read(authenticationViewModelProvider.notifier)
-        .signInAnonymously();
+    Global.showLoading(context);
+    try {
+      await ref.read(authenticationViewModelProvider.notifier).setIsGuestMode();
+      try {
+        await ref
+            .read(authenticationViewModelProvider.notifier)
+            .signInAnonymously();
+      } catch (e) {
+        debugPrint('Anonymous auth optional for guest mode: $e');
+      }
+
+      final currentProfile = ref.read(profileViewModelProvider).value?.profile;
+      if (currentProfile == null) {
+        await ref
+            .read(profileViewModelProvider.notifier)
+            .updateProfile(name: 'Guest', email: 'guest@khayal.ai');
+      }
+
+      if (mounted) _goToNextScreen();
+    } finally {
+      Global.hideLoading();
+    }
   }
 
   void _goToNextScreen() async {

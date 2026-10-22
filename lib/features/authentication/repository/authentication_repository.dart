@@ -113,14 +113,13 @@ class AuthenticationRepository {
   }
 
   Future<AuthResponse> signInWithGoogle() async {
+    const String webClientId =
+        '324748181774-fj4g19nuemojij8bj7dad565a2bh0bo9.apps.googleusercontent.com';
+
     final GoogleSignIn googleSignIn = GoogleSignIn.instance;
     await googleSignIn.initialize(
-      serverClientId:
-          '324748181774-9vdtipu33cdm77hikn6i2c0ekbjaaokt.apps.googleusercontent.com',
+      serverClientId: webClientId,
     );
-    try {
-      await googleSignIn.initialize();
-    } catch (_) {}
 
     final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 

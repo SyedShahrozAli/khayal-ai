@@ -21,6 +21,28 @@ class CommunityPost {
     this.status = 'approved',
   });
 
+  CommunityPost copyWith({
+    String? id,
+    String? category,
+    String? body,
+    String? anonymousName,
+    DateTime? createdAt,
+    List<String>? likedBy,
+    int? commentCount,
+    String? status,
+  }) {
+    return CommunityPost(
+      id: id ?? this.id,
+      category: category ?? this.category,
+      body: body ?? this.body,
+      anonymousName: anonymousName ?? this.anonymousName,
+      createdAt: createdAt ?? this.createdAt,
+      likedBy: likedBy ?? this.likedBy,
+      commentCount: commentCount ?? this.commentCount,
+      status: status ?? this.status,
+    );
+  }
+
   factory CommunityPost.fromDocument(
     DocumentSnapshot<Map<String, dynamic>> document,
   ) {

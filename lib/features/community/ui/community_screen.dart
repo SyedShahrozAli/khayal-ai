@@ -5,7 +5,9 @@ import '../../../../extensions/build_context_extension.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_theme.dart';
 import '../../common/ui/widgets/common_header.dart';
+import '../../wellness/ui/widgets/crisis_resources_sheet.dart';
 import '../model/community_post.dart';
+import '../repository/community_repository.dart';
 import 'view_model/community_view_model.dart';
 
 class CommunityScreen extends ConsumerStatefulWidget {
@@ -105,13 +107,23 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemCount: CommunityScreen.categories.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   final category = CommunityScreen.categories[index];
+                  final isSelected = category == _selectedCategory;
 
                   return ChoiceChip(
-                    label: Text(category),
-                    selected: category == _selectedCategory,
+                    label: Text(
+                      category,
+                      style: AppTheme.body14.copyWith(
+                        color: isSelected
+                            ? Colors.black
+                            : context.primaryTextColor,
+                        fontWeight:
+                            isSelected ? FontWeight.w600 : FontWeight.normal,
+                      ),
+                    ),
+                    selected: isSelected,
                     onSelected: (selected) {
                       if (selected) {
                         setState(() {
@@ -121,16 +133,98 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                     },
                     selectedColor: AppColors.cempedak20,
                     backgroundColor: context.secondaryWidgetColor,
-                    labelStyle: AppTheme.body14.copyWith(
-                      color: context.primaryTextColor,
+                    checkmarkColor: Colors.black,
+                    labelStyle: TextStyle(
+                      color: isSelected
+                          ? Colors.black
+                          : context.primaryTextColor,
                     ),
-                    side: BorderSide(color: context.dividerColor),
+                    side: BorderSide(
+                      color: isSelected
+                          ? AppColors.cempedak80
+                          : context.dividerColor,
+                    ),
                   );
                 },
               ),
             ),
 
             const SizedBox(height: 12),
+
+            // Persistent Quick Create Post Bar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _showComposer(context),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.secondaryWidgetColor,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: context.dividerColor),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.03),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color:
+                                AppColors.watermelon100.withValues(alpha: 0.12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.edit_outlined,
+                            size: 18,
+                            color: AppColors.watermelon100,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Share a thought or feeling...',
+                            style: AppTheme.body14.copyWith(
+                              color: context.secondaryTextColor,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.watermelon100,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            'Post',
+                            style: AppTheme.body12.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 8),
 
             // Posts
             Expanded(
@@ -160,7 +254,7 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                       await ref.read(communityViewModelProvider.future);
                     },
                     child: ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 120),
                       itemCount: filteredPosts.length,
                       itemBuilder: (context, index) {
                         final post = filteredPosts[index];
@@ -185,14 +279,19 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
         ),
       ),
 
-      // Create post button
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showComposer(context),
-        backgroundColor: AppColors.watermelon100,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.edit_outlined),
-        label: const Text('Share anonymously'),
+      // Create post button (lifted above the bottom navigation bar)
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 72),
+        child: FloatingActionButton.extended(
+          onPressed: () => _showComposer(context),
+          backgroundColor: AppColors.watermelon100,
+          foregroundColor: Colors.white,
+          elevation: 4,
+          icon: const Icon(Icons.edit_outlined),
+          label: const Text('Share anonymously'),
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -326,6 +425,12 @@ class _ComposerSheetState extends ConsumerState<_ComposerSheet> {
 
       setState(() => _isSubmitting = false);
 
+      if (error is CommunityModerationException && error.isCrisis) {
+        Navigator.of(context).pop();
+        CrisisResourcesSheet.show(context);
+        return;
+      }
+
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(_friendlyError(error))));
@@ -336,18 +441,27 @@ class _ComposerSheetState extends ConsumerState<_ComposerSheet> {
   Widget build(BuildContext context) {
     final fieldDecoration = InputDecoration(
       filled: true,
-      fillColor: AppColors.cempedak80,
-      labelStyle: AppTheme.body14.copyWith(color: AppColors.mono100),
-      hintStyle: AppTheme.body14.copyWith(color: AppColors.mono80),
+      fillColor: AppColors.cempedak20.withValues(
+        alpha: context.isDarkMode ? 0.15 : 0.45,
+      ),
+      labelStyle: AppTheme.body14.copyWith(
+        color: context.secondaryTextColor,
+      ),
+      hintStyle: AppTheme.body14.copyWith(
+        color: context.secondaryTextColor.withValues(alpha: 0.6),
+      ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
-          color: AppColors.mono100.withValues(alpha: 0.15),
+          color: AppColors.cempedak80.withValues(alpha: 0.35),
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: AppColors.mono100, width: 1.5),
+        borderSide: const BorderSide(
+          color: AppColors.watermelon100,
+          width: 1.5,
+        ),
       ),
     );
 
@@ -383,12 +497,22 @@ class _ComposerSheetState extends ConsumerState<_ComposerSheet> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.cempedak80,
+                    color: AppColors.cempedak20.withValues(
+                      alpha: context.isDarkMode ? 0.2 : 0.6,
+                    ),
                     borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: AppColors.cempedak80.withValues(alpha: 0.4),
+                    ),
                   ),
                   child: Text(
                     'Private by default',
-                    style: AppTheme.label12.copyWith(color: AppColors.mono100),
+                    style: AppTheme.label12.copyWith(
+                      color: context.isDarkMode
+                          ? AppColors.cempedak40
+                          : const Color(0xFF7A5800),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -404,14 +528,19 @@ class _ComposerSheetState extends ConsumerState<_ComposerSheet> {
 
             DropdownButtonFormField<String>(
               initialValue: _category,
-              dropdownColor: AppColors.cempedak80,
-              style: AppTheme.body14.copyWith(color: AppColors.mono100),
+              dropdownColor: context.secondaryWidgetColor,
+              style: AppTheme.body14.copyWith(
+                color: context.primaryTextColor,
+              ),
               items: CommunityScreen.categories
                   .skip(1)
                   .map(
                     (item) => DropdownMenuItem<String>(
                       value: item,
-                      child: Text(item),
+                      child: Text(
+                        item,
+                        style: TextStyle(color: context.primaryTextColor),
+                      ),
                     ),
                   )
                   .toList(),
@@ -432,11 +561,15 @@ class _ComposerSheetState extends ConsumerState<_ComposerSheet> {
               enabled: !_isSubmitting,
               maxLength: 2000,
               maxLines: 6,
-              cursorColor: AppColors.mono100,
-              style: AppTheme.body16.copyWith(color: AppColors.mono100),
+              cursorColor: AppColors.watermelon100,
+              style: AppTheme.body16.copyWith(
+                color: context.primaryTextColor,
+              ),
               decoration: fieldDecoration.copyWith(
                 labelText: 'What would you like to share?',
-                counterStyle: AppTheme.body12.copyWith(color: AppColors.mono80),
+                counterStyle: AppTheme.body12.copyWith(
+                  color: context.secondaryTextColor,
+                ),
               ),
             ),
 
@@ -637,8 +770,16 @@ class _CommentsSheetState extends ConsumerState<_CommentsSheet> {
 
       setState(() => _sending = false);
 
+      if (error is CommunityModerationException && error.isCrisis) {
+        Navigator.of(context).pop();
+        CrisisResourcesSheet.show(context);
+        return;
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Unable to send your reply.')),
+        SnackBar(
+          content: Text(error.toString().replaceFirst('Exception: ', '')),
+        ),
       );
     }
   }
@@ -656,11 +797,54 @@ class _CommentsSheetState extends ConsumerState<_CommentsSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Comments', style: AppTheme.title20),
-          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Comments',
+                    style: AppTheme.title20.copyWith(
+                      color: context.primaryTextColor,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.watermelon100.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${widget.post.commentCount}',
+                      style: AppTheme.label12.copyWith(
+                        color: AppColors.watermelon100,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: Icon(
+                  Icons.close,
+                  size: 20,
+                  color: context.secondaryTextColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
 
-          SizedBox(
-            height: 220,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.45,
+              minHeight: 140,
+            ),
             child: FutureBuilder<List<CommunityComment>>(
               future: _comments,
               builder: (context, snapshot) {
@@ -669,59 +853,145 @@ class _CommentsSheetState extends ConsumerState<_CommentsSheet> {
                 }
 
                 if (snapshot.hasError) {
-                  return const Center(child: Text('Unable to load comments.'));
+                  return Center(
+                    child: Text(
+                      'Unable to load comments.',
+                      style: AppTheme.body14.copyWith(
+                        color: context.secondaryTextColor,
+                      ),
+                    ),
+                  );
                 }
 
                 final comments = snapshot.data ?? <CommunityComment>[];
 
                 if (comments.isEmpty) {
                   return Center(
-                    child: Text(
-                      'Be the first to respond.',
-                      style: AppTheme.body14.copyWith(color: AppColors.mono60),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.chat_bubble_outline_rounded,
+                            size: 36,
+                            color: context.secondaryTextColor.withValues(
+                              alpha: 0.5,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'No responses yet',
+                            style: AppTheme.subtitle14.copyWith(
+                              color: context.primaryTextColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Be the first to share a kind, supportive thought.',
+                            style: AppTheme.body12.copyWith(
+                              color: context.secondaryTextColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
 
                 return ListView.separated(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   itemCount: comments.length,
-                  separatorBuilder: (_, __) => const Divider(height: 16),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, index) {
                     final comment = comments[index];
 
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        comment.anonymousName,
-                        style: AppTheme.label12,
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: context.isDarkMode
+                            ? const Color(0xFF222433)
+                            : AppColors.cempedak10.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: context.isDarkMode
+                              ? Colors.white.withValues(alpha: 0.08)
+                              : AppColors.cempedak80.withValues(alpha: 0.25),
+                        ),
                       ),
-                      subtitle: Text(comment.body),
-                      trailing: PopupMenuButton<String>(
-                        onSelected: (reason) async {
-                          try {
-                            await widget.onReport(comment.id, reason);
-
-                            if (!context.mounted) return;
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Report submitted.'),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 12,
+                                backgroundColor: AppColors.watermelon100
+                                    .withValues(alpha: 0.15),
+                                child: const Icon(
+                                  Icons.person_outline,
+                                  size: 14,
+                                  color: AppColors.watermelon100,
+                                ),
                               ),
-                            );
-                          } catch (error) {
-                            if (!context.mounted) return;
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Unable to submit report.'),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  comment.anonymousName,
+                                  style: AppTheme.subtitle14.copyWith(
+                                    color: context.primaryTextColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            );
-                          }
-                        },
-                        itemBuilder: (_) => const [
-                          PopupMenuItem(
-                            value: 'Harmful or unsafe content',
-                            child: Text('Report'),
+                              PopupMenuButton<String>(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(
+                                  Icons.more_horiz,
+                                  size: 18,
+                                  color: context.secondaryTextColor,
+                                ),
+                                onSelected: (reason) async {
+                                  try {
+                                    await widget.onReport(comment.id, reason);
+
+                                    if (!context.mounted) return;
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Report submitted.'),
+                                      ),
+                                    );
+                                  } catch (error) {
+                                    if (!context.mounted) return;
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Unable to submit report.'),
+                                      ),
+                                    );
+                                  }
+                                },
+                                itemBuilder: (_) => const [
+                                  PopupMenuItem(
+                                    value: 'Harmful or unsafe content',
+                                    child: Text('Report'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            comment.body,
+                            style: AppTheme.body14.copyWith(
+                              color: context.primaryTextColor,
+                              height: 1.4,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ],
                       ),
@@ -731,6 +1001,7 @@ class _CommentsSheetState extends ConsumerState<_CommentsSheet> {
               },
             ),
           ),
+          const SizedBox(height: 12),
 
           Row(
             children: [
@@ -739,21 +1010,65 @@ class _CommentsSheetState extends ConsumerState<_CommentsSheet> {
                   controller: _controller,
                   enabled: !_sending,
                   maxLength: 1000,
-                  decoration: const InputDecoration(
-                    hintText: 'Write a supportive reply',
+                  style: AppTheme.body14.copyWith(
+                    color: context.primaryTextColor,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Write a supportive reply...',
+                    hintStyle: AppTheme.body14.copyWith(
+                      color: context.secondaryTextColor,
+                    ),
                     counterText: '',
+                    filled: true,
+                    fillColor: AppColors.cempedak20.withValues(
+                      alpha: context.isDarkMode ? 0.12 : 0.4,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide(
+                        color: AppColors.cempedak80.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide(
+                        color: AppColors.cempedak80.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: const BorderSide(
+                        color: AppColors.watermelon100,
+                        width: 1.5,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: _sending ? null : _send,
-                icon: _sending
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.send),
+              const SizedBox(width: 8),
+              Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.watermelon100,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: _sending ? null : _send,
+                  color: Colors.white,
+                  icon: _sending
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.send_rounded, size: 20),
+                ),
               ),
             ],
           ),

@@ -27,18 +27,41 @@ class CommunityViewModel extends AsyncNotifier<List<CommunityPost>> {
     required String body,
     required String category,
   }) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      await _repository.createPost(body: body, category: category);
-      return _repository.getPosts(category: _category);
-    });
+    final createdPost = await _repository.createPost(
+      body: body,
+      category: category,
+    );
+    final previousList = state.value ?? [];
+    state = AsyncData([
+      createdPost,
+      ...previousList.where((p) => p.id != createdPost.id),
+    ]);
+
+    try {
+      final refreshed = await _repository.getPosts(category: _category);
+      state = AsyncData(refreshed);
+    } catch (_) {
+      // Retain optimistic list
+    }
   }
 
   Future<void> toggleLike(CommunityPost post) async {
+    final uid = _repository.auth.currentUser?.uid;
+    final currentList = state.value ?? [];
+    if (uid != null) {
+      final updated = currentList.map((p) {
+        if (p.id == post.id) {
+          final isLiked = p.likedBy.contains(uid);
+          final newLikedBy = isLiked
+              ? p.likedBy.where((id) => id != uid).toList()
+              : [...p.likedBy, uid];
+          return p.copyWith(likedBy: newLikedBy);
+        }
+        return p;
+      }).toList();
+      state = AsyncData(updated);
+    }
     await _repository.toggleLike(post);
-    state = await AsyncValue.guard(
-      () => _repository.getPosts(category: _category),
-    );
   }
 
   Future<void> reportPost({required String postId, required String reason}) {
@@ -54,9 +77,14 @@ class CommunityViewModel extends AsyncNotifier<List<CommunityPost>> {
     required String body,
   }) async {
     await _repository.addComment(postId: postId, body: body);
-    state = await AsyncValue.guard(
-      () => _repository.getPosts(category: _category),
-    );
+    final currentList = state.value ?? [];
+    final updated = currentList.map((p) {
+      if (p.id == postId) {
+        return p.copyWith(commentCount: p.commentCount + 1);
+      }
+      return p;
+    }).toList();
+    state = AsyncData(updated);
   }
 
   Future<void> reportComment({

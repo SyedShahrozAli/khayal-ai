@@ -12,21 +12,92 @@ final communityRepositoryProvider = Provider<CommunityRepository>((ref) {
   );
 });
 
+class CommunityModerationException implements Exception {
+  final String message;
+  final bool isCrisis;
+
+  const CommunityModerationException(this.message, {this.isCrisis = false});
+
+  @override
+  String toString() => message;
+}
+
 class CommunityRepository {
   final FirebaseFirestore firestore;
   final FirebaseAuth auth;
 
   CommunityRepository(this.firestore, this.auth);
 
-  static const _harmfulTerms = [
+  static const _crisisTerms = [
+    'kill myself',
     'kill yourself',
+    'suicide',
+    'want to die',
+    'wanna die',
+    'end my life',
+    'hang myself',
+    'cut myself',
+    'cutting myself',
+    'hurt myself',
     'hurt yourself',
-    'self harm instructions',
+    'self harm',
+    'overdose',
+    'take my life',
+    // Roman Urdu / Urdu crisis terms
+    'khudkushi',
+    'khud kushi',
+    'jaan de dunga',
+    'jaan deni',
+    'mar jana chahta',
+    'mar jaun',
+    'mar jao',
+    'zindagi khatam',
+  ];
+
+  static const _prohibitedTerms = [
     'buy drugs',
+    'sell drugs',
     'child sexual',
     'doxx',
     'credit card',
+    'cvv',
+    'chutiya',
+    'harami',
+    'kutta',
+    'kamine',
+    'bitch',
+    'bastard',
+    'asshole',
+    'fuck',
   ];
+
+  static void validateContent(String text) {
+    final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+
+    final hasCrisisTerm = _crisisTerms.any((term) => normalized.contains(term));
+    if (hasCrisisTerm) {
+      throw const CommunityModerationException(
+        'It looks like you may be going through a difficult time. Your safety and well-being matter most. Please reach out to someone who can support you right now.',
+        isCrisis: true,
+      );
+    }
+
+    final hasProhibitedTerm = _prohibitedTerms.any(
+      (term) => normalized.contains(term),
+    );
+    if (hasProhibitedTerm) {
+      throw const CommunityModerationException(
+        'Your content contains prohibited or offensive language. Please keep Khayal a safe and empathetic space.',
+      );
+    }
+
+    final linkCount = RegExp(r'https?://').allMatches(normalized).length;
+    if (linkCount > 2) {
+      throw const CommunityModerationException(
+        'To prevent spam, posts cannot contain more than 2 web links.',
+      );
+    }
+  }
 
   CollectionReference<Map<String, dynamic>> get _posts =>
       firestore.collection('communityPosts');
@@ -37,27 +108,23 @@ class CommunityRepository {
     return user;
   }
 
-  String _moderationStatus(String body) {
-    final normalized = body.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
-    final hasHarmfulTerm = _harmfulTerms.any(normalized.contains);
-    final linkCount = RegExp(r'https?://').allMatches(normalized).length;
-    return hasHarmfulTerm || linkCount > 2 ? 'needs_review' : 'approved';
-  }
-
   Future<List<CommunityPost>> getPosts({String? category}) async {
-    Query<Map<String, dynamic>> query = _posts
-        .where('status', isEqualTo: 'approved')
+    final snapshot = await _posts
         .orderBy('createdAt', descending: true)
-        .limit(50);
-    if (category != null) query = query.where('category', isEqualTo: category);
-    final snapshot = await query.get();
+        .limit(50)
+        .get();
+
     return snapshot.docs
         .map(CommunityPost.fromDocument)
         .where((post) => post.status != 'rejected')
+        .where((post) {
+          if (category == null || category == 'All') return true;
+          return post.category == category;
+        })
         .toList();
   }
 
-  Future<void> createPost({
+  Future<CommunityPost> createPost({
     required String body,
     required String category,
   }) async {
@@ -66,16 +133,34 @@ class CommunityRepository {
     if (trimmedBody.isEmpty || trimmedBody.length > 2000) {
       throw ArgumentError('Post must contain between 1 and 2000 characters.');
     }
-    await _posts.doc().set({
+
+    // Local moderation validation before database insert
+    validateContent(trimmedBody);
+
+    final docRef = _posts.doc();
+    final now = Timestamp.now();
+
+    await docRef.set({
       'body': trimmedBody,
       'category': category,
       'authorId': auth.currentUser!.uid,
       'anonymousName': 'Anonymous',
-      'createdAt': FieldValue.serverTimestamp(),
+      'createdAt': now,
       'likedBy': <String>[],
       'commentCount': 0,
-      'status': _moderationStatus(trimmedBody),
+      'status': 'approved',
     });
+
+    return CommunityPost(
+      id: docRef.id,
+      category: category,
+      body: trimmedBody,
+      anonymousName: 'Anonymous',
+      createdAt: now.toDate(),
+      likedBy: const [],
+      commentCount: 0,
+      status: 'approved',
+    );
   }
 
   Future<void> toggleLike(CommunityPost post) async {
@@ -134,7 +219,6 @@ class CommunityRepository {
     final snapshot = await _posts
         .doc(postId)
         .collection('comments')
-        .where('status', isEqualTo: 'approved')
         .orderBy('createdAt')
         .limit(100)
         .get();
@@ -152,24 +236,30 @@ class CommunityRepository {
         'Comment must contain between 1 and 1000 characters.',
       );
     }
+
+    // Local moderation validation before comment insert
+    validateContent(trimmedBody);
+
     final postReference = _posts.doc(postId);
     final commentReference = postReference.collection('comments').doc();
-    final status = _moderationStatus(trimmedBody);
-    await firestore.runTransaction((transaction) async {
-      final postSnapshot = await transaction.get(postReference);
-      if (!postSnapshot.exists) throw StateError('Post no longer exists.');
-      transaction.set(commentReference, {
-        'body': trimmedBody,
-        'authorId': auth.currentUser!.uid,
-        'anonymousName': 'Anonymous',
-        'createdAt': FieldValue.serverTimestamp(),
-        'status': status,
-      });
-      if (status == 'approved') {
-        transaction.update(postReference, {
-          'commentCount': FieldValue.increment(1),
-        });
-      }
+    final now = Timestamp.now();
+
+    // Directly save comment document
+    await commentReference.set({
+      'body': trimmedBody,
+      'authorId': auth.currentUser!.uid,
+      'anonymousName': 'Anonymous',
+      'createdAt': now,
+      'status': 'approved',
     });
+
+    // Try incrementing comment count on parent post
+    try {
+      await postReference.update({
+        'commentCount': FieldValue.increment(1),
+      });
+    } catch (_) {
+      // Non-fatal if parent post update rule is restricted
+    }
   }
 }
